@@ -1,1 +1,0 @@
-print ("Sapos PErros 1234 Danilo Is Gay")
