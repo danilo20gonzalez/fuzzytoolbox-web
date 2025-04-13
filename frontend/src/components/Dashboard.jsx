@@ -11,6 +11,7 @@ function Dashboard() {
       transition={{ duration: 1 }}
     >
       <h1>🎯 FuzzyToolbox Web</h1>
+      <h1>🎯 Esto no srive para nada</h1>
       <p>¡Bienvenido a tu caja de herramientas de lógica difusa!</p>
       <button className="btn">Explorar</button>
     </motion.div>
