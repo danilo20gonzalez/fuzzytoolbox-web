@@ -1,15 +1,141 @@
 // src/pages/Inicio.jsx
-import '../styles/Pages.css';
+import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { FaChartLine, FaCode, FaCog } from 'react-icons/fa';
+import '../styles/Inicio.css';
 
 function Inicio() {
-  return (
-    <div className="page-container">
-      <h1>🎯 Bienvenido a FuzzyToolbox</h1>
-      <p>Explora, experimenta y aprende lógica difusa con herramientas visuales.</p>
+  const [isVisible, setIsVisible] = useState(false);
 
-      <div className="inicio-buttons">
-        <a className="btn" href="/variables">Comenzar con Variables</a>
-        <a className="btn" href="/simulador">Ir al Simulador</a>
+  useEffect(() => {
+    setIsVisible(true);
+  }, []);
+
+  const container = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.3
+      }
+    }
+  };
+
+  const item = {
+    hidden: { y: 20, opacity: 0 },
+    show: { 
+      y: 0, 
+      opacity: 1,
+      transition: {
+        duration: 0.8,
+        ease: "easeOut"
+      }
+    }
+  };
+
+  return (
+    <div className="inicio-container">
+      {/* Content */}
+      <div className="content-container">
+        <motion.div 
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="header-section"
+        >
+          <h1 className="main-title">🎯 Bienvenido a FuzzyToolbox</h1>
+          <p className="subtitle">
+            Explora, experimenta y aprende lógica difusa con herramientas visuales interactivas.
+          </p>
+        </motion.div>
+
+        <motion.div 
+          variants={container}
+          initial="hidden"
+          animate={isVisible ? "show" : "hidden"}
+          className="cards-grid"
+        >
+          {/* Variables Card */}
+          <motion.div
+            variants={item}
+            whileHover={{ y: -10, transition: { duration: 0.3 } }}
+            className="card"
+          >
+            <div className="card-stripe card-stripe-blue"></div>
+            <div className="card-content">
+              <div className="icon-container icon-blue">
+                <FaCog className="card-icon" />
+              </div>
+              <h2 className="card-title">Variables Difusas</h2>
+              <p className="card-description">
+                Define y personaliza variables lingüísticas con funciones de pertenencia intuitivas.
+              </p>
+              <a 
+                href="/variables" 
+                className="card-button button-blue"
+              >
+                Comenzar
+              </a>
+            </div>
+          </motion.div>
+
+          {/* Rules Card */}
+          <motion.div
+            variants={item}
+            whileHover={{ y: -10, transition: { duration: 0.3 } }}
+            className="card"
+          >
+            <div className="card-stripe card-stripe-purple"></div>
+            <div className="card-content">
+              <div className="icon-container icon-purple">
+                <FaCode className="card-icon" />
+              </div>
+              <h2 className="card-title">Reglas Difusas</h2>
+              <p className="card-description">
+                Crea reglas condicionales IF-THEN y observa cómo afectan al sistema difuso.
+              </p>
+              <a 
+                href="/reglas" 
+                className="card-button button-purple"
+              >
+                Definir Reglas
+              </a>
+            </div>
+          </motion.div>
+
+          {/* Results Card */}
+          <motion.div
+            variants={item}
+            whileHover={{ y: -10, transition: { duration: 0.3 } }}
+            className="card"
+          >
+            <div className="card-stripe card-stripe-green"></div>
+            <div className="card-content">
+              <div className="icon-container icon-green">
+                <FaChartLine className="card-icon" />
+              </div>
+              <h2 className="card-title">Resultados y Gráficas</h2>
+              <p className="card-description">
+                Visualiza el comportamiento del sistema mediante gráficas interactivas y análisis.
+              </p>
+              <a 
+                href="/simulador" 
+                className="card-button button-green"
+              >
+                Ver Simulador
+              </a>
+            </div>
+          </motion.div>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.5, duration: 1 }}
+          className="footer-text"
+        >
+          <p>Desarrollado con ❤️ para entusiastas de la lógica difusa</p>
+        </motion.div>
       </div>
     </div>
   );

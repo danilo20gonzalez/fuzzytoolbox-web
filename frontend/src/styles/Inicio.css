@@ -1,0 +1,168 @@
+/* src/styles/Inicio.css */
+
+.inicio-container {
+    min-height: 100vh;
+    background: linear-gradient(to bottom right, #f0f4ff, #e6eeff);
+    padding: 2rem 1rem;
+  }
+  
+  .content-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+  }
+  
+  .header-section {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+  
+  .main-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #4338ca;
+    margin-bottom: 1rem;
+  }
+  
+  .subtitle {
+    font-size: 1.25rem;
+    color: #4b5563;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .cards-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+  
+  @media (min-width: 768px) {
+    .cards-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  
+  .card {
+    background-color: white;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+  }
+  
+  .card:hover {
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .card-stripe {
+    height: 0.5rem;
+  }
+  
+  .card-stripe-blue {
+    background: linear-gradient(to right, #3b82f6, #4f46e5);
+  }
+  
+  .card-stripe-purple {
+    background: linear-gradient(to right, #a855f7, #db2777);
+  }
+  
+  .card-stripe-green {
+    background: linear-gradient(to right, #10b981, #0d9488);
+  }
+  
+  .card-content {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .icon-container {
+    padding: 1rem;
+    border-radius: 9999px;
+    margin-bottom: 1rem;
+  }
+  
+  .icon-blue {
+    background-color: #dbeafe;
+  }
+  
+  .icon-purple {
+    background-color: #f3e8ff;
+  }
+  
+  .icon-green {
+    background-color: #d1fae5;
+  }
+  
+  .card-icon {
+    font-size: 1.875rem;
+  }
+  
+  .icon-blue .card-icon {
+    color: #3b82f6;
+  }
+  
+  .icon-purple .card-icon {
+    color: #a855f7;
+  }
+  
+  .icon-green .card-icon {
+    color: #10b981;
+  }
+  
+  .card-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 0.75rem;
+  }
+  
+  .card-description {
+    color: #4b5563;
+    margin-bottom: 1.5rem;
+    flex-grow: 1;
+  }
+  
+  .card-button {
+    display: inline-block;
+    padding: 0.5rem 1.5rem;
+    font-weight: 500;
+    border-radius: 0.5rem;
+    color: white;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+  }
+  
+  .button-blue {
+    background-color: #3b82f6;
+  }
+  
+  .button-blue:hover {
+    background-color: #2563eb;
+  }
+  
+  .button-purple {
+    background-color: #a855f7;
+  }
+  
+  .button-purple:hover {
+    background-color: #9333ea;
+  }
+  
+  .button-green {
+    background-color: #10b981;
+  }
+  
+  .button-green:hover {
+    background-color: #059669;
+  }
+  
+  .footer-text {
+    text-align: center;
+    margin-top: 4rem;
+    color: #6b7280;
+  }
