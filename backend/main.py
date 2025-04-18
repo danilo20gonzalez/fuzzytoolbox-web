@@ -1,7 +1,5 @@
-from fastapi import FastAPI
+import uvicorn
+from fuzzy_engine import app
 
-app = FastAPI()
-
-@app.get("/")
-def root():
-    return {"mensaje": "Backend de FuzzyToolbox listo!"}
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8000)
