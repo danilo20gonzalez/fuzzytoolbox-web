@@ -11,7 +11,7 @@ import './App.css';
 
 function App() {
   useEffect(() => {
-    axios.get('http://localhost:8000/')
+    axios.get('http://localhost:8000/variables/')
       .then(response => {
         console.log('Respuesta del backend:', response.data);
       })

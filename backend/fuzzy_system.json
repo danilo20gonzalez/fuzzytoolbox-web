@@ -1,0 +1,33 @@
+{
+  "variables": {
+    "1": {
+      "id": 1,
+      "nombre": "Temperatura",
+      "rango": [
+        0.0,
+        100.0
+      ],
+      "tipo": "triangular",
+      "conjuntos": [
+        {
+          "nombre": "Frio",
+          "puntos": [
+            0.0,
+            50.0,
+            100.0
+          ],
+          "tipo": "triangular"
+        },
+        {
+          "nombre": "Caliente",
+          "puntos": [
+            0.0,
+            50.0,
+            100.0
+          ],
+          "tipo": "triangular"
+        }
+      ]
+    }
+  }
+}

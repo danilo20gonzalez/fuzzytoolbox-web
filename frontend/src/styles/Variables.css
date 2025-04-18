@@ -1,0 +1,257 @@
+/* src/styles/VariablesWindow.css */
+
+.variables-window {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+  
+  .variables-window h1 {
+    color: #4f46e5;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    font-size: 2rem;
+  }
+  
+  .variables-container {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 2rem;
+  }
+  
+  @media (max-width: 1000px) {
+    .variables-container {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  /* Estilos para el formulario */
+  .variables-form {
+    background-color: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+  
+  .variables-form h2 {
+    color: #374151;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    border-bottom: 2px solid #e5e7eb;
+    padding-bottom: 0.5rem;
+  }
+  
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+  
+  .rango-slider {
+    margin-top: 1rem;
+  }
+  
+  .nombre-input, .nombre-conjunto-input, .tipo-select {
+    margin-bottom: 0.5rem;
+  }
+  
+  .guardar-conjunto-btn {
+    margin-top: 1rem;
+  }
+  
+  .guardar-variable-btn {
+    margin-top: 1.5rem;
+    width: 100%;
+    padding: 0.75rem;
+  }
+  
+  .puntos-info {
+    background-color: #f3f4f6;
+    padding: 0.75rem;
+    border-radius: 6px;
+    margin: 1rem 0;
+    font-family: monospace;
+  }
+  
+  /* Estilos para la lista de conjuntos */
+  .conjuntos-list {
+    margin-top: 1.5rem;
+    border-top: 1px solid #e5e7eb;
+    padding-top: 1rem;
+  }
+  
+  .conjuntos-list h3 {
+    color: #4b5563;
+    margin-bottom: 1rem;
+    font-size: 1.25rem;
+  }
+  
+  .conjuntos-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .conjuntos-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0.75rem;
+    margin-bottom: 0.5rem;
+    background-color: #f9fafb;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+  }
+  
+  .conjuntos-list li:hover {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  }
+  
+  .conjunto-actions {
+    display: flex;
+    gap: 0.5rem;
+  }
+  
+  /* Estilos para la visualización */
+  .variables-visualization {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .plot-container {
+    background-color: white;
+    border-radius: 12px;
+    padding: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    height: 430px;
+  }
+  
+  .plot-instructions {
+    background-color: #eef2ff;
+    border-left: 4px solid #4f46e5;
+    padding: 1rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+  }
+  
+  /* Estilos para la lista de variables */
+  .variables-list {
+    background-color: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+  
+  .variables-list h3 {
+    color: #374151;
+    margin-bottom: 1rem;
+    font-size: 1.25rem;
+    border-bottom: 2px solid #e5e7eb;
+    padding-bottom: 0.5rem;
+  }
+  
+  .variables-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+  
+  .variable-card {
+    background-color: #f9fafb;
+    border-radius: 8px;
+    padding: 1rem;
+    border: 1px solid #e5e7eb;
+    transition: all 0.2s ease;
+  }
+  
+  .variable-card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    transform: translateY(-2px);
+  }
+  
+  .variable-card h4 {
+    color: #4f46e5;
+    margin: 0 0 0.5rem 0;
+    font-size: 1.1rem;
+  }
+  
+  .variable-card p {
+    margin: 0.25rem 0;
+    color: #6b7280;
+    font-size: 0.9rem;
+  }
+  
+  .variable-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+  }
+  
+  /* Animaciones */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .variables-container, .variables-form, .variables-visualization, .plot-container, .variables-list {
+    animation: fadeIn 0.5s ease-out forwards;
+  }
+  
+  .variables-form {
+    animation-delay: 0.1s;
+  }
+  
+  .plot-container {
+    animation-delay: 0.2s;
+  }
+  
+  .variables-list {
+    animation-delay: 0.3s;
+  }
+
+
+
+  .puntos-editor {
+    margin: 15px 0;
+  }
+  
+  .puntos-inputs {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+  
+  .plot-container {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    margin-bottom: 15px;
+  }
+
+  /* Estilos para resaltar el conjunto que se está editando */
+.conjunto-editing {
+  background-color: rgba(33, 150, 243, 0.1);
+  border-left: 4px solid #2196f3 !important;
+  font-weight: bold;
+}
+
+/* Mejorar la apariencia de los campos numéricos */
+.puntos-inputs .MuiTextField-root {
+  margin-bottom: 8px;
+}
+
+/* Estilo para mostrar errores de validación */
+.validation-error {
+  color: #f44336;
+  font-size: 0.75rem;
+  margin-top: 3px;
+  margin-left: 14px;
+}
