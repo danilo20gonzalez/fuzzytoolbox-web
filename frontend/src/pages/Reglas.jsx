@@ -20,53 +20,27 @@ function Reglas() {
   const [selectedRuleIndex, setSelectedRuleIndex] = useState(null);
   const [filterText, setFilterText] = useState('');
   
-  // Cargar datos iniciales
   useEffect(() => {
-    // Simulación de variables y conjuntos cargados
-    const demoInputVars = [
-      {
-        id: 1,
-        nombre: 'Temperatura',
-        conjuntos: ['Frío', 'Templado', 'Caliente']
-      },
-      {
-        id: 2,
-        nombre: 'Humedad',
-        conjuntos: ['Baja', 'Media', 'Alta']
+    const fetchVariables = async () => {
+      try {
+        const response = await fetch('http://localhost:8000/variables/');
+        if (!response.ok) throw new Error('Error al cargar variables');
+        const data = await response.json();
+        setVariables(data);
+        
+        // Separar variables de entrada y salida si es necesario
+        // Este filtro es solo un ejemplo, adapta según tus necesidades
+        setOutputVariables(data.filter(v => v.esVariable === 'salida'));
+      } catch (error) {
+        console.error('Error al cargar las variables:', error);
       }
-    ];
-    
-    const demoOutputVars = [
-      {
-        id: 3,
-        nombre: 'Ventilador',
-        conjuntos: ['Apagado', 'Baja', 'Media', 'Alta']
-      }
-    ];
-    
-    const demoRules = [
-      {
-        id: 1,
-        antecedentes: [
-          { variable: 'Temperatura', conjunto: 'Caliente', negado: false },
-          { variable: 'Humedad', conjunto: 'Alta', negado: false }
-        ],
-        consecuentes: [
-          { variable: 'Ventilador', conjunto: 'Alta', negado: false }
-        ],
-        peso: 1.0,
-        operador: 'AND'
-      }
-    ];
-    
-    setVariables(demoInputVars);
-    setOutputVariables(demoOutputVars);
-    setRules(demoRules);
-    
-    // Inicializar regla actual
-    resetCurrentRule(demoInputVars, demoOutputVars);
-  }, []);
+    };
   
+    fetchVariables();
+  }, []);  // Solo se ejecuta una vez al montar el componente
+  
+  
+    
   // Resetear la regla actual
   const resetCurrentRule = useCallback((inputVars, outputVars) => {
     const inputs = inputVars || variables;
@@ -264,7 +238,12 @@ function Reglas() {
       variables.find(v => v.nombre === variableName) || 
       outputVariables.find(v => v.nombre === variableName);
     
-    return variable ? variable.conjuntos : [];
+    if (!variable || !variable.conjuntos) return [];
+    
+    // Map the conjunto objects to just their names
+    return variable.conjuntos.map(conjunto => 
+      typeof conjunto === 'object' ? conjunto.nombre : conjunto
+    );
   };
   
   // Filtrar reglas según texto de búsqueda
