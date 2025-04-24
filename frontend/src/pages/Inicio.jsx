@@ -114,15 +114,15 @@ function Inicio() {
               <div className="icon-container icon-green">
                 <FaChartLine className="card-icon" />
               </div>
-              <h2 className="card-title">Resultados y Gráficas</h2>
+              <h2 className="card-title">Resultados</h2>
               <p className="card-description">
-                Visualiza el comportamiento del sistema mediante gráficas interactivas y análisis.
+                Visualiza los resultados en base a tus reglas y operadores.
               </p>
               <a 
                 href="/simulador" 
                 className="card-button button-green"
               >
-                Ver Simulador
+                Ver Resultados
               </a>
             </div>
           </motion.div>
