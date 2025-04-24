@@ -46,23 +46,21 @@ function Variables() {
   const [visibleSets, setVisibleSets] = useState({});
   const [message, setMessage] = useState('');
   
-  // Cargar variables de demostración
   useEffect(() => {
-    const demoVariables = [
-      {
-        id: 1,
-        nombre: 'Temperatura',
-        rango: [0, 50],
-        tipo: 'triangular',
-        conjuntos: [
-          { nombre: 'Frío', puntos: [0, 10, 20], tipo: 'triangular' },
-          { nombre: 'Templado', puntos: [10, 25, 40], tipo: 'triangular' },
-          { nombre: 'Caliente', puntos: [30, 40, 50], tipo: 'triangular' }
-        ]
+    const fetchVariables = async () => {
+      try {
+        const response = await fetch('http://localhost:8000/variables/');
+        const data = await response.json();
+        console.log('Respuesta del backend:', data);
+        setVariables(data);  // Asigna las variables obtenidas solo del backend
+      } catch (error) {
+        console.error('Error al cargar las variables:', error);
+        setMessage('Error al cargar las variables del servidor');
       }
-    ];
-    setVariables(demoVariables);
-  }, []);
+    };
+  
+    fetchVariables();
+  }, []);   // Solo se ejecuta una vez al montar el componente
 
   // Inicializar visibilidad de conjuntos
   useEffect(() => {
@@ -266,7 +264,7 @@ function Variables() {
   };
 
   // Guardar variable
-  const handleSaveVariable = () => {
+  const handleSaveVariable = async () => {
     if (!currentVariable.nombre) {
       setMessage('Ingresa un nombre para la variable');
       return;
@@ -277,21 +275,35 @@ function Variables() {
       return;
     }
     
-    if (currentVariable.id) {
-      // Actualizar variable existente
+    try {
+      // Si estás actualizando
+      if (currentVariable.id) {
+        await fetch(`http://localhost:8000/variables/${currentVariable.nombre}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(currentVariable)
+        });
+
+              // Actualizar en el estado local después de éxito en el backend
       setVariables(prev => prev.map(v => v.id === currentVariable.id ? currentVariable : v));
       setMessage('Variable actualizada');
-    } else {
-      // Crear nueva variable
-      const newVariable = {
-        ...currentVariable,
-        id: Date.now()
-      };
-      setVariables(prev => [...prev, newVariable]);
-      setMessage('Variable creada');
-    }
-      
-    // Resetear estado
+
+      } else {
+
+        const newVariable = {
+          ...currentVariable,
+          id: Date.now()
+        };
+        // Si es una nueva variable
+        await fetch('http://localhost:8000/variables/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(currentVariable)
+        });
+        setVariables(prev => [...prev, newVariable]);
+        setMessage('Variable creada');
+      }
+          // Resetear estado
     setCurrentVariable({
       nombre: '',
       rango: [0, 100],
@@ -301,6 +313,14 @@ function Variables() {
     
     setCurrentSet({ nombre: '', puntos: [], originalName: null });
     setSelectedSet(null);
+      
+      setMessage('Variable guardada correctamente');
+    } catch (error) {
+      console.error('Error al guardar la variable:', error);
+      setMessage('Error al guardar la variable');
+    }
+      
+
   };
 
   // Editar variable existente
@@ -312,22 +332,29 @@ function Variables() {
   };
 
   // Eliminar variable
-  const handleDeleteVariable = (variableId) => {
+  const handleDeleteVariable = async (variableId) => {
     if (!window.confirm('¿Eliminar esta variable?')) return;
     
-    setVariables(prev => prev.filter(v => v.id !== variableId));
-    
-    if (currentVariable.id === variableId) {
-      setCurrentVariable({
-        nombre: '',
-        rango: [0, 100],
-        tipo: 'triangular',
-        conjuntos: []
+    try {
+      const response = await fetch(`http://localhost:8000/variables/${variableId}`, {
+        method: 'DELETE'
       });
-      setCurrentSet({ nombre: '', puntos: [], originalName: null });
+      
+      if (response.ok) {
+        // Vuelve a cargar las variables después de eliminar
+        const updatedResponse = await fetch('http://localhost:8000/variables/');
+        const updatedData = await updatedResponse.json();
+        setVariables(updatedData);
+        
+        if (currentVariable.id === variableId) {
+          resetCurrentVariable();
+        }
+        setMessage('Variable eliminada');
+      }
+    } catch (error) {
+      console.error('Error al eliminar variable:', error);
+      setMessage('Error al eliminar variable');
     }
-    
-    setMessage('Variable eliminada');
   };
 
   // Eliminar conjunto
