@@ -1,0 +1,22 @@
+[
+  {
+    "nombre": "Temperatura",
+    "rango": [
+      0.0,
+      100.0
+    ],
+    "tipo": "triangular",
+    "conjuntos": [
+      {
+        "nombre": "Conjunto1",
+        "puntos": [
+          0,
+          50,
+          100
+        ],
+        "tipo": "triangular"
+      }
+    ],
+    "id": 1
+  }
+]
