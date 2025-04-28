@@ -2,7 +2,8 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { FaChartLine, FaCode, FaCog } from 'react-icons/fa';
-import '../styles/Inicio.css';
+import '../styles/Inicio.css';  
+import { Link } from 'react-router-dom';
 
 function Inicio() {
   const [isVisible, setIsVisible] = useState(false);
@@ -70,12 +71,9 @@ function Inicio() {
               <p className="card-description">
                 Define y personaliza variables lingüísticas con funciones de pertenencia intuitivas.
               </p>
-              <a 
-                href="/variables" 
-                className="card-button button-blue"
-              >
+              <Link to="/variables" className="card-button button-blue"> {/* Reemplazado <a> con <Link> */}
                 Comenzar
-              </a>
+              </Link>
             </div>
           </motion.div>
 
@@ -94,12 +92,9 @@ function Inicio() {
               <p className="card-description">
                 Crea reglas condicionales IF-THEN y observa cómo afectan al sistema difuso.
               </p>
-              <a 
-                href="/reglas" 
-                className="card-button button-purple"
-              >
+              <Link to="/reglas" className="card-button button-purple"> {/* Reemplazado <a> con <Link> */}
                 Definir Reglas
-              </a>
+              </Link>
             </div>
           </motion.div>
 
@@ -118,12 +113,9 @@ function Inicio() {
               <p className="card-description">
                 Visualiza el comportamiento del sistema mediante gráficas interactivas y análisis.
               </p>
-              <a 
-                href="/simulador" 
-                className="card-button button-green"
-              >
+              <Link to="/simulador" className="card-button button-green"> {/* Reemplazado <a> con <Link> */}
                 Ver Simulador
-              </a>
+              </Link>
             </div>
           </motion.div>
         </motion.div>
