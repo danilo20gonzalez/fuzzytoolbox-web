@@ -27,5 +27,25 @@
       }
     ],
     "id": 1
+  },
+  {
+    "nombre": "Altura",
+    "rango": [
+      0.0,
+      100.0
+    ],
+    "tipo": "triangular",
+    "conjuntos": [
+      {
+        "nombre": "Alto",
+        "puntos": [
+          1,
+          20,
+          40
+        ],
+        "tipo": "triangular"
+      }
+    ],
+    "id": 2
   }
 ]
