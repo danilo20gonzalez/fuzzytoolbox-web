@@ -11,21 +11,95 @@
         "nombre": "Niño",
         "puntos": [
           0,
-          5,
-          10
+          10,
+          20
         ],
         "tipo": "triangular"
       },
       {
-        "nombre": "Adolescente",
+        "nombre": "joven",
         "puntos": [
-          8,
-          20,
-          40
+          18,
+          25,
+          35
+        ],
+        "tipo": "triangular"
+      },
+      {
+        "nombre": "Adulto",
+        "puntos": [
+          28,
+          38,
+          48
+        ],
+        "tipo": "triangular"
+      },
+      {
+        "nombre": "viejo",
+        "puntos": [
+          45,
+          70,
+          100
         ],
         "tipo": "triangular"
       }
     ],
     "id": 1
+  },
+  {
+    "nombre": "comida",
+    "rango": [
+      0.0,
+      100.0
+    ],
+    "tipo": "gaussiana",
+    "conjuntos": [
+      {
+        "nombre": "mala",
+        "puntos": [
+          25,
+          16
+        ],
+        "tipo": "gaussiana"
+      },
+      {
+        "nombre": "buena",
+        "puntos": [
+          75,
+          16.666666666666668
+        ],
+        "tipo": "gaussiana"
+      }
+    ],
+    "id": 2
+  },
+  {
+    "nombre": "animal",
+    "rango": [
+      0.0,
+      50.0
+    ],
+    "tipo": "triangular",
+    "conjuntos": [
+      {
+        "nombre": "perro",
+        "puntos": [
+          0,
+          13,
+          25
+        ],
+        "tipo": "triangular"
+      },
+      {
+        "nombre": "gato",
+        "puntos": [
+          25,
+          38,
+          50
+        ],
+        "tipo": "triangular"
+      }
+    ],
+    "id": 3
   }
 ]
