@@ -110,6 +110,22 @@ function Variables() {
     initializePoints();
   };
 
+  // Manejar cambios en el nombre de la variable
+  const handleVariableNameChange = (e) => {
+    setCurrentVariable({
+      ...currentVariable,
+      nombre: e.target.value
+    });
+  };
+
+  // Manejar cambios en el nombre del conjunto
+  const handleSetNameChange = (e) => {
+    setCurrentSet({
+      ...currentSet,
+      nombre: e.target.value
+    });
+  };
+
   // Manejar cambios en los puntos
   const handlePointChange = (index, value) => {
     const [min, max] = currentVariable.rango;
@@ -214,6 +230,32 @@ function Variables() {
     return plotData;
   }, [currentVariable, currentSet, visibleSets, selectedSet, calculateMembership]);
 
+  // Generar datos para las gráficas de previsualización
+  const generatePreviewPlot = useCallback((variable) => {
+    const [min, max] = variable.rango;
+    const x = Array.from({ length: 100 }, (_, i) => min + (max - min) * i / 99);
+    const plotData = [];
+    
+    variable.conjuntos.forEach((conjunto, idx) => {
+      const y = calculateMembership(x, conjunto.puntos, conjunto.tipo || variable.tipo);
+      
+      plotData.push({
+        x,
+        y,
+        type: 'scatter',
+        mode: 'lines',
+        fill: 'tozeroy',
+        name: conjunto.nombre,
+        line: { 
+          color: COLOR_PALETTE[idx % COLOR_PALETTE.length],
+          width: 1.5
+        }
+      });
+    });
+    
+    return plotData;
+  }, [calculateMembership]);
+
   // Configuración del gráfico
   const plotLayout = {
     title: `Variable: ${currentVariable.nombre || 'Nueva Variable'}`,
@@ -284,12 +326,11 @@ function Variables() {
           body: JSON.stringify(currentVariable)
         });
 
-              // Actualizar en el estado local después de éxito en el backend
-      setVariables(prev => prev.map(v => v.id === currentVariable.id ? currentVariable : v));
-      setMessage('Variable actualizada');
+        // Actualizar en el estado local después de éxito en el backend
+        setVariables(prev => prev.map(v => v.id === currentVariable.id ? currentVariable : v));
+        setMessage('Variable actualizada');
 
       } else {
-
         const newVariable = {
           ...currentVariable,
           id: Date.now()
@@ -303,24 +344,23 @@ function Variables() {
         setVariables(prev => [...prev, newVariable]);
         setMessage('Variable creada');
       }
-          // Resetear estado
-    setCurrentVariable({
-      nombre: '',
-      rango: [0, 100],
-      tipo: 'triangular',
-      conjuntos: []
-    });
-    
-    setCurrentSet({ nombre: '', puntos: [], originalName: null });
-    setSelectedSet(null);
       
+      // Resetear estado
+      setCurrentVariable({
+        nombre: '',
+        rango: [0, 100],
+        tipo: 'triangular',
+        conjuntos: []
+      });
+      
+      setCurrentSet({ nombre: '', puntos: [], originalName: null });
+      setSelectedSet(null);
+        
       setMessage('Variable guardada correctamente');
     } catch (error) {
       console.error('Error al guardar la variable:', error);
       setMessage('Error al guardar la variable');
     }
-      
-
   };
 
   // Editar variable existente
@@ -347,7 +387,12 @@ function Variables() {
         setVariables(updatedData);
         
         if (currentVariable.id === variableId) {
-          resetCurrentVariable();
+          setCurrentVariable({
+            nombre: '',
+            rango: [0, 100],
+            tipo: 'triangular',
+            conjuntos: []
+          });
         }
         setMessage('Variable eliminada');
       }
@@ -403,7 +448,7 @@ function Variables() {
       <div className="main-grid">
         {/* Panel izquierdo */}
         <div className="left-panel">
-          <div className="section">
+          <div className="section variable-section">
             <h2>Variable</h2>
             
             <div className="form-row">
@@ -411,7 +456,7 @@ function Variables() {
               <input
                 type="text"
                 value={currentVariable.nombre}
-                onChange={(e) => setCurrentVariable({...currentVariable, nombre: e.target.value})}
+                onChange={handleVariableNameChange}
               />
             </div>
             
@@ -447,23 +492,31 @@ function Variables() {
               </select>
             </div>
             
-            <button onClick={handleSaveVariable}>
-              {currentVariable.id ? 'Actualizar Variable' : 'Guardar Variable'}
-            </button>
+            <div className="variable-section-footer">
+              <button className="save-variable-btn" onClick={handleSaveVariable}>
+                {currentVariable.id ? 'Actualizar Variable' : 'Guardar Variable'}
+              </button>
+            </div>
           </div>
           
           <div className="section">
-            <h2>Conjunto</h2>
-            
-            <div className="form-row">
-              <label>Nombre:</label>
-              <input
-                type="text"
-                value={currentSet.nombre}
-                onChange={(e) => setCurrentSet({...currentSet, nombre: e.target.value})}
-              />
-              <button onClick={handleNewSet}>Nuevo</button>
-            </div>
+          <div className='CuadrarBoton'>
+          <h2>Conjunto</h2>
+            <div className='conjunto-boton'>
+                    <button className='boton-guardar-conjunto' onClick={handleNewSet}>+</button>
+                  </div>
+              
+              </div>
+              <div className="form-row">
+                <label>Nombre:</label>
+                <div className="conjunto-form">
+                  <input
+                    type="text"
+                    value={currentSet.nombre}
+                    onChange={handleSetNameChange}
+                  />
+                </div>
+              </div>
             
             {currentSet.nombre && currentSet.puntos.length > 0 && (
               <div className="points-editor">
@@ -479,7 +532,7 @@ function Variables() {
                   </div>
                 ))}
                 
-                <button onClick={handleSaveSet}>Guardar Conjunto</button>
+                <button className='GuardarConjunto' onClick={handleSaveSet}>Guardar Conjunto</button>
               </div>
             )}
           </div>
@@ -541,6 +594,37 @@ function Variables() {
           )}
         </div>
       </div>
+      
+      {variables.length > 0 && (
+        <div className="saved-variables-preview">
+          <h2>Visualización de Variables Guardadas</h2>
+          <div className="variables-grid">
+            {variables.map((variable) => (
+              <div key={variable.id} className="variable-preview">
+                <h4>{variable.nombre}</h4>
+                <div className="mini-plot">
+                  <Plot
+                    data={generatePreviewPlot(variable)}
+                    layout={{
+                      margin: { l: 30, r: 20, t: 5, b: 30 },
+                      xaxis: { title: '', range: variable.rango },
+                      yaxis: { title: '', range: [0, 1.1] },
+                      showlegend: false,
+                      autosize: true
+                    }}
+                    config={{ displayModeBar: false, responsive: true }}
+                    style={{ width: '100%', height: '100%' }}
+                  />
+                </div>
+                <div className="variable-actions">
+                  <button onClick={() => handleEditVariable(variable)}>Editar</button>
+                  <button onClick={() => handleDeleteVariable(variable.id)}>Eliminar</button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

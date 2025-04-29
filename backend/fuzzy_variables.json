@@ -1,6 +1,6 @@
 [
   {
-    "nombre": "Humedad",
+    "nombre": "Edad",
     "rango": [
       0.0,
       100.0
@@ -8,15 +8,24 @@
     "tipo": "triangular",
     "conjuntos": [
       {
-        "nombre": "Conjunto1",
+        "nombre": "Niño",
         "puntos": [
           0,
-          50,
-          100
+          5,
+          10
+        ],
+        "tipo": "triangular"
+      },
+      {
+        "nombre": "Adolescente",
+        "puntos": [
+          8,
+          20,
+          40
         ],
         "tipo": "triangular"
       }
     ],
-    "id": 2
+    "id": 1
   }
 ]
