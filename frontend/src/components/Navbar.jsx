@@ -29,7 +29,7 @@ function Navbar() {
           <Link to="/reglas"><FaCogs /> <span>Reglas</span></Link>
         </li>
         <li className={location.pathname === '/simulador' ? 'active' : ''}>
-          <Link to="/simulador"><FaPlay /> <span>Simulador</span></Link>
+          <Link to="/simulador"><FaPlay /> <span>Resultados</span></Link>
         </li>
       </ul>
     </motion.nav>

@@ -85,14 +85,14 @@ function Inicio() {
           >
             <div className="card-stripe card-stripe-purple"></div>
             <div className="card-content">
-              <div className="icon-container icon-purple">
+              <div className="icon-container icon-green">
                 <FaCode className="card-icon" />
               </div>
               <h2 className="card-title">Reglas Difusas</h2>
               <p className="card-description">
                 Crea reglas condicionales IF-THEN y observa cómo afectan al sistema difuso.
               </p>
-              <Link to="/reglas" className="card-button button-purple"> {/* Reemplazado <a> con <Link> */}
+              <Link to="/reglas" className="card-button button-green"> {/* Reemplazado <a> con <Link> */}
                 Definir Reglas
               </Link>
             </div>
@@ -106,14 +106,14 @@ function Inicio() {
           >
             <div className="card-stripe card-stripe-green"></div>
             <div className="card-content">
-              <div className="icon-container icon-green">
+              <div className="icon-container icon-purple">
                 <FaChartLine className="card-icon" />
               </div>
               <h2 className="card-title">Resultados</h2>
               <p className="card-description">
                 Visualiza los resultados en base a tus reglas y operadores.
               </p>
-              <Link to="/simulador" className="card-button button-green"> {/* Reemplazado <a> con <Link> */}
+              <Link to="/simulador" className="card-button button-purple"> {/* Reemplazado <a> con <Link> */}
                 Ver Resultados
               </Link>
             </div>
