@@ -190,6 +190,10 @@ button:disabled {
 
 .GuardarConjunto {
   background-color: #27ae60;
+  width: auto; /* o un tamaño específico como 200px */
+  margin: 0 auto; /* centra el botón horizontalmente */
+  display: block;
+  padding: 10px 20px;
 }
   
 .save-variable-btn:hover {
@@ -202,6 +206,7 @@ button:disabled {
   background-color: #f8f9fa;
   border-radius: 4px;
   margin-top: 10px;
+  border: 1px solid #929292;
 }
 
 /* Gráfico */

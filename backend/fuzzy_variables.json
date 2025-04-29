@@ -11,17 +11,35 @@
         "nombre": "Niño",
         "puntos": [
           0,
-          5,
-          10
+          10,
+          20
         ],
         "tipo": "triangular"
       },
       {
-        "nombre": "Adolescente",
+        "nombre": "joven",
         "puntos": [
-          8,
-          20,
-          40
+          18,
+          25,
+          35
+        ],
+        "tipo": "triangular"
+      },
+      {
+        "nombre": "Adulto",
+        "puntos": [
+          28,
+          38,
+          48
+        ],
+        "tipo": "triangular"
+      },
+      {
+        "nombre": "viejo",
+        "puntos": [
+          45,
+          70,
+          100
         ],
         "tipo": "triangular"
       }
