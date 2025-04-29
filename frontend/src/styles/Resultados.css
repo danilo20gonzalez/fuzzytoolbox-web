@@ -1,0 +1,90 @@
+
+/* Layout principal de 3 columnas */
+.resultados-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  /* Columnas individuales */
+  .columna {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Títulos de columnas */
+  .columna h3 {
+    text-align: center;
+  }
+  
+  /* Contenedor de gráficas */
+  .graficas-container {
+    position: relative;
+    flex: 1;
+  }
+  
+  /* Numeración lateral */
+  .numero-indicador {
+    position: absolute;
+    left: 5px;
+    color: #666;
+    z-index: 10;
+  }
+  
+  .numero-indicador.destacado {
+    font-weight: bold;
+  }
+  
+  .numero-indicador-1 {
+    top: 70px;
+  }
+  
+  .numero-indicador-2 {
+    top: 230px;
+  }
+  
+  .numero-indicador-3 {
+    top: 390px;
+  }
+  
+  .numero-indicador-4 {
+    top: 560px;
+  }
+  /* Contenedor de gráficas individuales */
+  .grafica-wrapper {
+    margin-left: 20px;
+    margin-bottom: 10px;
+  }
+  
+  /* Etiquetas del eje X */
+  .etiquetas-eje {
+    display: flex;
+    justify-content: space-between;
+    margin-left: 30px;
+    margin-right: 20px;
+  }
+  
+  .etiquetas-eje-propina {
+    display: flex;
+    justify-content: space-between;
+    margin-right: 20px;
+  }
+  
+  .etiqueta-roja {
+    color: rgb(255, 0, 0);
+  }
+  
+  /* Contenedor de sliders */
+  .slider-container {
+    padding: 20px 10px;
+  }
+  
+  .slider-container label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .slider-container input {
+    width: 100%;
+  }
