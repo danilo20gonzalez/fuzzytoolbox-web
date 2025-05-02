@@ -11,6 +11,7 @@ h1 {
   color: #2c3e50;
   margin-bottom: 20px;
   text-align: center;
+  font-family: cursive;
 }
 
 h2 {
@@ -144,7 +145,7 @@ h4 {
 }
 
 /* Botones */
-button {
+button:not(.botonPanelDerecho) {
   background-color: #2ecc71;
   color: white;
   border: none;
@@ -156,11 +157,11 @@ button {
   margin-right: 5px;
 }
 
-button:hover {
+button:not(.botonPanelDerecho):hover {
   background-color: #fcfeff;
 }
 
-button:disabled {
+button:not(.botonPanelDerecho):disabled {
   background-color: #95a5a6;
   cursor: not-allowed;
 }
@@ -325,3 +326,24 @@ button:disabled {
   }
 }
 
+.botonPanelDerecho {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.botonPanelDerecho {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #27ae60;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  ;
+}
+
+.botonPanelDerecho:hover {
+  background-color: #11918a;
+}
+*/
