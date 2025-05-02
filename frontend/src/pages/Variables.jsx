@@ -319,6 +319,12 @@ function Variables() {
       setMessage('Añade al menos un conjunto');
       return;
     }
+
+    const variableConTipo = {
+      ...currentVariable,
+      esVariable: currentVariable.tipoVariable,  // Asegúrate de que 'tipoVariable' es 'entrada' o 'salida'
+      id: currentVariable.id || Date.now()  // Asignar id si es nueva
+    };
     
     try {
       // Si estás actualizando
@@ -353,7 +359,8 @@ function Variables() {
         nombre: '',
         rango: [0, 100],
         tipo: 'triangular',
-        conjuntos: []
+        conjuntos: [],
+        tipoVariable: 'entrada'
       });
       
       setCurrentSet({ nombre: '', puntos: [], originalName: null });
