@@ -1,49 +1,41 @@
 [
   {
-    "nombre": "Edad",
+    "nombre": "Temperatura",
     "rango": [
       0.0,
-      100.0
+      50.0
     ],
     "tipo": "triangular",
     "conjuntos": [
       {
-        "nombre": "Niño",
+        "nombre": "Frio",
         "puntos": [
           0,
-          10,
+          0,
           20
         ],
         "tipo": "triangular"
       },
       {
-        "nombre": "joven",
+        "nombre": "Templado",
         "puntos": [
-          18,
+          15,
           25,
           35
         ],
         "tipo": "triangular"
       },
       {
-        "nombre": "Adulto",
+        "nombre": "Caliente",
         "puntos": [
-          28,
-          38,
-          48
-        ],
-        "tipo": "triangular"
-      },
-      {
-        "nombre": "viejo",
-        "puntos": [
-          45,
-          70,
-          100
+          30,
+          50,
+          50
         ],
         "tipo": "triangular"
       }
     ],
+    "tipoVariable": "entrada",
     "id": 1
   },
   {
