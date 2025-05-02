@@ -29,6 +29,7 @@ class Variable(BaseModel):
     rango: list[float]
     tipo: str
     conjuntos: list[dict]
+    tipoVariable: str  # <-- nuevo campo (entrada/salida)
     id: int = None
 
 class FuzzyEngine:
