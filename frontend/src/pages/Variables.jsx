@@ -1,6 +1,8 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import Plot from 'react-plotly.js';
 import "../styles/Variables.css"
+import { Link } from 'react-router-dom';
+import { FaProjectDiagram, FaCogs, FaPlay } from 'react-icons/fa';
 // Configuración de tipos de funciones difusas
 const FUZZY_TYPES = {
   triangular: {
@@ -30,6 +32,7 @@ function Variables() {
   const [variables, setVariables] = useState([]);
   const [currentVariable, setCurrentVariable] = useState({
     nombre: '',
+    tipoVariable: 'entrada', // 'entrada' o 'salida'
     rango: [0, 100],
     tipo: 'triangular',
     conjuntos: []
@@ -491,6 +494,21 @@ function Variables() {
                 ))}
               </select>
             </div>
+
+            
+            <div className="form-row"> 
+              <label>Tipo de Variable:</label>
+              <select
+                value={currentVariable.tipoVariable}
+                onChange={(e) =>
+                  setCurrentVariable({ ...currentVariable, tipoVariable: e.target.value })
+                }
+              >
+                <option value="entrada">Entrada</option>
+                <option value="salida">Salida</option>
+              </select>
+            </div>
+
             
             <div className="variable-section-footer">
               <button className="save-variable-btn" onClick={handleSaveVariable}>
@@ -537,11 +555,9 @@ function Variables() {
             )}
           </div>
           
-          <div className="section">
-            <h2>Variables Guardadas</h2>
-            
+          <h2>Variables de Entrada</h2>
             <div className="variables-list">
-              {variables.map((variable) => (
+              {variables.filter(v => v.tipoVariable === 'entrada').map((variable) => (
                 <div key={variable.id} className="variable-item">
                   <span>{variable.nombre}</span>
                   <div>
@@ -551,7 +567,19 @@ function Variables() {
                 </div>
               ))}
             </div>
-          </div>
+
+            <h2>Variables de Salida</h2>
+            <div className="variables-list">
+              {variables.filter(v => v.tipoVariable === 'salida').map((variable) => (
+                <div key={variable.id} className="variable-item">
+                  <span>{variable.nombre}</span>
+                  <div>
+                    <button onClick={() => handleEditVariable(variable)}>Editar</button>
+                    <button onClick={() => handleDeleteVariable(variable.id)}>Eliminar</button>
+                  </div>
+                </div>
+              ))}
+            </div>
         </div>
         
         {/* Panel derecho */}
@@ -592,6 +620,13 @@ function Variables() {
               </div>
             </div>
           )}
+
+          <div >
+            <button className='botonPanelDerecho'>
+              <Link to="/reglas"><FaCogs  />  Ir a Reglas →</Link>
+            </button>
+          </div>
+
         </div>
       </div>
       
