@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback } from 'react';
-
 import '../styles/Reglas.css';
 
 function Reglas() {
@@ -17,9 +16,11 @@ function Reglas() {
 
   // Estado de UI
   const [message, setMessage] = useState('');
+  const [messageType, setMessageType] = useState('info'); // 'info', 'success', 'error'
   const [editMode, setEditMode] = useState(false);
   const [selectedRuleIndex, setSelectedRuleIndex] = useState(null);
   const [filterText, setFilterText] = useState('');
+  const [activeTab, setActiveTab] = useState('create'); // 'create' o 'list'
 
   useEffect(() => {
     const fetchVariables = async () => {
@@ -30,12 +31,13 @@ function Reglas() {
         setVariables(data);
        
         // Separar variables de entrada y salida
-        setOutputVariables(data.filter(v => v.esVariable === 'salida'));
+        setOutputVariables(data.filter(v => v.tipoVariable === 'salida'));
         
         // Inicializar la regla actual con todas las variables
-        initializeCurrentRule(data, data.filter(v => v.esVariable === 'salida'));
+        initializeCurrentRule(data, data.filter(v => v.tipoVariable === 'salida'));
       } catch (error) {
         console.error('Error al cargar las variables:', error);
+        showMessage('Error al cargar las variables', 'error');
       }
     };
 
@@ -73,9 +75,13 @@ function Reglas() {
   }, [variables, outputVariables]);
 
   // Mostrar mensaje
-  const showMessage = (text) => {
+  const showMessage = (text, type = 'info') => {
     setMessage(text);
-    setTimeout(() => setMessage(''), 3000);
+    setMessageType(type);
+    setTimeout(() => {
+      setMessage('');
+      setMessageType('info');
+    }, 3000);
   };
 
   // Actualizar antecedente
@@ -114,7 +120,7 @@ function Reglas() {
     );
    
     if (!hasValidAntecedentes) {
-      showMessage('La regla debe tener al menos un antecedente definido');
+      showMessage('La regla debe tener al menos un antecedente definido', 'error');
       return false;
     }
    
@@ -124,7 +130,7 @@ function Reglas() {
     );
    
     if (!hasValidConsecuentes) {
-      showMessage('La regla debe tener al menos un consecuente definido');
+      showMessage('La regla debe tener al menos un consecuente definido', 'error');
       return false;
     }
    
@@ -158,18 +164,21 @@ function Reglas() {
         ...updatedRule,
         id: rules[selectedRuleIndex].id
       };
-      showMessage('Regla actualizada correctamente');
+      showMessage('Regla actualizada correctamente', 'success');
     } else {
       // Crear nueva regla
       updatedRules.push({
         ...updatedRule,
         id: Date.now()
       });
-      showMessage('Regla creada correctamente');
+      showMessage('Regla creada correctamente', 'success');
     }
    
     setRules(updatedRules);
     resetCurrentRule();
+    
+    // Cambiar a la pestaña de lista de reglas después de guardar
+    setActiveTab('list');
   };
 
   // Editar regla existente
@@ -210,7 +219,8 @@ function Reglas() {
    
     setEditMode(true);
     setSelectedRuleIndex(index);
-    showMessage('Regla cargada para edición');
+    setActiveTab('create');
+    showMessage('Regla cargada para edición', 'info');
   };
 
   // Eliminar regla
@@ -225,13 +235,13 @@ function Reglas() {
       resetCurrentRule();
     }
    
-    showMessage('Regla eliminada');
+    showMessage('Regla eliminada', 'success');
   };
 
   // Cancelar edición
   const handleCancelEdit = () => {
     resetCurrentRule();
-    showMessage('Edición cancelada');
+    showMessage('Edición cancelada', 'info');
   };
 
   // Obtener conjuntos para una variable
@@ -292,86 +302,185 @@ function Reglas() {
 
   return (
     <div className="reglas-container">
-      <h1>Editor de Reglas Difusas</h1>
-
-      {message && <div className="message">{message}</div>}
-
-      <div className="main-content">
-        {/* El editor de reglas ahora está siempre visible */}
-        <div className="rule-editor">
-          <h2>{editMode ? 'Editar Regla' : 'Nueva Regla'}</h2>
-
-          <div className="rule-form">
-            <div className="antecedentes-section">
-              <h3>SI</h3>
-              {currentRule.antecedentes.map((antecedente, index) => (
-                <div className="rule-input-row" key={`ant-${index}`}>
-                  <label>{antecedente.variable}</label>
-                  <div className="input-group">
-                    <label className="negation-label">
+      <header className="reglas-header">
+        <h1>Editor de Reglas Difusas</h1>
+        <div className="tabs-navigation">
+          <button 
+            className={`tab-button ${activeTab === 'create' ? 'active' : ''}`}
+            onClick={() => setActiveTab('create')}
+          >
+            <span className="tab-icon">✏️</span>
+            {editMode ? 'Editar Regla' : 'Crear Regla'}
+          </button>
+          <button 
+            className={`tab-button ${activeTab === 'list' ? 'active' : ''}`}
+            onClick={() => setActiveTab('list')}
+          >
+            <span className="tab-icon">📋</span>
+            Lista de Reglas
+          </button>
+        </div>
+      </header>
+      
+      {message && <div className={`message ${messageType}`}>{message}</div>}
+      
+      {activeTab === 'create' && (
+        <div className="rule-creator-panel">
+          <h2 className="panel-title">{editMode ? 'Editar Regla' : 'Crear Nueva Regla'}</h2>
+          
+          <div className="rule-builder">
+            {/* Panel de Variables de Entrada (Antecedentes) */}
+            <div className="variables-panel antecedentes-panel">
+              <div className="panel-header">
+                <h3><span className="step-number">1</span> Variables de Entrada (SI)</h3>
+                <p className="panel-description">Selecciona las condiciones de entrada</p>
+              </div>
+              
+              <div className="panel-content">
+                <div className="operator-selector">
+                  <span className="operator-label">Operador:</span>
+                  <div className="operator-options">
+                    <label className={`operator-option ${currentRule.operador === 'AND' ? 'selected' : ''}`}>
                       <input
-                        type="checkbox"
-                        checked={antecedente.negado}
-                        onChange={(e) => updateAntecedente(index, 'negado', e.target.checked)}
+                        type="radio"
+                        name="operador"
+                        value="AND"
+                        checked={currentRule.operador === 'AND'}
+                        onChange={() => setCurrentRule({ ...currentRule, operador: 'AND' })}
                       />
-                      NO
+                      <span className="operator-text">Y (AND)</span>
                     </label>
-                    <select
-                      className="operator-individual"
-                      value={antecedente.conjunto}
-                      onChange={(e) => updateAntecedente(index, 'conjunto', e.target.value)}
-                    >
-                      <option value="">-- Seleccionar --</option>
-                      {getConjuntosForVariable(antecedente.variable).map((conjunto, i) => (
-                        <option key={i} value={conjunto}>{conjunto}</option>
-                      ))}
-                    </select>
-                    {currentRule.antecedentes.length > 1 && index < currentRule.antecedentes.length - 1 && (
-                      <select
-                        className="operator-individual"
-                        value={currentRule.operador}
-                        onChange={(e) => setCurrentRule({ ...currentRule, operador: e.target.value })}
+                    <label className={`operator-option ${currentRule.operador === 'OR' ? 'selected' : ''}`}>
+                      <input
+                        type="radio"
+                        name="operador"
+                        value="OR"
+                        checked={currentRule.operador === 'OR'}
+                        onChange={() => setCurrentRule({ ...currentRule, operador: 'OR' })}
+                      />
+                      <span className="operator-text">O (OR)</span>
+                    </label>
+                  </div>
+                </div>
+                
+                <div className="antecedentes-container">
+                  {variables
+                    .filter(v => v.tipoVariable !== 'salida')
+                    .map((variable, variableIndex) => {
+                      const antIndex = currentRule.antecedentes.findIndex(
+                        ant => ant.variable === variable.nombre
+                      );
+                      if (antIndex === -1) return null;
+                      
+                      const antecedente = currentRule.antecedentes[antIndex];
+                      const hasConjunto = antecedente.conjunto !== '';
+                      
+                      return (
+                        <div 
+                          className={`rule-input-card ${hasConjunto ? 'active' : ''}`} 
+                          key={`ant-${variableIndex}`}
+                        >
+                          <div className="card-header">
+                            <span className="variable-name">{antecedente.variable}</span>
+                          </div>
+                          <div className="card-content">
+                            <select
+                              className="conjunto-select"
+                              value={antecedente.conjunto}
+                              onChange={(e) => updateAntecedente(antIndex, 'conjunto', e.target.value)}
+                            >
+                              <option value="">-- Seleccionar --</option>
+                              {getConjuntosForVariable(antecedente.variable).map((conjunto, i) => (
+                                <option key={i} value={conjunto}>{conjunto}</option>
+                              ))}
+                            </select>
+                            
+                            <label className="negation-toggle">
+                              <input
+                                type="checkbox"
+                                checked={antecedente.negado}
+                                onChange={(e) => updateAntecedente(antIndex, 'negado', e.target.checked)}
+                                disabled={!hasConjunto}
+                              />
+                              <span className="toggle-label">Negar</span>
+                            </label>
+                          </div>
+                        </div>
+                      );
+                    })}
+                </div>
+              </div>
+            </div>
+            
+            {/* Panel de Variables de Salida (Consecuentes) */}
+            <div className="variables-panel consecuentes-panel">
+              <div className="panel-header">
+                <h3><span className="step-number">2</span> Variables de Salida (ENTONCES)</h3>
+                <p className="panel-description">Selecciona los resultados esperados</p>
+              </div>
+              
+              <div className="panel-content">
+                <div className="consecuentes-container">
+                  {outputVariables.map((variable, variableIndex) => {
+                    const consIndex = currentRule.consecuentes.findIndex(
+                      cons => cons.variable === variable.nombre
+                    );
+                    if (consIndex === -1) return null;
+                    
+                    const consecuente = currentRule.consecuentes[consIndex];
+                    const hasConjunto = consecuente.conjunto !== '';
+                    
+                    return (
+                      <div 
+                        className={`rule-input-card ${hasConjunto ? 'active' : ''}`} 
+                        key={`cons-${variableIndex}`}
                       >
-                        <option value="AND">AND</option>
-                        <option value="OR">OR</option>
-                      </select>
-                    )}
-                  </div>
+                        <div className="card-header">
+                          <span className="variable-name">{consecuente.variable}</span>
+                        </div>
+                        <div className="card-content">
+                          <select
+                            className="conjunto-select"
+                            value={consecuente.conjunto}
+                            onChange={(e) => updateConsecuente(consIndex, 'conjunto', e.target.value)}
+                          >
+                            <option value="">-- Seleccionar --</option>
+                            {getConjuntosForVariable(consecuente.variable).map((conjunto, i) => (
+                              <option key={i} value={conjunto}>{conjunto}</option>
+                            ))}
+                          </select>
+                          
+                          <label className="negation-toggle">
+                            <input
+                              type="checkbox"
+                              checked={consecuente.negado}
+                              onChange={(e) => updateConsecuente(consIndex, 'negado', e.target.checked)}
+                              disabled={!hasConjunto}
+                            />
+                            <span className="toggle-label">Negar</span>
+                          </label>
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
-              ))}
+              </div>
             </div>
+          </div>
 
-            <div className="consecuentes-section">
-              <h3>ENTONCES</h3>
-              {currentRule.consecuentes.map((consecuente, index) => (
-                <div className="rule-input-row" key={`cons-${index}`}>
-                  <label>{consecuente.variable}</label>
-                  <div className="input-group">
-                    <label className="negation-label">
-                      <input
-                        type="checkbox"
-                        checked={consecuente.negado}
-                        onChange={(e) => updateConsecuente(index, 'negado', e.target.checked)}
-                      />
-                      NO
-                    </label>
-                    <select
-                      value={consecuente.conjunto}
-                      onChange={(e) => updateConsecuente(index, 'conjunto', e.target.value)}
-                    >
-                      <option value="">-- Seleccionar --</option>
-                      {getConjuntosForVariable(consecuente.variable).map((conjunto, i) => (
-                        <option key={i} value={conjunto}>{conjunto}</option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-              ))}
+          {/* Vista previa de la regla */}
+          <div className="rule-preview-section">
+            <h3><span className="step-number">3</span> Vista Previa</h3>
+            <div className="rule-preview-box">
+              {generateRuleText(currentRule)}
             </div>
-
-            <div className="peso-section">
-              <h3>Peso</h3>
-              <div className="weight-control">
+          </div>
+          
+          {/* Configuración de peso */}
+          <div className="weight-section">
+            <h3><span className="step-number">4</span> Peso de la Regla</h3>
+            <div className="weight-container">
+              <div className="weight-slider">
                 <input
                   type="range"
                   min="0"
@@ -380,98 +489,140 @@ function Reglas() {
                   value={currentRule.peso}
                   onChange={(e) => setCurrentRule({ ...currentRule, peso: parseFloat(e.target.value) })}
                 />
-                <span>{currentRule.peso.toFixed(1)}</span>
+                <div className="weight-scale">
+                  <span>0.0</span>
+                  <span>0.5</span>
+                  <span>1.0</span>
+                </div>
               </div>
+              <div className="weight-value">{currentRule.peso.toFixed(1)}</div>
             </div>
+            <p className="weight-description">
+              <span className="weight-info-icon">ℹ️</span>
+              El peso determina la influencia de esta regla (1.0 = máxima, 0.0 = mínima)
+            </p>
           </div>
-        </div>
-
-        <div className="rule-editor">
-          <div className="rule-preview">
-            <h2>Vista previa de la regla</h2>
-            <div className="preview-box">
-              {generateRuleText(currentRule)}
-            </div>
-          </div>
-          <h1></h1>
-          <div className="button-group">
-            <button className="save-button" onClick={handleSaveRule}>
+          
+          
+          
+          {/* Botones de acción */}
+          <div className="action-buttons">
+            <button className="primary-button" onClick={handleSaveRule}>
               {editMode ? 'Actualizar Regla' : 'Guardar Regla'}
             </button>
             {editMode && (
-              <button className="cancel-button" onClick={handleCancelEdit}>
+              <button className="secondary-button" onClick={handleCancelEdit}>
                 Cancelar
               </button>
             )}
           </div>
         </div>
-       
-        {/* Lista de reglas */}
+      )}
+      
+      {activeTab === 'list' && (
         <div className="rules-list-panel">
+          <div className="panel-header">
+            <h2 className="panel-title">Lista de Reglas</h2>
+            <div className="panel-actions">
+              <button 
+                className="add-rule-button"
+                onClick={() => {
+                  resetCurrentRule();
+                  setActiveTab('create');
+                }}
+              >
+                <span className="button-icon">+</span>
+                Nueva Regla
+              </button>
+            </div>
+          </div>
           
-            <h2>Reglas Definidas</h2>
+          <div className="search-container">
             <div className="search-box">
-              <input
+              <span className="search-icon">🔍</span>
+              <input 
                 type="text"
                 placeholder="Buscar reglas..."
                 value={filterText}
                 onChange={(e) => setFilterText(e.target.value)}
+                className="search-input"
               />
-              <button
-                className="clear-search"
-                onClick={() => setFilterText('')}
-                style={{ visibility: filterText ? 'visible' : 'hidden' }}
-              >
-                ✕
-              </button>
+              {filterText && (
+                <button
+                  className="clear-search"
+                  onClick={() => setFilterText('')}
+                >
+                  ✕
+                </button>
+              )}
             </div>
+            <div className="rules-count">
+              {rules.length} {rules.length === 1 ? 'regla' : 'reglas'} 
+              {filterText && ` (mostrando ${filteredRules.length})`}
+            </div>
+          </div>
           
-
           <div className="rules-list">
             {filteredRules.length === 0 ? (
               <div className="empty-state">
-                No hay reglas definidas o que coincidan con la búsqueda.
+                {rules.length === 0 
+                  ? (
+                    <>
+                      <div className="empty-icon">📝</div>
+                      <p>No hay reglas definidas.</p>
+                      <button 
+                        className="create-first-rule" 
+                        onClick={() => setActiveTab('create')}
+                      >
+                        Crear primera regla
+                      </button>
+                    </>
+                  )
+                  : (
+                    <>
+                      <div className="empty-icon">🔍</div>
+                      <p>No hay resultados para tu búsqueda.</p>
+                    </>
+                  )
+                }
               </div>
             ) : (
-              filteredRules.map((rule, index) => (
-                <div
-                  key={rule.id}
-                  className={`rule-item ${selectedRuleIndex === index ? 'selected' : ''}`}
-                >
-                  <div className="rule-content">
-                    <div className="rule-number">R{index + 1}</div>
-                    <div className="rule-text">{generateRuleText(rule)}</div>
+              <div className="rules-grid">
+                {filteredRules.map((rule, index) => (
+                  <div
+                    key={rule.id}
+                    className={`rule-card ${selectedRuleIndex === index ? 'selected' : ''}`}
+                  >
+                    <div className="rule-card-header">
+                      <div className="rule-number">Regla {index + 1}</div>
+                      <div className="rule-weight">Peso: {rule.peso.toFixed(1)}</div>
+                    </div>
+                    <div className="rule-card-content">
+                      <div className="rule-text">{generateRuleText(rule)}</div>
+                    </div>
+                    <div className="rule-card-footer">
+                      <button
+                        className="rule-card-button edit"
+                        onClick={() => handleEditRule(index)}
+                        title="Editar"
+                      >
+                        Editar
+                      </button>
+                      <button
+                        className="rule-card-button delete"
+                        onClick={() => handleDeleteRule(index)}
+                        title="Eliminar"
+                      >
+                        Eliminar
+                      </button>
+                    </div>
                   </div>
-                  <div className="rule-actions">
-                    <button
-                      className="edit-button"
-                      onClick={() => handleEditRule(index)}
-                      title="Editar"
-                    >
-                      ✏️
-                    </button>
-                    <button
-                      className="delete-button"
-                      onClick={() => handleDeleteRule(index)}
-                      title="Eliminar"
-                    >
-                      🗑️
-                    </button>
-                  </div>
-                </div>
-              ))
+                ))}
+              </div>
             )}
           </div>
-
-          <div className="summary-section">
-            <div className="rules-count">
-              Total de reglas: {rules.length}
-              {filterText && ` (mostrando ${filteredRules.length})`}
-            </div>
-            {/* Se ha eliminado el botón "Nueva Regla" */}
-          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

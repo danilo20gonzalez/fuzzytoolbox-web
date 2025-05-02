@@ -76,5 +76,44 @@
     ],
     "tipoVariable": "salida",
     "id": 2
+  },
+  {
+    "nombre": "Humedad",
+    "rango": [
+      0.0,
+      100.0
+    ],
+    "tipo": "triangular",
+    "conjuntos": [
+      {
+        "nombre": "Baja",
+        "puntos": [
+          0,
+          0,
+          40
+        ],
+        "tipo": "triangular"
+      },
+      {
+        "nombre": "Media",
+        "puntos": [
+          30,
+          50,
+          70
+        ],
+        "tipo": "triangular"
+      },
+      {
+        "nombre": "Alta",
+        "puntos": [
+          60,
+          100,
+          100
+        ],
+        "tipo": "triangular"
+      }
+    ],
+    "tipoVariable": "entrada",
+    "id": 3
   }
 ]
