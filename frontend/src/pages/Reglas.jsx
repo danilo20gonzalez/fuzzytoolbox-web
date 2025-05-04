@@ -29,10 +29,10 @@ function Reglas() {
         if (!response.ok) throw new Error('Error al cargar variables');
         const data = await response.json();
         setVariables(data);
-       
+
         // Separar variables de entrada y salida
         setOutputVariables(data.filter(v => v.tipoVariable === 'salida'));
-        
+
         // Inicializar la regla actual con todas las variables
         initializeCurrentRule(data, data.filter(v => v.tipoVariable === 'salida'));
       } catch (error) {
@@ -51,13 +51,13 @@ function Reglas() {
       conjunto: '',
       negado: false
     }));
-   
+
     const newConsecuentes = outputVars.map(variable => ({
       variable: variable.nombre,
       conjunto: '',
       negado: false
     }));
-   
+
     setCurrentRule({
       id: null,
       antecedentes: newAntecedentes,
@@ -66,7 +66,7 @@ function Reglas() {
       operador: 'AND'
     });
   };
-   
+
   // Resetear la regla actual
   const resetCurrentRule = useCallback(() => {
     initializeCurrentRule(variables, outputVariables);
@@ -91,7 +91,7 @@ function Reglas() {
       ...updatedAntecedentes[index],
       [field]: value
     };
-   
+
     setCurrentRule({
       ...currentRule,
       antecedentes: updatedAntecedentes
@@ -105,7 +105,7 @@ function Reglas() {
       ...updatedConsecuentes[index],
       [field]: value
     };
-   
+
     setCurrentRule({
       ...currentRule,
       consecuentes: updatedConsecuentes
@@ -118,46 +118,46 @@ function Reglas() {
     const hasValidAntecedentes = currentRule.antecedentes.some(
       ant => ant.conjunto && ant.conjunto !== ''
     );
-   
+
     if (!hasValidAntecedentes) {
       showMessage('La regla debe tener al menos un antecedente definido', 'error');
       return false;
     }
-   
+
     // Verificar que al menos un consecuente esté definido
     const hasValidConsecuentes = currentRule.consecuentes.some(
       cons => cons.conjunto && cons.conjunto !== ''
     );
-   
+
     if (!hasValidConsecuentes) {
       showMessage('La regla debe tener al menos un consecuente definido', 'error');
       return false;
     }
-   
+
     return true;
   };
 
   // Guardar regla
   const handleSaveRule = () => {
     if (!validateRule()) return;
-   
+
     // Filtrar antecedentes y consecuentes vacíos
     const filteredAntecedentes = currentRule.antecedentes.filter(
       item => item.conjunto && item.conjunto !== ''
     );
-   
+
     const filteredConsecuentes = currentRule.consecuentes.filter(
       item => item.conjunto && item.conjunto !== ''
     );
-   
+
     const updatedRule = {
       ...currentRule,
       antecedentes: filteredAntecedentes,
       consecuentes: filteredConsecuentes
     };
-   
+
     let updatedRules = [...rules];
-   
+
     if (editMode && selectedRuleIndex !== null) {
       // Actualizar regla existente
       updatedRules[selectedRuleIndex] = {
@@ -173,10 +173,10 @@ function Reglas() {
       });
       showMessage('Regla creada correctamente', 'success');
     }
-   
+
     setRules(updatedRules);
     resetCurrentRule();
-    
+
     // Cambiar a la pestaña de lista de reglas después de guardar
     setActiveTab('list');
   };
@@ -184,39 +184,39 @@ function Reglas() {
   // Editar regla existente
   const handleEditRule = (index) => {
     const rule = rules[index];
-   
+
     // Crear antecedentes completos (incluyendo variables vacías)
     const fullAntecedentes = variables.map(variable => {
       const existingAnt = rule.antecedentes.find(
         ant => ant.variable === variable.nombre
       );
-     
+
       return existingAnt || {
         variable: variable.nombre,
         conjunto: '',
         negado: false
       };
     });
-   
+
     // Crear consecuentes completos
     const fullConsecuentes = outputVariables.map(variable => {
       const existingCons = rule.consecuentes.find(
         cons => cons.variable === variable.nombre
       );
-     
+
       return existingCons || {
         variable: variable.nombre,
         conjunto: '',
         negado: false
       };
     });
-   
+
     setCurrentRule({
       ...rule,
       antecedentes: fullAntecedentes,
       consecuentes: fullConsecuentes
     });
-   
+
     setEditMode(true);
     setSelectedRuleIndex(index);
     setActiveTab('create');
@@ -226,15 +226,15 @@ function Reglas() {
   // Eliminar regla
   const handleDeleteRule = (index) => {
     if (!window.confirm('¿Estás seguro de eliminar esta regla?')) return;
-   
+
     const updatedRules = [...rules];
     updatedRules.splice(index, 1);
     setRules(updatedRules);
-   
+
     if (selectedRuleIndex === index) {
       resetCurrentRule();
     }
-   
+
     showMessage('Regla eliminada', 'success');
   };
 
@@ -249,9 +249,9 @@ function Reglas() {
     const variable =
       variables.find(v => v.nombre === variableName) ||
       outputVariables.find(v => v.nombre === variableName);
-   
+
     if (!variable || !variable.conjuntos) return [];
-   
+
     // Map the conjunto objects to just their names
     return variable.conjuntos.map(conjunto =>
       typeof conjunto === 'object' ? conjunto.nombre : conjunto
@@ -261,21 +261,21 @@ function Reglas() {
   // Filtrar reglas según texto de búsqueda
   const filteredRules = rules.filter(rule => {
     if (!filterText) return true;
-   
+
     const searchText = filterText.toLowerCase();
-   
+
     // Buscar en antecedentes
     const matchesAntecedente = rule.antecedentes.some(
       ant => ant.variable.toLowerCase().includes(searchText) ||
-             ant.conjunto.toLowerCase().includes(searchText)
+        ant.conjunto.toLowerCase().includes(searchText)
     );
-   
+
     // Buscar en consecuentes
     const matchesConsecuente = rule.consecuentes.some(
       cons => cons.variable.toLowerCase().includes(searchText) ||
-              cons.conjunto.toLowerCase().includes(searchText)
+        cons.conjunto.toLowerCase().includes(searchText)
     );
-   
+
     return matchesAntecedente || matchesConsecuente;
   });
 
@@ -288,7 +288,7 @@ function Reglas() {
         return `${ant.variable} es ${negation}${ant.conjunto}`;
       })
       .join(` ${rule.operador} `);
-   
+
     const consecuentesText = rule.consecuentes
       .filter(cons => cons.conjunto !== '')
       .map(cons => {
@@ -296,7 +296,7 @@ function Reglas() {
         return `${cons.variable} es ${negation}${cons.conjunto}`;
       })
       .join(' Y ');
-   
+
     return `SI ${antecedentesText} ENTONCES ${consecuentesText} (${rule.peso})`;
   };
 
@@ -305,14 +305,14 @@ function Reglas() {
       <header className="reglas-header">
         <h1>Editor de Reglas Difusas</h1>
         <div className="tabs-navigation">
-          <button 
+          <button
             className={`tab-button ${activeTab === 'create' ? 'active' : ''}`}
             onClick={() => setActiveTab('create')}
           >
             <span className="tab-icon">✏️</span>
             {editMode ? 'Editar Regla' : 'Crear Regla'}
           </button>
-          <button 
+          <button
             className={`tab-button ${activeTab === 'list' ? 'active' : ''}`}
             onClick={() => setActiveTab('list')}
           >
@@ -321,13 +321,13 @@ function Reglas() {
           </button>
         </div>
       </header>
-      
+
       {message && <div className={`message ${messageType}`}>{message}</div>}
-      
+
       {activeTab === 'create' && (
         <div className="rule-creator-panel">
           <h2 className="panel-title">{editMode ? 'Editar Regla' : 'Crear Nueva Regla'}</h2>
-          
+
           <div className="rule-builder">
             {/* Panel de Variables de Entrada (Antecedentes) */}
             <div className="variables-panel antecedentes-panel">
@@ -335,7 +335,7 @@ function Reglas() {
                 <h3><span className="step-number">1</span> Variables de Entrada (SI)</h3>
                 <p className="panel-description">Selecciona las condiciones de entrada</p>
               </div>
-              
+
               <div className="panel-content">
                 <div className="operator-selector">
                   <span className="operator-label">Operador:</span>
@@ -362,7 +362,7 @@ function Reglas() {
                     </label>
                   </div>
                 </div>
-                
+
                 <div className="antecedentes-container">
                   {variables
                     .filter(v => v.tipoVariable !== 'salida')
@@ -371,13 +371,13 @@ function Reglas() {
                         ant => ant.variable === variable.nombre
                       );
                       if (antIndex === -1) return null;
-                      
+
                       const antecedente = currentRule.antecedentes[antIndex];
                       const hasConjunto = antecedente.conjunto !== '';
-                      
+
                       return (
-                        <div 
-                          className={`rule-input-card ${hasConjunto ? 'active' : ''}`} 
+                        <div
+                          className={`rule-input-card ${hasConjunto ? 'active' : ''}`}
                           key={`ant-${variableIndex}`}
                         >
                           <div className="card-header">
@@ -394,7 +394,7 @@ function Reglas() {
                                 <option key={i} value={conjunto}>{conjunto}</option>
                               ))}
                             </select>
-                            
+
                             <label className="negation-toggle">
                               <input
                                 type="checkbox"
@@ -411,14 +411,14 @@ function Reglas() {
                 </div>
               </div>
             </div>
-            
+
             {/* Panel de Variables de Salida (Consecuentes) */}
             <div className="variables-panel consecuentes-panel">
               <div className="panel-header">
                 <h3><span className="step-number">2</span> Variables de Salida (ENTONCES)</h3>
                 <p className="panel-description">Selecciona los resultados esperados</p>
               </div>
-              
+
               <div className="panel-content">
                 <div className="consecuentes-container">
                   {outputVariables.map((variable, variableIndex) => {
@@ -426,13 +426,13 @@ function Reglas() {
                       cons => cons.variable === variable.nombre
                     );
                     if (consIndex === -1) return null;
-                    
+
                     const consecuente = currentRule.consecuentes[consIndex];
                     const hasConjunto = consecuente.conjunto !== '';
-                    
+
                     return (
-                      <div 
-                        className={`rule-input-card ${hasConjunto ? 'active' : ''}`} 
+                      <div
+                        className={`rule-input-card ${hasConjunto ? 'active' : ''}`}
                         key={`cons-${variableIndex}`}
                       >
                         <div className="card-header">
@@ -449,7 +449,7 @@ function Reglas() {
                               <option key={i} value={conjunto}>{conjunto}</option>
                             ))}
                           </select>
-                          
+
                           <label className="negation-toggle">
                             <input
                               type="checkbox"
@@ -469,62 +469,42 @@ function Reglas() {
           </div>
 
           {/* Vista previa de la regla */}
-          <div className="rule-preview-section">
-            <h3><span className="step-number">3</span> Vista Previa</h3>
-            <div className="rule-preview-box">
+
+          <div className="rule-preview-section resultados-panel">
+            <div className="panel-header">
+              <h3><span className="step-number">3</span> Vista Previa</h3>
+              <button>
+                + Crear Reglas Automaticas
+              </button>
+            </div>
+            <div className="panel-header">
               {generateRuleText(currentRule)}
             </div>
-          </div>
-          
-          {/* Configuración de peso */}
-          <div className="weight-section">
-            <h3><span className="step-number">4</span> Peso de la Regla</h3>
-            <div className="weight-container">
-              <div className="weight-slider">
-                <input
-                  type="range"
-                  min="0"
-                  max="1"
-                  step="0.1"
-                  value={currentRule.peso}
-                  onChange={(e) => setCurrentRule({ ...currentRule, peso: parseFloat(e.target.value) })}
-                />
-                <div className="weight-scale">
-                  <span>0.0</span>
-                  <span>0.5</span>
-                  <span>1.0</span>
-                </div>
-              </div>
-              <div className="weight-value">{currentRule.peso.toFixed(1)}</div>
-            </div>
-            <p className="weight-description">
-              <span className="weight-info-icon">ℹ️</span>
-              El peso determina la influencia de esta regla (1.0 = máxima, 0.0 = mínima)
-            </p>
-          </div>
-          
-          
-          
-          {/* Botones de acción */}
-          <div className="action-buttons">
-            <button className="primary-button" onClick={handleSaveRule}>
-              {editMode ? 'Actualizar Regla' : 'Guardar Regla'}
-            </button>
-            {editMode && (
-              <button className="secondary-button" onClick={handleCancelEdit}>
-                Cancelar
+            
+            {/* Botones de acción */}
+            <div className="action-buttons">
+              <button className="primary-button" onClick={handleSaveRule}>
+                {editMode ? 'Actualizar Regla' : 'Guardar Regla'}
               </button>
-            )}
+              {editMode && (
+                <button className="secondary-button" onClick={handleCancelEdit}>
+                  Cancelar
+                </button>
+              )}
+            </div>
           </div>
         </div>
+
+
+
       )}
-      
+
       {activeTab === 'list' && (
         <div className="rules-list-panel">
           <div className="panel-header">
             <h2 className="panel-title">Lista de Reglas</h2>
             <div className="panel-actions">
-              <button 
+              <button
                 className="add-rule-button"
                 onClick={() => {
                   resetCurrentRule();
@@ -536,11 +516,11 @@ function Reglas() {
               </button>
             </div>
           </div>
-          
+
           <div className="search-container">
             <div className="search-box">
               <span className="search-icon">🔍</span>
-              <input 
+              <input
                 type="text"
                 placeholder="Buscar reglas..."
                 value={filterText}
@@ -557,21 +537,21 @@ function Reglas() {
               )}
             </div>
             <div className="rules-count">
-              {rules.length} {rules.length === 1 ? 'regla' : 'reglas'} 
+              {rules.length} {rules.length === 1 ? 'regla' : 'reglas'}
               {filterText && ` (mostrando ${filteredRules.length})`}
             </div>
           </div>
-          
+
           <div className="rules-list">
             {filteredRules.length === 0 ? (
               <div className="empty-state">
-                {rules.length === 0 
+                {rules.length === 0
                   ? (
                     <>
                       <div className="empty-icon">📝</div>
                       <p>No hay reglas definidas.</p>
-                      <button 
-                        className="create-first-rule" 
+                      <button
+                        className="create-first-rule"
                         onClick={() => setActiveTab('create')}
                       >
                         Crear primera regla
