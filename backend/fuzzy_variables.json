@@ -115,5 +115,44 @@
     ],
     "tipoVariable": "entrada",
     "id": 3
+  },
+  {
+    "nombre": "Tiempo",
+    "rango": [
+      0.0,
+      60.0
+    ],
+    "tipo": "triangular",
+    "conjuntos": [
+      {
+        "nombre": "lento",
+        "puntos": [
+          0,
+          10,
+          25
+        ],
+        "tipo": "triangular"
+      },
+      {
+        "nombre": "medio",
+        "puntos": [
+          20,
+          30,
+          45
+        ],
+        "tipo": "triangular"
+      },
+      {
+        "nombre": "rapido",
+        "puntos": [
+          40,
+          50,
+          60
+        ],
+        "tipo": "triangular"
+      }
+    ],
+    "tipoVariable": "entrada",
+    "id": 4
   }
 ]

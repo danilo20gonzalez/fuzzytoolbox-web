@@ -640,7 +640,6 @@ function Variables() {
           </div>
         </div>
       </div>
-
       {variables.length > 0 && (
         <div className="saved-variables-preview">
           <h2>Visualización de Variables Guardadas</h2>
