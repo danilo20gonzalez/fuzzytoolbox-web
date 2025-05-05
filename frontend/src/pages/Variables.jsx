@@ -21,13 +21,13 @@ const FUZZY_TYPES = {
 
 // Paleta de colores para los conjuntos
 const COLOR_PALETTE = [
-  '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', 
+  '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0',
   '#9966FF', '#FF9F40', '#20B2AA', '#8A2BE2'
 ];
 
 function Variables() {
   const plotRef = useRef(null);
-  
+
   // Estados principales
   const [variables, setVariables] = useState([]);
   const [currentVariable, setCurrentVariable] = useState({
@@ -37,7 +37,7 @@ function Variables() {
     tipo: 'triangular',
     conjuntos: []
   });
-  
+
   const [currentSet, setCurrentSet] = useState({
     nombre: '',
     puntos: [],
@@ -48,7 +48,7 @@ function Variables() {
   const [selectedSet, setSelectedSet] = useState(null);
   const [visibleSets, setVisibleSets] = useState({});
   const [message, setMessage] = useState('');
-  
+
   useEffect(() => {
     const fetchVariables = async () => {
       try {
@@ -61,7 +61,7 @@ function Variables() {
         setMessage('Error al cargar las variables del servidor');
       }
     };
-  
+
     fetchVariables();
   }, []);   // Solo se ejecuta una vez al montar el componente
 
@@ -80,23 +80,23 @@ function Variables() {
   const initializePoints = useCallback(() => {
     const [min, max] = currentVariable.rango;
     const range = max - min;
-    
+
     let newPoints = [];
-    
-    switch(currentVariable.tipo) {
+
+    switch (currentVariable.tipo) {
       case 'triangular':
-        newPoints = [min, min + range/2, max];
+        newPoints = [min, min + range / 2, max];
         break;
       case 'trapezoidal':
-        newPoints = [min, min + range/4, min + range*3/4, max];
+        newPoints = [min, min + range / 4, min + range * 3 / 4, max];
         break;
       case 'gaussiana':
-        newPoints = [min + range/2, range/6];
+        newPoints = [min + range / 2, range / 6];
         break;
       default:
-        newPoints = [min, min + range/2, max];
+        newPoints = [min, min + range / 2, max];
     }
-    
+
     setCurrentSet(prev => ({
       ...prev,
       puntos: newPoints
@@ -132,7 +132,7 @@ function Variables() {
   // Manejar cambios en los puntos
   const handlePointChange = (index, value) => {
     const [min, max] = currentVariable.rango;
-    
+
     // Asegurar que el valor esté dentro del rango
     let adjustedValue = value;
     if (currentVariable.tipo !== 'gaussiana' || index === 0) {
@@ -143,13 +143,13 @@ function Variables() {
 
     const newPoints = [...currentSet.puntos];
     newPoints[index] = adjustedValue;
-    
+
     setCurrentSet(prev => ({ ...prev, puntos: newPoints }));
   };
 
   // Calcular función de pertenencia
   const calculateMembership = useCallback((xValues, points, type) => {
-    switch(type) {
+    switch (type) {
       case 'triangular':
         if (points.length === 3) {
           const [a, b, c] = points;
@@ -160,7 +160,7 @@ function Variables() {
           });
         }
         break;
-        
+
       case 'trapezoidal':
         if (points.length === 4) {
           const [a, b, c, d] = points;
@@ -172,7 +172,7 @@ function Variables() {
           });
         }
         break;
-        
+
       case 'gaussiana':
         if (points.length === 2) {
           const [mean, stdDev] = points;
@@ -182,7 +182,7 @@ function Variables() {
         }
         break;
     }
-    
+
     return Array(xValues.length).fill(0);
   }, []);
 
@@ -191,13 +191,13 @@ function Variables() {
     const [min, max] = currentVariable.rango;
     const x = Array.from({ length: 200 }, (_, i) => min + (max - min) * i / 199);
     const plotData = [];
-    
+
     // Conjuntos existentes visibles
     currentVariable.conjuntos
       .filter(conjunto => visibleSets[conjunto.nombre] !== false)
       .forEach((conjunto, idx) => {
         const y = calculateMembership(x, conjunto.puntos, conjunto.tipo || currentVariable.tipo);
-        
+
         plotData.push({
           x,
           y,
@@ -205,31 +205,31 @@ function Variables() {
           mode: 'lines',
           fill: 'tozeroy',
           name: conjunto.nombre,
-          line: { 
+          line: {
             color: COLOR_PALETTE[idx % COLOR_PALETTE.length],
             width: selectedSet === conjunto.nombre ? 3 : 2
           }
         });
       });
-    
+
     // Conjunto actual si tiene nombre y puntos
     if (currentSet.nombre && currentSet.puntos.length > 0) {
       const y = calculateMembership(x, currentSet.puntos, currentVariable.tipo);
-      
+
       plotData.push({
         x,
         y,
         type: 'scatter',
         mode: 'lines',
         name: currentSet.nombre,
-        line: { 
+        line: {
           color: COLOR_PALETTE[currentVariable.conjuntos.length % COLOR_PALETTE.length],
           dash: 'dash',
           width: 2
         }
       });
     }
-    
+
     return plotData;
   }, [currentVariable, currentSet, visibleSets, selectedSet, calculateMembership]);
 
@@ -238,10 +238,10 @@ function Variables() {
     const [min, max] = variable.rango;
     const x = Array.from({ length: 100 }, (_, i) => min + (max - min) * i / 99);
     const plotData = [];
-    
+
     variable.conjuntos.forEach((conjunto, idx) => {
       const y = calculateMembership(x, conjunto.puntos, conjunto.tipo || variable.tipo);
-      
+
       plotData.push({
         x,
         y,
@@ -249,13 +249,13 @@ function Variables() {
         mode: 'lines',
         fill: 'tozeroy',
         name: conjunto.nombre,
-        line: { 
+        line: {
           color: COLOR_PALETTE[idx % COLOR_PALETTE.length],
           width: 1.5
         }
       });
     });
-    
+
     return plotData;
   }, [calculateMembership]);
 
@@ -280,18 +280,18 @@ function Variables() {
       setMessage('Ingresa un nombre para el conjunto');
       return;
     }
-    
+
     const updatedConjuntos = [...currentVariable.conjuntos];
-    const existingIndex = updatedConjuntos.findIndex(c => 
+    const existingIndex = updatedConjuntos.findIndex(c =>
       c.nombre === currentSet.originalName || c.nombre === currentSet.nombre
     );
-    
+
     const newSet = {
       nombre: currentSet.nombre,
       puntos: [...currentSet.puntos],
       tipo: currentVariable.tipo
     };
-    
+
     if (existingIndex >= 0) {
       updatedConjuntos[existingIndex] = newSet;
       setMessage('Conjunto actualizado');
@@ -299,11 +299,11 @@ function Variables() {
       updatedConjuntos.push(newSet);
       setMessage('Conjunto creado');
     }
-    
+
     setCurrentVariable(prev => ({ ...prev, conjuntos: updatedConjuntos }));
     setCurrentSet({ nombre: '', puntos: [], originalName: null });
     setSelectedSet(null);
-    
+
     // Actualizar visibilidad
     setVisibleSets(prev => ({ ...prev, [newSet.nombre]: true }));
   };
@@ -314,7 +314,7 @@ function Variables() {
       setMessage('Ingresa un nombre para la variable');
       return;
     }
-    
+
     if (currentVariable.conjuntos.length === 0) {
       setMessage('Añade al menos un conjunto');
       return;
@@ -325,7 +325,7 @@ function Variables() {
       esVariable: currentVariable.tipoVariable,  // Asegúrate de que 'tipoVariable' es 'entrada' o 'salida'
       id: currentVariable.id || Date.now()  // Asignar id si es nueva
     };
-    
+
     try {
       // Si estás actualizando
       if (currentVariable.id) {
@@ -353,7 +353,7 @@ function Variables() {
         setVariables(prev => [...prev, newVariable]);
         setMessage('Variable creada');
       }
-      
+
       // Resetear estado
       setCurrentVariable({
         nombre: '',
@@ -362,10 +362,10 @@ function Variables() {
         conjuntos: [],
         tipoVariable: 'entrada'
       });
-      
+
       setCurrentSet({ nombre: '', puntos: [], originalName: null });
       setSelectedSet(null);
-        
+
       setMessage('Variable guardada correctamente');
     } catch (error) {
       console.error('Error al guardar la variable:', error);
@@ -375,7 +375,7 @@ function Variables() {
 
   // Editar variable existente
   const handleEditVariable = (variable) => {
-    setCurrentVariable({...variable});
+    setCurrentVariable({ ...variable });
     setCurrentSet({ nombre: '', puntos: [], originalName: null });
     setSelectedSet(null);
     setMessage('Variable cargada para edición');
@@ -384,18 +384,18 @@ function Variables() {
   // Eliminar variable
   const handleDeleteVariable = async (variableId) => {
     if (!window.confirm('¿Eliminar esta variable?')) return;
-    
+
     try {
       const response = await fetch(`http://localhost:8000/variables/${variableId}`, {
         method: 'DELETE'
       });
-      
+
       if (response.ok) {
         // Vuelve a cargar las variables después de eliminar
         const updatedResponse = await fetch('http://localhost:8000/variables/');
         const updatedData = await updatedResponse.json();
         setVariables(updatedData);
-        
+
         if (currentVariable.id === variableId) {
           setCurrentVariable({
             nombre: '',
@@ -418,12 +418,12 @@ function Variables() {
       ...prev,
       conjuntos: prev.conjuntos.filter(s => s.nombre !== setName)
     }));
-    
+
     if (selectedSet === setName) {
       setSelectedSet(null);
       setCurrentSet({ nombre: '', puntos: [], originalName: null });
     }
-    
+
     setMessage('Conjunto eliminado');
   };
 
@@ -437,7 +437,7 @@ function Variables() {
 
   // Obtener etiquetas según el tipo de función
   const getPointLabels = () => {
-    switch(currentVariable.tipo) {
+    switch (currentVariable.tipo) {
       case 'triangular':
         return ['Izquierda', 'Centro', 'Derecha'];
       case 'trapezoidal':
@@ -452,15 +452,15 @@ function Variables() {
   return (
     <div className="variables-container">
       <h1>Editor de Variables Difusas</h1>
-      
+
       {message && <div className="message">{message}</div>}
-      
+
       <div className="main-grid">
         {/* Panel izquierdo */}
         <div className="left-panel">
           <div className="section variable-section">
             <h2>Variable</h2>
-            
+
             <div className="form-row">
               <label>Nombre:</label>
               <input
@@ -469,32 +469,32 @@ function Variables() {
                 onChange={handleVariableNameChange}
               />
             </div>
-            
+
             <div className="form-row">
               <label>Rango:</label>
-              <input 
-                type="number" 
-                value={currentVariable.rango[0]} 
+              <input
+                type="number"
+                value={currentVariable.rango[0]}
                 onChange={(e) => setCurrentVariable({
-                  ...currentVariable, 
+                  ...currentVariable,
                   rango: [parseFloat(e.target.value), currentVariable.rango[1]]
                 })}
               />
-              <input 
-                type="number" 
-                value={currentVariable.rango[1]} 
+              <input
+                type="number"
+                value={currentVariable.rango[1]}
                 onChange={(e) => setCurrentVariable({
-                  ...currentVariable, 
+                  ...currentVariable,
                   rango: [currentVariable.rango[0], parseFloat(e.target.value)]
                 })}
               />
             </div>
-            
+
             <div className="form-row">
               <label>Tipo:</label>
-              <select 
+              <select
                 value={currentVariable.tipo}
-                onChange={(e) => setCurrentVariable({...currentVariable, tipo: e.target.value})}
+                onChange={(e) => setCurrentVariable({ ...currentVariable, tipo: e.target.value })}
               >
                 {Object.entries(FUZZY_TYPES).map(([key, config]) => (
                   <option key={key} value={key}>{config.name}</option>
@@ -502,8 +502,8 @@ function Variables() {
               </select>
             </div>
 
-            
-            <div className="form-row"> 
+
+            <div className="form-row">
               <label>Tipo de Variable:</label>
               <select
                 value={currentVariable.tipoVariable}
@@ -516,35 +516,35 @@ function Variables() {
               </select>
             </div>
 
-            
+
             <div className="variable-section-footer">
               <button className="save-variable-btn" onClick={handleSaveVariable}>
                 {currentVariable.id ? 'Actualizar Variable' : 'Guardar Variable'}
               </button>
             </div>
           </div>
-          
+
           <div className="section">
-          <div className='CuadrarBoton'>
-          <h2>Conjunto</h2>
-            <div className='conjunto-boton'>
-                    <button className='boton-guardar-conjunto' onClick={handleNewSet}>+</button>
-                  </div>
-              
+            <div className='CuadrarBoton'>
+              <h2>Conjunto</h2>
+              <div className='conjunto-boton'>
+                <button className='boton-guardar-conjunto' onClick={handleNewSet}>+</button>
               </div>
-              <div className="form-row">
-                <label>Nombre:</label>
-                <div className="conjunto-form">
-                  <input
-                    type="text"
-                    value={currentSet.nombre}
-                    onChange={handleSetNameChange}
-                  />
-                </div>
+
+            </div>
+            <div className="form-row">
+              <label>Nombre:</label>
+              <div className="conjunto-form">
+                <input
+                  type="text"
+                  value={currentSet.nombre}
+                  onChange={handleSetNameChange}
+                />
               </div>
-            
+            </div>
+
             {currentSet.nombre && currentSet.puntos.length > 0 && (
-              <div className="points-editor">
+              <><div className="points-editor">
                 {getPointLabels().map((label, index) => (
                   <div className="form-row" key={index}>
                     <label>{label}:</label>
@@ -552,43 +552,46 @@ function Variables() {
                       type="number"
                       value={currentSet.puntos[index] || ''}
                       onChange={(e) => handlePointChange(index, parseFloat(e.target.value))}
-                      step="0.1"
-                    />
+                      step="0.1" />
                   </div>
                 ))}
-                
-                <button className='GuardarConjunto' onClick={handleSaveSet}>Guardar Conjunto</button>
               </div>
+                <div className="variable-section-footer">
+                  <button className="save-variable-btn" onClick={handleSaveSet}>
+                    Guardar Conjuntos
+                  </button>
+                </div>
+              </>
             )}
           </div>
-          
-          <h2>Variables de Entrada</h2>
-            <div className="variables-list">
-              {variables.filter(v => v.tipoVariable === 'entrada').map((variable) => (
-                <div key={variable.id} className="variable-item">
-                  <span>{variable.nombre}</span>
-                  <div>
-                    <button onClick={() => handleEditVariable(variable)}>Editar</button>
-                    <button onClick={() => handleDeleteVariable(variable.id)}>Eliminar</button>
-                  </div>
-                </div>
-              ))}
-            </div>
 
-            <h2>Variables de Salida</h2>
-            <div className="variables-list">
-              {variables.filter(v => v.tipoVariable === 'salida').map((variable) => (
-                <div key={variable.id} className="variable-item">
-                  <span>{variable.nombre}</span>
-                  <div>
-                    <button onClick={() => handleEditVariable(variable)}>Editar</button>
-                    <button onClick={() => handleDeleteVariable(variable.id)}>Eliminar</button>
-                  </div>
+          <h2>Variables de Entrada</h2>
+          <div className="variables-list">
+            {variables.filter(v => v.tipoVariable === 'entrada').map((variable) => (
+              <div key={variable.id} className="variable-item">
+                <span>{variable.nombre}</span>
+                <div>
+                  <button onClick={() => handleEditVariable(variable)}>Editar</button>
+                  <button onClick={() => handleDeleteVariable(variable.id)}>Eliminar</button>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
+          </div>
+          <br />
+          <h2>Variables de Salida</h2>
+          <div className="variables-list">
+            {variables.filter(v => v.tipoVariable === 'salida').map((variable) => (
+              <div key={variable.id} className="variable-item">
+                <span>{variable.nombre}</span>
+                <div>
+                  <button onClick={() => handleEditVariable(variable)}>Editar</button>
+                  <button onClick={() => handleDeleteVariable(variable.id)}>Eliminar</button>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
-        
+
         {/* Panel derecho */}
         <div className="right-panel">
           <div className="plot-container">
@@ -600,11 +603,11 @@ function Variables() {
               style={{ width: '100%', height: '400px' }}
             />
           </div>
-          
+
           {currentVariable.conjuntos.length > 0 && (
             <div className="conjuntos-list">
               <h3>Conjuntos de {currentVariable.nombre}</h3>
-              
+
               <div className="conjunto-items">
                 {currentVariable.conjuntos.map((conjunto, idx) => (
                   <div key={idx} className="conjunto-item">
@@ -629,14 +632,14 @@ function Variables() {
           )}
 
           <div >
-            <button className='botonPanelDerecho'>
-              <Link to="/reglas"><FaCogs  />  Ir a Reglas →</Link>
-            </button>
+            <ul className="nav-reglas">
+              <li>
+                <Link to="/reglas"><FaCogs />  Ir a Reglas →</Link>
+              </li>
+            </ul>
           </div>
-
         </div>
       </div>
-      
       {variables.length > 0 && (
         <div className="saved-variables-preview">
           <h2>Visualización de Variables Guardadas</h2>

@@ -1,364 +1,367 @@
-import React, { useState, useEffect } from 'react';
-import Plot from 'react-plotly.js';
-import '../styles/Pages.css';
-import '../styles/Resultados.css';
+import { useEffect, useState } from "react";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ReferenceLine, ResponsiveContainer } from "recharts";
+import '../styles/Resultados.css'
 
-function Resultados() {
-  // Estado para los resultados
-  const [servicio, setServicio] = useState(0);
-  const [comida, setComida] = useState(0);
-  const [propina, setPropina] = useState(5.08);
+function Simulador() {
+  const [inputVars, setInputVars] = useState([]);
+  const [outputVars, setOutputVars] = useState([]);
+  const [allVars, setAllVars] = useState({});
+  const [inputValues, setInputValues] = useState({});
+  const [resultados, setResultados] = useState(null);
+  const [mensaje, setMensaje] = useState("");
+  const [pertenenciasEntrada, setPertenenciasEntrada] = useState({});
+  const [cargando, setCargando] = useState(false);
+  const [funcionesMembresia, setFuncionesMembresia] = useState({});
+  
+  // Colores para gráficas
+  const colors = ["#8884d8", "#82ca9d", "#ffc658", "#ff8042", "#0088fe", "#00C49F", "#FFBB28", "#FF8042"];
 
-  // Funciones para manejar el cambio de los sliders
-  const handleServicioChange = (e) => setServicio(parseFloat(e.target.value));
-  const handleComidaChange = (e) => setComida(parseFloat(e.target.value));
-  const handlePropinaChange = (e) => setPropina(parseFloat(e.target.value));
-
-  // Actualizar automáticamente propina cuando cambia servicio o comida
+  // Cargar variables
   useEffect(() => {
-    // Normalmente, esta lógica vendría de un sistema difuso
-    // Aquí simplemente hacemos una demostración
-    const propinaCalculada = (servicio * 0.3 + comida * 0.7).toFixed(2);
-    // No actualizamos automáticamente para permitir el control manual
-    // setPropina(propinaCalculada);
-  }, [servicio, comida]);
+    setCargando(true);
+    fetch("http://localhost:8000/variables/")
+      .then(res => res.json())
+      .then(data => {
+        const entradas = data.filter(v => v.tipoVariable === "entrada");
+        const salidas = data.filter(v => v.tipoVariable === "salida");
+        
+        // Crear un objeto con todas las variables para referencia fácil
+        const varsObj = {};
+        data.forEach(v => {
+          varsObj[v.nombre] = v;
+        });
+        
+        setInputVars(entradas);
+        setOutputVars(salidas);
+        setAllVars(varsObj);
 
-  // Configuración común para los plots
-  const commonPlotLayout = {
-    width: 250,
-    height: 150,
-    margin: { l: 30, r: 20, t: 30, b: 30 },
-    showlegend: false,
-    xaxis: { range: [0, 10] },
-    yaxis: { range: [0, 1], showticklabels: false }
+        // Inicializar inputValues
+        const inicial = {};
+        entradas.forEach(v => {
+          inicial[v.nombre] = v.rango[0];  // valor mínimo como predeterminado
+        });
+        setInputValues(inicial);
+        
+        // Generar funciones de membresía para visualización
+        generarFuncionesMembresia(varsObj);
+      })
+      .catch(() => setMensaje("Error al cargar variables"))
+      .finally(() => setCargando(false));
+  }, []);
+
+  // Generar datos para las funciones de membresía
+  const generarFuncionesMembresia = (variables) => {
+    const funciones = {};
+    
+    Object.values(variables).forEach(variable => {
+      const { nombre, rango, conjuntos, tipo } = variable;
+      const min = rango[0];
+      const max = rango[1];
+      const paso = (max - min) / 100;
+      
+      const datosConjuntos = [];
+      
+      // Generar 100 puntos para cada rango
+      for (let x = min; x <= max; x += paso) {
+        const punto = { x };
+        
+        // Calcular valor de pertenencia para cada conjunto
+        conjuntos.forEach(conjunto => {
+          const { nombre: nombreConjunto, puntos } = conjunto;
+          
+          let valor = 0;
+          if (tipo === "triangular") {
+            // Función triangular: a, b, c
+            if (x <= puntos[0] || x >= puntos[2]) {
+              valor = 0;
+            } else if (x <= puntos[1]) {
+              valor = (x - puntos[0]) / (puntos[1] - puntos[0]);
+            } else {
+              valor = (puntos[2] - x) / (puntos[2] - puntos[1]);
+            }
+          } else if (tipo === "trapezoidal") {
+            // Función trapezoidal: a, b, c, d
+            if (x <= puntos[0] || x >= puntos[3]) {
+              valor = 0;
+            } else if (x >= puntos[1] && x <= puntos[2]) {
+              valor = 1;
+            } else if (x < puntos[1]) {
+              valor = (x - puntos[0]) / (puntos[1] - puntos[0]);
+            } else {
+              valor = (puntos[3] - x) / (puntos[3] - puntos[2]);
+            }
+          } else if (tipo === "gaussiana") {
+            // Función gaussiana: media, desviación
+            const media = puntos[0];
+            const desv = puntos[1];
+            valor = Math.exp(-Math.pow((x - media) / desv, 2) / 2);
+          }
+          
+          punto[nombreConjunto] = valor;
+        });
+        
+        datosConjuntos.push(punto);
+      }
+      
+      funciones[nombre] = datosConjuntos;
+    });
+    
+    setFuncionesMembresia(funciones);
   };
 
-  // Configuración para el plot grande de propina (el último)
-  const bigPlotLayout = {
-    ...commonPlotLayout,
-    height: 180,
-    xaxis: { range: [0, 30] },
-    yaxis: { range: [0, 1], showticklabels: false }
+  // Manejar cambios en los inputs
+  const handleChange = (nombre, valor) => {
+    setInputValues(prev => ({
+      ...prev,
+      [nombre]: parseFloat(valor)
+    }));
+    
+    // Calcular pertenencias para este valor
+    calcularPertenenciaVariable(nombre, parseFloat(valor));
   };
-
-  // Crear la línea vertical para el servicio
-  const servicioLine = {
-    type: 'line',
-    x0: servicio,
-    y0: 0,
-    x1: servicio,
-    y1: 1,
-    line: {
-      color: 'red',
-      width: 2
+  
+  // Calcular pertenencia de una variable
+  const calcularPertenenciaVariable = async (nombre, valor) => {
+    try {
+      const response = await fetch(`http://localhost:8000/variables/${nombre}/calcular_pertinencia?valor=${valor}`, {
+        method: "POST"
+      });
+      
+      if (!response.ok) throw new Error("Error al calcular pertenencia");
+      const data = await response.json();
+      
+      setPertenenciasEntrada(prev => ({
+        ...prev,
+        [nombre]: data
+      }));
+    } catch (error) {
+      console.error("Error al calcular pertenencia:", error);
     }
   };
 
-  // Crear la línea vertical para la comida
-  const comidaLine = {
-    type: 'line',
-    x0: comida,
-    y0: 0,
-    x1: comida,
-    y1: 1,
-    line: {
-      color: 'red',
-      width: 2
+  // Calcular pertenencias para todas las variables de entrada
+  const calcularTodasPertenencias = async () => {
+    const pertenencias = {};
+    for (const [nombre, valor] of Object.entries(inputValues)) {
+      try {
+        const response = await fetch(`http://localhost:8000/variables/${nombre}/calcular_pertinencia?valor=${valor}`, {
+          method: "POST"
+        });
+        
+        if (response.ok) {
+          const data = await response.json();
+          pertenencias[nombre] = data;
+        }
+      } catch (error) {
+        console.error(`Error al calcular pertenencia para ${nombre}:`, error);
+      }
+    }
+    
+    setPertenenciasEntrada(pertenencias);
+  };
+
+  // Enviar para evaluación
+  const evaluarSistemaDifuso = async () => {
+    setCargando(true);
+    setMensaje("Evaluando sistema difuso...");
+    
+    try {
+      // Primero calculamos todas las pertenencias
+      await calcularTodasPertenencias();
+      
+      const response = await fetch("http://localhost:8000/evaluar/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(inputValues)
+      });
+
+      if (!response.ok) throw new Error("Error al evaluar");
+      const data = await response.json();
+      setResultados(data);
+      setMensaje("Evaluación realizada con éxito");
+    } catch (error) {
+      setMensaje("Error al evaluar el sistema difuso");
+      console.error(error);
+    } finally {
+      setCargando(false);
     }
   };
 
-  // Crear la línea vertical para la propina
-  const propinaLine = {
-    type: 'line',
-    x0: propina,
-    y0: 0,
-    x1: propina,
-    y1: 1,
-    line: {
-      color: 'red',
-      width: 2
-    }
+  // Formatear los datos para la visualización de pertenencias
+  const formatearDatosPertenencia = (variable, pertenencias) => {
+    if (!pertenencias) return [];
+    
+    return Object.entries(pertenencias).map(([conjunto, valor]) => ({
+      conjunto,
+      valor: parseFloat(valor.toFixed(2))
+    }));
   };
-
-  // Agregar las líneas a los layouts
-  const servicioLayout = {
-    ...commonPlotLayout,
-    shapes: [servicioLine]
+  
+  // Crear datos para la línea de referencia en gráficas de funciones de membresía
+  const obtenerLineaReferencia = (nombreVar) => {
+    if (!inputValues[nombreVar]) return null;
+    return inputValues[nombreVar];
   };
-
-  const comidaLayout = {
-    ...commonPlotLayout,
-    shapes: [comidaLine]
-  };
-
-  const propinaLayouts = [
-    { ...commonPlotLayout, shapes: [propinaLine] },
-    { ...commonPlotLayout, shapes: [propinaLine] },
-    { ...commonPlotLayout, shapes: [propinaLine] },
-    { ...bigPlotLayout, shapes: [propinaLine] }
-  ];
 
   return (
-    <div className="page-container">
-      <h1>🧪 Resultados</h1>
-      <p>Ajusta los sliders para ver cómo responde el sistema difuso.</p>
+    <div className="evaluador-container">
+      <h2>Simulador de Sistema Difuso</h2>
 
-      {/* Contenedor principal con 3 columnas */}
-      <div className="resultados-container">
-        {/* Columna 1: Servicio (3 gráficas) */}
-        <div className="columna">
-          <h3>Servicio = {servicio}</h3>
-          {/* Slider para controlar servicio */}
-          <div className="slider-container">
-            <label htmlFor="servicioSlider">
-              Ajustar Servicio:
-            </label>
-            <input
-              type="range"
-              id="servicioSlider"
-              min="0"
-              max="10"
-              step="0.1"
-              value={servicio}
-              onChange={handleServicioChange}
-            />
-          </div>
-
-          <div className="graficas-container">
-            {/* Números de la izquierda */}
-            <div className="numero-indicador numero-indicador-1 destacado">1</div>
-            <div className="numero-indicador numero-indicador-2">2</div>
-            <div className="numero-indicador numero-indicador-3">3</div>
-            
-            {/* Primera gráfica de Servicio (Bueno) */}
-            <div className="grafica-wrapper">
-              <Plot
-                data={[
-                  {
-                    x: [0, 2, 5, 10],
-                    y: [1, 0.8, 0.2, 0],
-                    type: 'scatter',
-                    mode: 'lines',
-                    fill: 'tozeroy',
-                    line: { color: 'yellow' },
-                    fillcolor: 'rgba(255, 255, 0, 0.6)'
-                  },
-                ]}
-                layout={servicioLayout}
-              />
-            </div>
-
-            {/* Segunda gráfica de Servicio (Regular) */}
-            <div className="grafica-wrapper">
-              <Plot
-                data={[
-                  {
-                    x: [0, 5, 10],
-                    y: [0, 1, 0],
-                    type: 'scatter',
-                    mode: 'lines',
-                    line: { color: '#666', dash: 'dash' },
-                  },
-                ]}
-                layout={servicioLayout}
-              />
-            </div>
-
-            {/* Tercera gráfica de Servicio (Malo) */}
-            <div className="grafica-wrapper">
-              <Plot
-                data={[
-                  {
-                    x: [0, 5, 10],
-                    y: [0, 0, 1],
-                    type: 'scatter',
-                    mode: 'lines',
-                    line: { color: '#666', dash: 'dash' },
-                  },
-                ]}
-                layout={servicioLayout}
-              />
-            </div>
-            
-            {/* Etiquetas del eje X */}
-            <div className="etiquetas-eje">
-              <span className="etiqueta-roja">0</span>
-              <span className="etiqueta-roja">10</span>
-            </div>
-          </div>
+      {mensaje && <div className="mensaje">{mensaje}</div>}
+      
+      <div className="simulador-layout">
+        <div className="panel-entradas">
+          <h3>Variables de Entrada</h3>
           
-        </div>
-
-        {/* Columna 2: Comida (2 gráficas) */}
-        <div className="columna">
-          <h3>Comida = {comida}</h3>
-           {/* Slider para controlar comida */}
-           <div className="slider-container">
-            <label htmlFor="comidaSlider">
-              Ajustar Comida:
-            </label>
-            <input
-              type="range"
-              id="comidaSlider"
-              min="0"
-              max="10"
-              step="0.1"
-              value={comida}
-              onChange={handleComidaChange}
-            />
-          </div>
-
-          <div className="graficas-container">
-            {/* Números de la izquierda */}
-            <div className="numero-indicador numero-indicador-1 destacado">1</div>
-            <div className="numero-indicador numero-indicador-2">2</div>
-            
-            {/* Primera gráfica de Comida (Rancia) */}
-            <div className="grafica-wrapper">
-              <Plot
-                data={[
-                  {
-                    x: [0, 5, 10],
-                    y: [1, 0.2, 0],
-                    type: 'scatter',
-                    mode: 'lines',
-                    fill: 'tozeroy',
-                    line: { color: 'yellow' },
-                    fillcolor: 'rgba(255, 255, 0, 0.6)'
-                  },
-                ]}
-                layout={comidaLayout}
-              />
+          {inputVars.map((variable, index) => (
+            <div key={variable.nombre} className="variable-entrada">
+              <div className="control-input">
+                <label>{variable.nombre} ({variable.rango[0]} - {variable.rango[1]}): </label>
+                <input
+                  type="number"
+                  value={inputValues[variable.nombre] || ""}
+                  onChange={(e) => handleChange(variable.nombre, e.target.value)}
+                  min={variable.rango[0]}
+                  max={variable.rango[1]}
+                  step="0.1"
+                />
+                <input
+                  type="range"
+                  value={inputValues[variable.nombre] || variable.rango[0]}
+                  onChange={(e) => handleChange(variable.nombre, e.target.value)}
+                  min={variable.rango[0]}
+                  max={variable.rango[1]}
+                  step="0.1"
+                />
+              </div>
+              
+              {/* Gráfica de función de membresía */}
+              {funcionesMembresia[variable.nombre] && (
+                <div className="grafica-membresia">
+                  <ResponsiveContainer width="100%" height={200}>
+                    <LineChart
+                      data={funcionesMembresia[variable.nombre]}
+                      margin={{ top: 5, right: 20, left: 10, bottom: 5 }}
+                    >
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis 
+                        dataKey="x" 
+                        domain={[variable.rango[0], variable.rango[1]]}
+                        type="number"
+                        allowDecimals={true}
+                      />
+                      <YAxis domain={[0, 1]} />
+                      <Tooltip />
+                      <Legend />
+                      {variable.conjuntos.map((conjunto, i) => (
+                        <Line
+                          key={conjunto.nombre}
+                          type="monotone"
+                          dataKey={conjunto.nombre}
+                          stroke={colors[i % colors.length]}
+                          dot={false}
+                          activeDot={{ r: 8 }}
+                        />
+                      ))}
+                      {inputValues[variable.nombre] && (
+                        <ReferenceLine
+                          x={inputValues[variable.nombre]}
+                          stroke="red"
+                          strokeWidth={2}
+                          strokeDasharray="3 3"
+                          label={{ value: inputValues[variable.nombre], position: 'top' }}
+                        />
+                      )}
+                    </LineChart>
+                  </ResponsiveContainer>
+                </div>
+              )}
+              
+              {/* Pertenencias calculadas */}
+              {pertenenciasEntrada[variable.nombre] && (
+                <div className="pertenencias-calculadas">
+                  <h4>Pertenencias</h4>
+                  <div className="barras-pertenencia">
+                    {Object.entries(pertenenciasEntrada[variable.nombre]).map(([conjunto, valor], i) => (
+                      <div key={conjunto} className="barra-container">
+                        <div className="barra-label">{conjunto}</div>
+                        <div className="barra-valor" style={{ 
+                          width: `${valor * 100}%`,
+                          backgroundColor: colors[i % colors.length]
+                        }}>
+                          {valor.toFixed(2)}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
-
-            {/* Segunda gráfica de Comida (Deliciosa) */}
-            <div className="grafica-wrapper">
-              <Plot
-                data={[
-                  {
-                    x: [0, 5, 10],
-                    y: [0, 0, 1],
-                    type: 'scatter',
-                    mode: 'lines',
-                    line: { color: '#666', dash: 'dash' },
-                  },
-                ]}
-                layout={comidaLayout}
-              />
-            </div>
-            
-            {/* Etiquetas del eje X */}
-            <div className="etiquetas-eje">
-              <span className="etiqueta-roja">0</span>
-              <span className="etiqueta-roja">10</span>
-            </div>
-          </div>
+          ))}
           
-         
+          <button 
+            onClick={evaluarSistemaDifuso} 
+            disabled={cargando}
+            className="boton-evaluar"
+          >
+            {cargando ? "Evaluando..." : "Evaluar Sistema Difuso"}
+          </button>
         </div>
-
-        {/* Columna 3: Propina (4 gráficas) */}
-        <div className="columna">
-          <h3>Propina = {propina}</h3>
-          {/* Slider para controlar propina */}
-          <div className="slider-container">
-            <label htmlFor="propinaSlider">
-              Ajustar Propina:
-            </label>
-            <input
-              type="range"
-              id="propinaSlider"
-              min="0"
-              max="30"
-              step="0.01"
-              value={propina}
-              onChange={handlePropinaChange}
-            />
-          </div>
-          <div className="graficas-container">
-            <div className="numero-indicador numero-indicador-1 destacado">1</div>
-            <div className="numero-indicador numero-indicador-2">2</div>
-            <div className="numero-indicador numero-indicador-3">3</div>
-            <div className="numero-indicador numero-indicador-4">4</div>
-            {/* Primera gráfica de Propina (Mala) */}
-            <div className="grafica-wrapper">
-              <Plot
-                data={[
-                  {
-                    x: [0, 5, 10],
-                    y: [0, 1, 0],
-                    type: 'scatter',
-                    mode: 'lines',
-                    fill: 'tozeroy',
-                    line: { color: 'blue' },
-                    fillcolor: 'rgba(0, 0, 255, 0.6)'
-                  },
-                ]}
-                layout={propinaLayouts[0]}
-              />
-            </div>
-
-            {/* Segunda gráfica de Propina (Media) */}
-            <div className="grafica-wrapper">
-              <Plot
-                data={[
-                  {
-                    x: [5, 10, 15],
-                    y: [0, 1, 0],
-                    type: 'scatter',
-                    mode: 'lines',
-                    line: { color: '#666' },
-                  },
-                ]}
-                layout={propinaLayouts[1]}
-              />
-            </div>
-
-            {/* Tercera gráfica de Propina (Buena) */}
-            <div className="grafica-wrapper">
-              <Plot
-                data={[
-                  {
-                    x: [15, 20, 25],
-                    y: [0, 1, 0],
-                    type: 'scatter',
-                    mode: 'lines',
-                    line: { color: '#666' },
-                  },
-                ]}
-                layout={propinaLayouts[2]}
-              />
-            </div>
-
-            {/* Cuarta gráfica de Propina (grande, Línea de corte) */}
-            <div className="grafica-wrapper">
-              <Plot
-                data={[
-                  {
-                    x: [0, 5, 10],
-                    y: [0, 1, 0],
-                    type: 'scatter',
-                    mode: 'lines',
-                    fill: 'tozeroy',
-                    line: { color: 'blue' },
-                    fillcolor: 'rgba(0, 0, 255, 0.6)'
-                  },
-                ]}
-                layout={propinaLayouts[3]}
-              />
-            </div>
+        
+        {resultados && (
+          <div className="panel-resultados">
+            <h3>Resultados de la Evaluación</h3>
             
-            {/* Etiquetas del eje X para la columna de propina */}
-            <div className="etiquetas-eje-propina">
-              <span className="etiqueta-roja">0</span>
-              <span className="etiqueta-roja">30</span>
+            <div className="valores-salida">
+              {Object.entries(resultados).map(([nombre, valor]) => (
+                <div key={nombre} className="resultado-variable">
+                  <h4>{nombre}</h4>
+                  <div className="valor-resultado">{valor.toFixed(2)}</div>
+                  
+                  {/* Gráfica para variable de salida */}
+                  {funcionesMembresia[nombre] && (
+                    <div className="grafica-resultado">
+                      <ResponsiveContainer width="100%" height={200}>
+                        <LineChart
+                          data={funcionesMembresia[nombre]}
+                          margin={{ top: 5, right: 20, left: 10, bottom: 5 }}
+                        >
+                          <CartesianGrid strokeDasharray="3 3" />
+                          <XAxis 
+                            dataKey="x" 
+                            domain={[allVars[nombre]?.rango[0], allVars[nombre]?.rango[1]]}
+                            type="number"
+                          />
+                          <YAxis domain={[0, 1]} />
+                          <Tooltip />
+                          <Legend />
+                          {allVars[nombre]?.conjuntos.map((conjunto, i) => (
+                            <Line
+                              key={conjunto.nombre}
+                              type="monotone"
+                              dataKey={conjunto.nombre}
+                              stroke={colors[i % colors.length]}
+                              dot={false}
+                            />
+                          ))}
+                          <ReferenceLine
+                            x={valor}
+                            stroke="red"
+                            strokeWidth={2}
+                            label={{ value: valor.toFixed(2), position: 'top' }}
+                          />
+                        </LineChart>
+                      </ResponsiveContainer>
+                    </div>
+                  )}
+                </div>
+              ))}
             </div>
           </div>
-          
-        </div>
+        )}
       </div>
     </div>
   );
 }
 
-export default Resultados;
+export default Simulador;

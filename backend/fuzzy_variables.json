@@ -1,36 +1,36 @@
 [
   {
-    "nombre": "Temperatura",
+    "nombre": "Calidad del Servicio",
     "rango": [
       0.0,
-      50.0
+      10.0
     ],
     "tipo": "triangular",
     "conjuntos": [
       {
-        "nombre": "Frio",
+        "nombre": "Malo",
         "puntos": [
           0,
-          0,
-          20
+          2,
+          5
         ],
         "tipo": "triangular"
       },
       {
-        "nombre": "Templado",
+        "nombre": "Regular",
         "puntos": [
-          15,
-          25,
-          35
+          2,
+          5,
+          8
         ],
         "tipo": "triangular"
       },
       {
-        "nombre": "Caliente",
+        "nombre": "Excelente",
         "puntos": [
-          30,
-          50,
-          50
+          5,
+          8,
+          10
         ],
         "tipo": "triangular"
       }
@@ -39,23 +39,81 @@
     "id": 1
   },
   {
-    "nombre": "Altura",
+    "nombre": "Calidad de la Comida",
     "rango": [
       0.0,
-      100.0
+      10.0
     ],
     "tipo": "triangular",
     "conjuntos": [
       {
-        "nombre": "Alto",
+        "nombre": "Mala",
         "puntos": [
-          1,
-          20,
-          40
+          0,
+          3,
+          6
+        ],
+        "tipo": "triangular"
+      },
+      {
+        "nombre": "Buena",
+        "puntos": [
+          3,
+          6,
+          9
+        ],
+        "tipo": "triangular"
+      },
+      {
+        "nombre": "Deliciosa",
+        "puntos": [
+          6,
+          9,
+          10
         ],
         "tipo": "triangular"
       }
     ],
+    "tipoVariable": "entrada",
     "id": 2
+  },
+  {
+    "nombre": "Propina",
+    "rango": [
+      0.0,
+      20.0
+    ],
+    "tipo": "triangular",
+    "conjuntos": [
+      {
+        "nombre": "Poca",
+        "puntos": [
+          0,
+          5,
+          10
+        ],
+        "tipo": "triangular"
+      },
+      {
+        "nombre": "Media",
+        "puntos": [
+          5,
+          10,
+          15
+        ],
+        "tipo": "triangular"
+      },
+      {
+        "nombre": "Generosa",
+        "puntos": [
+          10,
+          15,
+          20
+        ],
+        "tipo": "triangular"
+      }
+    ],
+    "tipoVariable": "salida",
+    "id": 3
   }
 ]
