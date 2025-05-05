@@ -29,20 +29,37 @@ function Reglas() {
         if (!response.ok) throw new Error('Error al cargar variables');
         const data = await response.json();
         setVariables(data);
-
+  
         // Separar variables de entrada y salida
-        setOutputVariables(data.filter(v => v.tipoVariable === 'salida'));
-
+        const salidas = data.filter(v => v.tipoVariable === 'salida');
+        setOutputVariables(salidas);
+  
         // Inicializar la regla actual con todas las variables
-        initializeCurrentRule(data, data.filter(v => v.tipoVariable === 'salida'));
+        initializeCurrentRule(data, salidas);
       } catch (error) {
         console.error('Error al cargar las variables:', error);
         showMessage('Error al cargar las variables', 'error');
       }
     };
-
+  
+    const fetchReglas = async () => {
+      try {
+        const response = await fetch('http://localhost:8000/reglas/');
+        if (!response.ok) throw new Error('Error al cargar reglas');
+        const data = await response.json();
+        if (Array.isArray(data)) {
+          setReglas(data);
+        }
+      } catch (error) {
+        console.error('Error al cargar las reglas:', error);
+        showMessage('Error al cargar las reglas', 'error');
+      }
+    };
+  
     fetchVariables();
-  }, []);  // Solo se ejecuta una vez al montar el componente
+    fetchReglas();
+  }, []);
+  
 
   // Inicializar la regla actual
   const initializeCurrentRule = (inputVars, outputVars) => {
@@ -179,6 +196,9 @@ function Reglas() {
 
     // Cambiar a la pestaña de lista de reglas después de guardar
     setActiveTab('list');
+
+    // 👉 Aquí es donde debes poner el llamado para enviar al backend
+    sendRulesToBackend(updatedRules);
   };
 
   // Editar regla existente
@@ -299,6 +319,31 @@ function Reglas() {
 
     return `SI ${antecedentesText} ENTONCES ${consecuentesText} (${rule.peso})`;
   };
+
+
+  const sendRulesToBackend = async (reglasParaGuardar) => {
+    try {
+      const response = await fetch('http://localhost:8000/reglas/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(reglasParaGuardar)
+      });
+  
+      if (!response.ok) throw new Error('Error al guardar las reglas');
+      showMessage('Reglas guardadas en el backend', 'success');
+    } catch (error) {
+      console.error(error);
+      showMessage('No se pudieron guardar las reglas', 'error');
+    }
+  };
+  
+
+
+///////////////////////////////
+
+
 
   return (
     <div className="reglas-container">

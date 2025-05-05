@@ -1,36 +1,36 @@
 [
   {
-    "nombre": "Temperatura",
+    "nombre": "Calidad del Servicio",
     "rango": [
       0.0,
-      50.0
+      10.0
     ],
     "tipo": "triangular",
     "conjuntos": [
       {
-        "nombre": "Frio",
+        "nombre": "Malo",
         "puntos": [
           0,
-          0,
-          20
+          2,
+          5
         ],
         "tipo": "triangular"
       },
       {
-        "nombre": "Templado",
+        "nombre": "Regular",
         "puntos": [
-          15,
-          25,
-          35
+          2,
+          5,
+          8
         ],
         "tipo": "triangular"
       },
       {
-        "nombre": "Caliente",
+        "nombre": "Excelente",
         "puntos": [
-          30,
-          50,
-          50
+          5,
+          8,
+          10
         ],
         "tipo": "triangular"
       }
@@ -39,120 +39,81 @@
     "id": 1
   },
   {
-    "nombre": "Velocidad",
+    "nombre": "Calidad de la Comida",
     "rango": [
       0.0,
-      100.0
+      10.0
     ],
     "tipo": "triangular",
     "conjuntos": [
       {
-        "nombre": "Baja",
+        "nombre": "Mala",
         "puntos": [
           0,
+          3,
+          6
+        ],
+        "tipo": "triangular"
+      },
+      {
+        "nombre": "Buena",
+        "puntos": [
+          3,
+          6,
+          9
+        ],
+        "tipo": "triangular"
+      },
+      {
+        "nombre": "Deliciosa",
+        "puntos": [
+          6,
+          9,
+          10
+        ],
+        "tipo": "triangular"
+      }
+    ],
+    "tipoVariable": "entrada",
+    "id": 2
+  },
+  {
+    "nombre": "Propina",
+    "rango": [
+      0.0,
+      20.0
+    ],
+    "tipo": "triangular",
+    "conjuntos": [
+      {
+        "nombre": "Poca",
+        "puntos": [
           0,
-          40
+          5,
+          10
         ],
         "tipo": "triangular"
       },
       {
         "nombre": "Media",
         "puntos": [
-          30,
-          50,
-          70
+          5,
+          10,
+          15
         ],
         "tipo": "triangular"
       },
       {
-        "nombre": "Alta",
+        "nombre": "Generosa",
         "puntos": [
-          60,
-          100,
-          100
+          10,
+          15,
+          20
         ],
         "tipo": "triangular"
       }
     ],
     "tipoVariable": "salida",
-    "id": 2
-  },
-  {
-    "nombre": "Humedad",
-    "rango": [
-      0.0,
-      100.0
-    ],
-    "tipo": "triangular",
-    "conjuntos": [
-      {
-        "nombre": "Baja",
-        "puntos": [
-          0,
-          0,
-          40
-        ],
-        "tipo": "triangular"
-      },
-      {
-        "nombre": "Media",
-        "puntos": [
-          30,
-          50,
-          70
-        ],
-        "tipo": "triangular"
-      },
-      {
-        "nombre": "Alta",
-        "puntos": [
-          60,
-          100,
-          100
-        ],
-        "tipo": "triangular"
-      }
-    ],
-    "tipoVariable": "entrada",
     "id": 3
-  },
-  {
-    "nombre": "Tiempo",
-    "rango": [
-      0.0,
-      60.0
-    ],
-    "tipo": "triangular",
-    "conjuntos": [
-      {
-        "nombre": "lento",
-        "puntos": [
-          0,
-          10,
-          25
-        ],
-        "tipo": "triangular"
-      },
-      {
-        "nombre": "medio",
-        "puntos": [
-          20,
-          30,
-          45
-        ],
-        "tipo": "triangular"
-      },
-      {
-        "nombre": "rapido",
-        "puntos": [
-          40,
-          50,
-          60
-        ],
-        "tipo": "triangular"
-      }
-    ],
-    "tipoVariable": "entrada",
-    "id": 4
   }
 ]
