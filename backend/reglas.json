@@ -1,0 +1,122 @@
+[
+  {
+    "id": 1746471800718,
+    "antecedentes": [
+      {
+        "variable": "Calidad del Servicio",
+        "conjunto": "Malo",
+        "negado": false
+      },
+      {
+        "variable": "Calidad de la Comida",
+        "conjunto": "Mala",
+        "negado": false
+      }
+    ],
+    "consecuentes": [
+      {
+        "variable": "Propina",
+        "conjunto": "Poca",
+        "negado": false
+      }
+    ],
+    "peso": 1,
+    "operador": "AND"
+  },
+  {
+    "id": 1746471820131,
+    "antecedentes": [
+      {
+        "variable": "Calidad del Servicio",
+        "conjunto": "Regular",
+        "negado": false
+      },
+      {
+        "variable": "Calidad de la Comida",
+        "conjunto": "Buena",
+        "negado": false
+      }
+    ],
+    "consecuentes": [
+      {
+        "variable": "Propina",
+        "conjunto": "Media",
+        "negado": false
+      }
+    ],
+    "peso": 1,
+    "operador": "AND"
+  },
+  {
+    "id": 1746471840350,
+    "antecedentes": [
+      {
+        "variable": "Calidad del Servicio",
+        "conjunto": "Excelente",
+        "negado": false
+      },
+      {
+        "variable": "Calidad de la Comida",
+        "conjunto": "Deliciosa",
+        "negado": false
+      }
+    ],
+    "consecuentes": [
+      {
+        "variable": "Propina",
+        "conjunto": "Generosa",
+        "negado": false
+      }
+    ],
+    "peso": 1,
+    "operador": "AND"
+  },
+  {
+    "id": 1746471876820,
+    "antecedentes": [
+      {
+        "variable": "Calidad del Servicio",
+        "conjunto": "Regular",
+        "negado": false
+      },
+      {
+        "variable": "Calidad de la Comida",
+        "conjunto": "Buena",
+        "negado": false
+      }
+    ],
+    "consecuentes": [
+      {
+        "variable": "Propina",
+        "conjunto": "Media",
+        "negado": false
+      }
+    ],
+    "peso": 1,
+    "operador": "AND"
+  },
+  {
+    "id": 1746471893474,
+    "antecedentes": [
+      {
+        "variable": "Calidad del Servicio",
+        "conjunto": "Excelente",
+        "negado": false
+      },
+      {
+        "variable": "Calidad de la Comida",
+        "conjunto": "Buena",
+        "negado": false
+      }
+    ],
+    "consecuentes": [
+      {
+        "variable": "Propina",
+        "conjunto": "Generosa",
+        "negado": false
+      }
+    ],
+    "peso": 1,
+    "operador": "AND"
+  }
+]
