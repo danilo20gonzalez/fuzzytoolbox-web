@@ -78,6 +78,13 @@ h4 {
   padding: 15px;
 }
 
+.variables-panel {
+  border-top: 4px solid #19a04d;
+}
+.variables2-panel {
+  border-top: 4px solid #19a04d;
+}
+
 .section {
   margin-bottom: 20px;
   padding-bottom: 15px;
@@ -183,7 +190,7 @@ h4 {
 
 /* Botones */
 .segundo-boton:not(.botonPanelDerecho) {
-  background-color: #3b82f6;
+  background-color: #38bd6b;
   color: rgb(255, 255, 255);
   border: none;
   padding: 8px 12px;
@@ -195,7 +202,7 @@ h4 {
 }
 
 .segundo-boton:hover {
-  background-color: #312ecc;
+  background-color: #088036;
   transform: translateY(-2px);
 }
 
@@ -205,7 +212,7 @@ h4 {
 }
 
 .boton-actu-guardar{
-  background-color: #3b82f6;
+  background-color: #38bd6b;
   color: rgb(255, 255, 255);
   border: none;
   padding: 8px 12px;
@@ -221,7 +228,7 @@ h4 {
 }
 
 .save-variable-btn {
-  background-color: #3b82f6;
+  background-color: #38bd6b;
   color: rgb(255, 255, 255);
   border: none;
   padding: 8px 12px;
@@ -242,7 +249,7 @@ h4 {
 }
 
 .boton-guardar-conjunto {
-  background-color: #3b82f6;
+  background-color: #38bd6b;
   color: rgb(255, 255, 255);
   border: none;
   padding: 8px 12px;
@@ -260,7 +267,7 @@ h4 {
 }
   
 .save-variable-btn:hover, .boton-guardar-conjunto:hover, .boton-actu-guardar:hover {
-  background-color: #312ecc;
+  background-color: #088036;
   transform: translateY(-2px);
 }
 

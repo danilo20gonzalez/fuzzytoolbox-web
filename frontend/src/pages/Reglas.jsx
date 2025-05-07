@@ -547,10 +547,7 @@ function Reglas() {
 
       {activeTab === 'list' && (
         <div className="rules-list-panel">
-          <div className="panel-header">
-            <h1 className="panel-title">Lista de Reglas</h1>
-          </div>
-
+            <h2 className="panel-title">Lista de Reglas</h2>
           <div className="search-container">
             <div className="search-box">
               <span className="search-icon">🔍</span>
@@ -570,12 +567,13 @@ function Reglas() {
                 </button>
               )}
             </div>
-            <div className="rules-count">
-              {rules.length} {rules.length === 1 ? 'regla' : 'reglas'}
-              {filterText && ` (mostrando ${filteredRules.length})`}
-            </div>
           </div>
 
+          <div className="rules-count">
+              {rules.length} {rules.length === 1 ? 'regla' : 'reglas'}
+              {filterText && ` (mostrando ${filteredRules.length})`}
+          </div>
+          <br/>
           <div className="rules-list">
             {filteredRules.length === 0 ? (
               <div className="empty-state">

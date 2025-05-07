@@ -9,8 +9,8 @@ function Navbar() {
 
   const routeColors = {
         '/': { background: 'linear-gradient(90deg, #3b82f6, #38bd6b,rgb(196, 43, 158))' },       // Degradado lineal azul, verde, rosa
-        '/variables': { background: 'linear-gradient(90deg,rgb(127, 171, 241),rgb(67, 62, 165))' },  // Verde para Variables
-        '/reglas': { background: 'linear-gradient(90deg,rgb(114, 172, 128), #28a745)' },     // Rojo para Reglas
+        '/variables': { background: 'linear-gradient(90deg, #3b82f6, #38bd6b)' },  // Verde para Variables
+        '/reglas': { background: 'linear-gradient(140deg,rgb(1, 207, 80),rgb(255, 0, 191))' },     // Rojo para Reglas
         '/simulador': { background: 'linear-gradient(90deg,rgb(176, 114, 233),rgb(140, 34, 238))' }   // Amarillo para Simulador
   };
 
