@@ -205,7 +205,7 @@ function Simulador() {
 
   return (
     <div className="evaluador-container">
-      <h2>Simulador de Sistema Difuso</h2>
+      <h1>Simulador de Sistema Difuso</h1>
 
       {mensaje && <div className="mensaje">{mensaje}</div>}
       

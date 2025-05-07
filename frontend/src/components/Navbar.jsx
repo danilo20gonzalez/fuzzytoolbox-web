@@ -7,9 +7,21 @@ import '../styles/Navbar.css';
 function Navbar() {
   const location = useLocation();
 
+  const routeColors = {
+        '/': { background: 'linear-gradient(90deg, #3b82f6, #38bd6b,rgb(196, 43, 158))' },       // Degradado lineal azul, verde, rosa
+        '/variables': { background: 'linear-gradient(90deg, #3b82f6, #38bd6b)' },  // Verde para Variables
+        '/reglas': { background: 'linear-gradient(140deg,rgb(1, 207, 80),rgb(255, 0, 191))' },     // Rojo para Reglas
+        '/simulador': { background: 'linear-gradient(90deg,rgb(176, 114, 233),rgb(140, 34, 238))' }   // Amarillo para Simulador
+  };
+
+  const navbarStyle = {
+        background: routeColors[location.pathname]?.background || '#333', // Usar 'background' para el degradado
+        transition: 'background-color 0.3s ease' // La transición ahora afectará al 'background'
+      };
+
   return (
     <motion.nav
-      className="navbar"
+      className="navbar" style={navbarStyle}
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.8 }}

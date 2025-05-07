@@ -3,6 +3,8 @@ import Plot from 'react-plotly.js';
 import "../styles/Variables.css"
 import { Link } from 'react-router-dom';
 import { FaProjectDiagram, FaCogs, FaPlay } from 'react-icons/fa';
+
+
 // Configuración de tipos de funciones difusas
 const FUZZY_TYPES = {
   triangular: {
@@ -43,6 +45,8 @@ function Variables() {
     puntos: [],
     originalName: null
   });
+
+  const [isSaveVariableButtonVisible, setIsSaveVariableButtonVisible] = useState(false);
 
   // Estados de UI
   const [selectedSet, setSelectedSet] = useState(null);
@@ -306,6 +310,7 @@ function Variables() {
 
     // Actualizar visibilidad
     setVisibleSets(prev => ({ ...prev, [newSet.nombre]: true }));
+    setIsSaveVariableButtonVisible(true);
   };
 
   // Guardar variable
@@ -457,7 +462,7 @@ function Variables() {
 
       <div className="main-grid">
         {/* Panel izquierdo */}
-        <div className="left-panel">
+        <div className="left-panel variables-panel">
           <div className="section variable-section">
             <h2>Variable</h2>
 
@@ -515,13 +520,6 @@ function Variables() {
                 <option value="salida">Salida</option>
               </select>
             </div>
-
-
-            <div className="variable-section-footer">
-              <button className="save-variable-btn" onClick={handleSaveVariable}>
-                {currentVariable.id ? 'Actualizar Variable' : 'Guardar Variable'}
-              </button>
-            </div>
           </div>
 
           <div className="section">
@@ -571,8 +569,8 @@ function Variables() {
               <div key={variable.id} className="variable-item">
                 <span>{variable.nombre}</span>
                 <div>
-                  <button onClick={() => handleEditVariable(variable)}>Editar</button>
-                  <button onClick={() => handleDeleteVariable(variable.id)}>Eliminar</button>
+                  <button className="segundo-boton" onClick={() => handleEditVariable(variable)}>Editar</button>
+                  <button className="segundo-boton" onClick={() => handleDeleteVariable(variable.id)}>Eliminar</button>
                 </div>
               </div>
             ))}
@@ -584,8 +582,8 @@ function Variables() {
               <div key={variable.id} className="variable-item">
                 <span>{variable.nombre}</span>
                 <div>
-                  <button onClick={() => handleEditVariable(variable)}>Editar</button>
-                  <button onClick={() => handleDeleteVariable(variable.id)}>Eliminar</button>
+                  <button className="segundo-boton" onClick={() => handleEditVariable(variable)}>Editar</button>
+                  <button className="segundo-boton" onClick={() => handleDeleteVariable(variable.id)}>Eliminar</button>
                 </div>
               </div>
             ))}
@@ -593,7 +591,7 @@ function Variables() {
         </div>
 
         {/* Panel derecho */}
-        <div className="right-panel">
+        <div className="right-panel variables2-panel">
           <div className="plot-container">
             <Plot
               ref={plotRef}
@@ -617,31 +615,31 @@ function Variables() {
                       onChange={() => toggleSetVisibility(conjunto.nombre)}
                     />
                     <span>{conjunto.nombre}</span>
-                    <button onClick={() => {
+                    <button className="segundo-boton" onClick={() => {
                       setCurrentSet({
                         nombre: conjunto.nombre,
                         originalName: conjunto.nombre,
                         puntos: [...conjunto.puntos]
                       });
                     }}>Editar</button>
-                    <button onClick={() => handleDeleteSet(conjunto.nombre)}>X</button>
+                    <button className="segundo-boton" onClick={() => handleDeleteSet(conjunto.nombre)}>X</button>
                   </div>
                 ))}
               </div>
             </div>
           )}
-
-          <div >
-            <ul className="nav-reglas">
-              <li>
-                <Link to="/reglas"><FaCogs />  Ir a Reglas →</Link>
-              </li>
-            </ul>
+          {isSaveVariableButtonVisible && (
+          <div className="variable-section-footer">
+            <button className="boton-actu-guardar" onClick={handleSaveVariable}>
+              {currentVariable.id ? 'Actualizar Variable' : 'Guardar Variable ✓'}
+            </button>
           </div>
+          )}
         </div>
       </div>
+      <br />
       {variables.length > 0 && (
-        <div className="saved-variables-preview">
+        <div className="saved-variables-preview variables-panel">
           <h2>Visualización de Variables Guardadas</h2>
           <div className="variables-grid">
             {variables.map((variable) => (
@@ -662,14 +660,21 @@ function Variables() {
                   />
                 </div>
                 <div className="variable-actions">
-                  <button onClick={() => handleEditVariable(variable)}>Editar</button>
-                  <button onClick={() => handleDeleteVariable(variable.id)}>Eliminar</button>
+                  <button className="segundo-boton" onClick={() => handleEditVariable(variable)}>Editar</button>
+                  <button className="segundo-boton" onClick={() => handleDeleteVariable(variable.id)}>Eliminar</button>
                 </div>
               </div>
             ))}
           </div>
         </div>
       )}
+      <div >
+        <ul className="nav-reglas">
+          <li>
+            <Link to="/reglas"><FaCogs />  Ir a Reglas →</Link>
+          </li>
+        </ul>
+      </div>
     </div>
   );
 }

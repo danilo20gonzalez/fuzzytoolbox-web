@@ -118,5 +118,53 @@
     ],
     "peso": 1,
     "operador": "AND"
+  },
+  {
+    "id": 1746594180006,
+    "antecedentes": [
+      {
+        "variable": "Calidad del Servicio",
+        "conjunto": "Malo",
+        "negado": false
+      },
+      {
+        "variable": "Calidad de la Comida",
+        "conjunto": "Deliciosa",
+        "negado": false
+      }
+    ],
+    "consecuentes": [
+      {
+        "variable": "Propina",
+        "conjunto": "Poca",
+        "negado": false
+      }
+    ],
+    "peso": 1,
+    "operador": "AND"
+  },
+  {
+    "id": 1746595765725,
+    "antecedentes": [
+      {
+        "variable": "Calidad del Servicio",
+        "conjunto": "Regular",
+        "negado": false
+      },
+      {
+        "variable": "Calidad de la Comida",
+        "conjunto": "Deliciosa",
+        "negado": false
+      }
+    ],
+    "consecuentes": [
+      {
+        "variable": "Propina",
+        "conjunto": "Generosa",
+        "negado": false
+      }
+    ],
+    "peso": 1,
+    "operador": "AND"
   }
 ]
