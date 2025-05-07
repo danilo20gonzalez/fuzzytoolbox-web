@@ -3,6 +3,7 @@ import Plot from 'react-plotly.js';
 import "../styles/Variables.css"
 import { Link } from 'react-router-dom';
 import { FaProjectDiagram, FaCogs, FaPlay } from 'react-icons/fa';
+
 // Configuración de tipos de funciones difusas
 const FUZZY_TYPES = {
   triangular: {
@@ -515,13 +516,6 @@ function Variables() {
                 <option value="salida">Salida</option>
               </select>
             </div>
-
-
-            <div className="variable-section-footer">
-              <button className="save-variable-btn" onClick={handleSaveVariable}>
-                {currentVariable.id ? 'Actualizar Variable' : 'Guardar Variable'}
-              </button>
-            </div>
           </div>
 
           <div className="section">
@@ -571,8 +565,8 @@ function Variables() {
               <div key={variable.id} className="variable-item">
                 <span>{variable.nombre}</span>
                 <div>
-                  <button onClick={() => handleEditVariable(variable)}>Editar</button>
-                  <button onClick={() => handleDeleteVariable(variable.id)}>Eliminar</button>
+                  <button className="segundo-boton" onClick={() => handleEditVariable(variable)}>Editar</button>
+                  <button className="segundo-boton" onClick={() => handleDeleteVariable(variable.id)}>Eliminar</button>
                 </div>
               </div>
             ))}
@@ -584,8 +578,8 @@ function Variables() {
               <div key={variable.id} className="variable-item">
                 <span>{variable.nombre}</span>
                 <div>
-                  <button onClick={() => handleEditVariable(variable)}>Editar</button>
-                  <button onClick={() => handleDeleteVariable(variable.id)}>Eliminar</button>
+                  <button className="segundo-boton" onClick={() => handleEditVariable(variable)}>Editar</button>
+                  <button className="segundo-boton" onClick={() => handleDeleteVariable(variable.id)}>Eliminar</button>
                 </div>
               </div>
             ))}
@@ -617,26 +611,23 @@ function Variables() {
                       onChange={() => toggleSetVisibility(conjunto.nombre)}
                     />
                     <span>{conjunto.nombre}</span>
-                    <button onClick={() => {
+                    <button className="segundo-boton" onClick={() => {
                       setCurrentSet({
                         nombre: conjunto.nombre,
                         originalName: conjunto.nombre,
                         puntos: [...conjunto.puntos]
                       });
                     }}>Editar</button>
-                    <button onClick={() => handleDeleteSet(conjunto.nombre)}>X</button>
+                    <button className="segundo-boton" onClick={() => handleDeleteSet(conjunto.nombre)}>X</button>
                   </div>
                 ))}
               </div>
             </div>
           )}
-
-          <div >
-            <ul className="nav-reglas">
-              <li>
-                <Link to="/reglas"><FaCogs />  Ir a Reglas →</Link>
-              </li>
-            </ul>
+          <div className="variable-section-footer">
+            <button className="boton-actu-guardar" onClick={handleSaveVariable}>
+              {currentVariable.id ? 'Actualizar Variable' : 'Guardar Variable ✓'}
+            </button>
           </div>
         </div>
       </div>
@@ -662,14 +653,21 @@ function Variables() {
                   />
                 </div>
                 <div className="variable-actions">
-                  <button onClick={() => handleEditVariable(variable)}>Editar</button>
-                  <button onClick={() => handleDeleteVariable(variable.id)}>Eliminar</button>
+                  <button className="segundo-boton" onClick={() => handleEditVariable(variable)}>Editar</button>
+                  <button className="segundo-boton" onClick={() => handleDeleteVariable(variable.id)}>Eliminar</button>
                 </div>
               </div>
             ))}
           </div>
         </div>
       )}
+      <div >
+        <ul className="nav-reglas">
+          <li>
+            <Link to="/reglas"><FaCogs />  Ir a Reglas →</Link>
+          </li>
+        </ul>
+      </div>
     </div>
   );
 }

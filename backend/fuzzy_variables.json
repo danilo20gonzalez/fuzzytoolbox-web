@@ -11,7 +11,7 @@
         "nombre": "Malo",
         "puntos": [
           0,
-          2,
+          0,
           5
         ],
         "tipo": "triangular"
@@ -29,7 +29,7 @@
         "nombre": "Excelente",
         "puntos": [
           5,
-          8,
+          10,
           10
         ],
         "tipo": "triangular"
@@ -50,7 +50,7 @@
         "nombre": "Mala",
         "puntos": [
           0,
-          3,
+          0,
           6
         ],
         "tipo": "triangular"
@@ -68,7 +68,7 @@
         "nombre": "Deliciosa",
         "puntos": [
           6,
-          9,
+          10,
           10
         ],
         "tipo": "triangular"
@@ -89,7 +89,7 @@
         "nombre": "Poca",
         "puntos": [
           0,
-          5,
+          0,
           10
         ],
         "tipo": "triangular"
@@ -107,7 +107,7 @@
         "nombre": "Generosa",
         "puntos": [
           10,
-          15,
+          20,
           20
         ],
         "tipo": "triangular"
@@ -115,5 +115,44 @@
     ],
     "tipoVariable": "salida",
     "id": 3
+  },
+  {
+    "nombre": "Satisfaccion",
+    "rango": [
+      0.0,
+      100.0
+    ],
+    "tipo": "triangular",
+    "conjuntos": [
+      {
+        "nombre": "mala",
+        "puntos": [
+          null,
+          0,
+          34.9
+        ],
+        "tipo": "triangular"
+      },
+      {
+        "nombre": "regular",
+        "puntos": [
+          25,
+          48,
+          70
+        ],
+        "tipo": "triangular"
+      },
+      {
+        "nombre": "Excelente",
+        "puntos": [
+          60,
+          100,
+          100
+        ],
+        "tipo": "triangular"
+      }
+    ],
+    "tipoVariable": "salida",
+    "id": 4
   }
 ]
