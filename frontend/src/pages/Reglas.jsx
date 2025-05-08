@@ -48,7 +48,7 @@ function Reglas() {
         if (!response.ok) throw new Error('Error al cargar reglas');
         const data = await response.json();
         if (Array.isArray(data)) {
-          setReglas(data);
+          setRules(data);
         }
       } catch (error) {
         console.error('Error al cargar las reglas:', error);
