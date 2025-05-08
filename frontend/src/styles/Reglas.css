@@ -3,7 +3,7 @@
   --primary-color: #4a6bff;
   --primary-light: #eef1ff;
   --primary-dark: #3951bf;
-  --tercer-color: #df25b0;
+  --tercer-color: #9f09b3;
   --secondary-color: #6c757d;
   --success-color: #28a745;
   --danger-color: #dc3545;
@@ -91,7 +91,7 @@
 }
 
 .nav-resultados li a {
-  background-color:#df25b0;
+  background-color: var(--tercer-color);
   display: flex; /* Convierte el enlace en un contenedor Flexbox */
   align-items: center; /* Centra verticalmente el icono y el texto */
   justify-content: center; /* Centra horizontalmente el icono y el texto */
@@ -109,7 +109,7 @@
 }
 
 .nav-resultados li a:hover {
-  background-color: #912178;
+  background-color: #b3499c;
   transform: translateY(-3px);
 }
 
@@ -611,8 +611,8 @@
 .search-input {
   width: 100%;
   padding: 10px 40px 10px 36px;
-  border-radius: var(--radius);
-  border: 1px solid var(--medium-gray);
+  border-radius: 12px;
+  border: 2px solid rgb(151, 151, 151);
   font-size: 14px;
   transition: var(--transition);
 }
