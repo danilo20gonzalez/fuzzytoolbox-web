@@ -11,7 +11,7 @@
         "nombre": "Malo",
         "puntos": [
           0,
-          2,
+          0,
           5
         ],
         "tipo": "triangular"
@@ -29,7 +29,7 @@
         "nombre": "Excelente",
         "puntos": [
           5,
-          8,
+          10,
           10
         ],
         "tipo": "triangular"
@@ -50,7 +50,7 @@
         "nombre": "Mala",
         "puntos": [
           0,
-          3,
+          0,
           6
         ],
         "tipo": "triangular"
@@ -68,7 +68,7 @@
         "nombre": "Deliciosa",
         "puntos": [
           6,
-          9,
+          10,
           10
         ],
         "tipo": "triangular"
@@ -86,11 +86,11 @@
     "tipo": "triangular",
     "conjuntos": [
       {
-        "nombre": "Poca",
+        "nombre": "Baja",
         "puntos": [
+          null,
           0,
-          5,
-          10
+          8
         ],
         "tipo": "triangular"
       },
@@ -99,15 +99,15 @@
         "puntos": [
           5,
           10,
-          15
+          15.1
         ],
         "tipo": "triangular"
       },
       {
-        "nombre": "Generosa",
+        "nombre": "Alta",
         "puntos": [
-          10,
-          15,
+          13,
+          20,
           20
         ],
         "tipo": "triangular"
