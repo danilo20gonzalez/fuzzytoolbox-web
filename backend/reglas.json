@@ -166,5 +166,28 @@
     ],
     "peso": 1,
     "operador": "AND"
+  },
+  {
+    "id": 1746683811587,
+    "antecedentes": [
+      {
+        "variable": "Calidad del Servicio",
+        "conjunto": "Excelente",
+        "negado": false
+      },
+      {
+        "variable": "Calidad de la Comida",
+        "conjunto": "Deliciosa",
+        "negado": false
+      }
+    ],
+    "consecuentes": [
+      {
+        "variable": "Propina",
+        "conjunto": "Alta",
+        "negado": false
+      }
+    ],
+    "operador": "AND"
   }
 ]
