@@ -1,5 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import '../styles/Reglas.css';
+import { Link } from 'react-router-dom';
+import { FaProjectDiagram, FaCogs, FaPlay } from 'react-icons/fa';
 
 function Reglas() {
   // Estados principales
@@ -10,7 +12,6 @@ function Reglas() {
     id: null,
     antecedentes: [],
     consecuentes: [],
-    peso: 1.0,
     operador: 'AND'
   });
 
@@ -79,7 +80,6 @@ function Reglas() {
       id: null,
       antecedentes: newAntecedentes,
       consecuentes: newConsecuentes,
-      peso: 1.0,
       operador: 'AND'
     });
   };
@@ -317,7 +317,7 @@ function Reglas() {
       })
       .join(' Y ');
 
-    return `SI ${antecedentesText} ENTONCES ${consecuentesText} (${rule.peso})`;
+    return `SI ${antecedentesText} ENTONCES ${consecuentesText}`;
   };
 
 
@@ -347,21 +347,22 @@ function Reglas() {
 
   return (
     <div className="reglas-container">
+      <h1>Editor de Reglas Difusas</h1>
       <header className="reglas-header">
-        <h1>Editor de Reglas Difusas</h1>
+        
         <div className="tabs-navigation">
           <button
             className={`tab-button ${activeTab === 'create' ? 'active' : ''}`}
             onClick={() => setActiveTab('create')}
           >
-            <span className="tab-icon">✏️</span>
+            <span className="tab-icon">1.</span>
             {editMode ? 'Editar Regla' : 'Crear Regla'}
           </button>
           <button
             className={`tab-button ${activeTab === 'list' ? 'active' : ''}`}
             onClick={() => setActiveTab('list')}
           >
-            <span className="tab-icon">📋</span>
+            <span className="tab-icon">2.</span>
             Lista de Reglas
           </button>
         </div>
@@ -375,7 +376,7 @@ function Reglas() {
 
           <div className="rule-builder">
             {/* Panel de Variables de Entrada (Antecedentes) */}
-            <div className="variables-panel antecedentes-panel">
+            <div className="variables-panel consecuentes-panel">
               <div className="panel-header">
                 <h3><span className="step-number">1</span> Variables de Entrada (SI)</h3>
                 <p className="panel-description">Selecciona las condiciones de entrada</p>
@@ -515,10 +516,10 @@ function Reglas() {
 
           {/* Vista previa de la regla */}
 
-          <div className="rule-preview-section resultados-panel">
+          <div className="rule-preview-section consecuentes-panel">
             <div className="panel-header">
               <h3><span className="step-number">3</span> Vista Previa</h3>
-              <button>
+              <button className='primary-button'>
                 + Crear Reglas Automaticas
               </button>
             </div>
@@ -539,29 +540,14 @@ function Reglas() {
             </div>
           </div>
         </div>
-
+        
 
 
       )}
 
       {activeTab === 'list' && (
         <div className="rules-list-panel">
-          <div className="panel-header">
             <h2 className="panel-title">Lista de Reglas</h2>
-            <div className="panel-actions">
-              <button
-                className="add-rule-button"
-                onClick={() => {
-                  resetCurrentRule();
-                  setActiveTab('create');
-                }}
-              >
-                <span className="button-icon">+</span>
-                Nueva Regla
-              </button>
-            </div>
-          </div>
-
           <div className="search-container">
             <div className="search-box">
               <span className="search-icon">🔍</span>
@@ -581,12 +567,13 @@ function Reglas() {
                 </button>
               )}
             </div>
-            <div className="rules-count">
-              {rules.length} {rules.length === 1 ? 'regla' : 'reglas'}
-              {filterText && ` (mostrando ${filteredRules.length})`}
-            </div>
           </div>
 
+          <div className="rules-count">
+              {rules.length} {rules.length === 1 ? 'regla' : 'reglas'}
+              {filterText && ` (mostrando ${filteredRules.length})`}
+          </div>
+          <br/>
           <div className="rules-list">
             {filteredRules.length === 0 ? (
               <div className="empty-state">
@@ -620,7 +607,6 @@ function Reglas() {
                   >
                     <div className="rule-card-header">
                       <div className="rule-number">Regla {index + 1}</div>
-                      <div className="rule-weight">Peso: {rule.peso.toFixed(1)}</div>
                     </div>
                     <div className="rule-card-content">
                       <div className="rule-text">{generateRuleText(rule)}</div>
@@ -648,6 +634,14 @@ function Reglas() {
           </div>
         </div>
       )}
+
+      <div className="panel-actions">
+        <ul className="nav-resultados">
+          <li>
+            <Link to="/simulador"><FaPlay />  Ir a los resultados →</Link>
+          </li>
+        </ul>
+      </div>
     </div>
   );
 }

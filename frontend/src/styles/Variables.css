@@ -3,7 +3,7 @@
   font-family: 'Arial', sans-serif;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 2rem;
   color: #333;
 }
 
@@ -78,6 +78,13 @@ h4 {
   padding: 15px;
 }
 
+.variables-panel {
+  border-top: 4px solid #19a04d;
+}
+.variables2-panel {
+  border-top: 4px solid #19a04d;
+}
+
 .section {
   margin-bottom: 20px;
   padding-bottom: 15px;
@@ -99,6 +106,7 @@ h4 {
   margin-top: 15px;
   display: flex;
   justify-content: center;
+
 }
 
 /* Formularios */
@@ -118,7 +126,9 @@ h4 {
   display: flex;
   list-style: none;
   align-items: center; /* Centra verticalmente los items dentro de la barra de navegación */
-  justify-content: center;
+  justify-content: flex-end;
+  transition: all 0.3s ease;
+
 }
 
 .nav-reglas li {
@@ -126,7 +136,7 @@ h4 {
 }
 
 .nav-reglas li a {
-  background-color: #2ecc71;
+  background-color: #159e37;
   display: flex; /* Convierte el enlace en un contenedor Flexbox */
   align-items: center; /* Centra verticalmente el icono y el texto */
   justify-content: center; /* Centra horizontalmente el icono y el texto */
@@ -144,7 +154,8 @@ h4 {
 }
 
 .nav-reglas li a:hover {
-  background-color: #159e37;
+  background-color:#2ecc71 ;
+  transform: translateY(-2px);
 }
 
 .form-row input[type="text"],
@@ -178,8 +189,46 @@ h4 {
 }
 
 /* Botones */
-button:not(.botonPanelDerecho) {
-  background-color: #2ecc71;
+.segundo-boton:not(.botonPanelDerecho) {
+  background-color: #38bd6b;
+  color: rgb(255, 255, 255);
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  margin-right: 5px;
+  transition: all 0.3s ease;
+}
+
+.segundo-boton:hover {
+  background-color: #088036;
+  transform: translateY(-2px);
+}
+
+.segundo-boton:disabled {
+  background-color: #95a5a6;
+  cursor: not-allowed;
+}
+
+.boton-actu-guardar{
+  background-color: #38bd6b;
+  color: rgb(255, 255, 255);
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 14pt;
+  transition: background-color 0.2s;
+  margin-right: 5px;
+  width: 250px;
+  transition: all 0.3s ease;
+  height: 45px;
+}
+
+.save-variable-btn {
+  background-color: #38bd6b;
   color: rgb(255, 255, 255);
   border: none;
   padding: 8px 12px;
@@ -188,21 +237,9 @@ button:not(.botonPanelDerecho) {
   font-weight: 500;
   transition: background-color 0.2s;
   margin-right: 5px;
-}
-
-button:not(.botonPanelDerecho):hover {
-  background-color: #159e37;
-}
-
-button:not(.botonPanelDerecho):disabled {
-  background-color: #95a5a6;
-  cursor: not-allowed;
-}
-
-.save-variable-btn {
   width: 180px;
+  transition: all 0.3s ease;
   font-size: 1.05rem;
-  background-color: #2ecc71;
 }
 
 .CuadrarBoton {
@@ -212,16 +249,26 @@ button:not(.botonPanelDerecho):disabled {
 }
 
 .boton-guardar-conjunto {
-  background-color: #3498db;
+  background-color: #38bd6b;
+  color: rgb(255, 255, 255);
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s;
+  margin-right: 5px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-size: 20px;
   font-weight: bold;
+  transition: all 0.3s ease;
 }
   
-.save-variable-btn:hover {
-  background-color: #27ae60;
+.save-variable-btn:hover, .boton-guardar-conjunto:hover, .boton-actu-guardar:hover {
+  background-color: #088036;
+  transform: translateY(-2px);
 }
 
 /* Editor de Puntos */

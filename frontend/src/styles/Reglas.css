@@ -3,7 +3,7 @@
   --primary-color: #4a6bff;
   --primary-light: #eef1ff;
   --primary-dark: #3951bf;
-  --tercer-color: #df25b0;
+  --tercer-color: #9f09b3;
   --secondary-color: #6c757d;
   --success-color: #28a745;
   --danger-color: #dc3545;
@@ -23,7 +23,7 @@
   font-family: 'Segoe UI', 'Roboto', 'Oxygen', sans-serif;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 2rem;
   background-color: var(--white);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
@@ -56,27 +56,61 @@
   align-items: center;
   gap: 8px;
   padding: 10px 16px;
-  border: none;
+  border: 1px solid var(--success-color); /* Añadimos un borde gris de 1px de grosor */
   border-radius: var(--radius);
   background-color: var(--light-gray);
-  color: var(--secondary-color);
+  color: rgb(44, 44, 44);
   cursor: pointer;
-  font-weight: 500p;
+  font-weight: 700;
   transition: var(--transition);
 }
 
 .tab-button.active {
-  background-color: var(--primary-color);
-  color: var(--white);
-  box-shadow: 0 2px 4px rgba(74, 107, 255, 0.25);
+  background-color: var(--success-color);
+  color: white;
+  box-shadow: 0 2px 4px rgb(29, 29, 29);
 }
 
 .tab-button:hover:not(.active) {
-  background-color: var(--primary-color);
+  background-color: var(--success-color);
+  transform: translateY(-3px);
 }
 
 .tab-icon {
   font-size: 16px;
+}
+
+.nav-resultados {
+  display: flex;
+  list-style: none;
+  align-items: center; /* Centra verticalmente los items dentro de la barra de navegación */
+}
+
+.nav-resultados li {
+  width: 230px; /* Manteniendo el ancho del item de la lista */
+}
+
+.nav-resultados li a {
+  background-color: var(--tercer-color);
+  display: flex; /* Convierte el enlace en un contenedor Flexbox */
+  align-items: center; /* Centra verticalmente el icono y el texto */
+  justify-content: center; /* Centra horizontalmente el icono y el texto */
+  color: rgb(255, 255, 255);
+  text-decoration: none;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  font-weight: 600;
+}
+
+.nav-resultados li a svg {
+  margin-right: 0.5rem;
+  font-size: 1.0rem;
+}
+
+.nav-resultados li a:hover {
+  background-color: #b3499c;
+  transform: translateY(-3px);
 }
 
 /* Mensajes de alerta */
@@ -145,15 +179,8 @@
   height: 100%;
 }
 
-.antecedentes-panel {
-  border-top: 4px solid var(--primary-color);
-}
 
 .consecuentes-panel {
-  border-top: 4px solid var(--success-color);
-}
-
-.resultados-panel {
   border-top: 4px solid var(--tercer-color);
 }
 
@@ -178,7 +205,7 @@
   justify-content: center;
   width: 24px;
   height: 24px;
-  background-color: var(--primary-color);
+  background-color: var(--success-color);
   color: white;
   border-radius: 50%;
   font-size: 14px;
@@ -249,11 +276,35 @@
 
 .operator-option.selected {
   background-color: var(--primary-light);
-  border-color: var(--primary-color);
+  border-color: var(--success-color);
 }
 
-.operator-option input[type="radio"] {
-  margin: 0;
+.operator-option.selected input[type="radio"] {
+  -webkit-appearance: none; /* Para navegadores basados en WebKit (Chrome, Safari) */
+  -moz-appearance: none;    /* Para Firefox */
+  appearance: none;         /* Estándar */
+  width: 12px; /* Ajusta el tamaño */
+  height: 12px;
+  border: 1px solid var(--success-color); /* Borde verde */
+  border-radius: 50%; /* Para hacerlo circular */
+  background-color: transparent; /* Fondo transparente */
+  display: inline-block;
+  position: relative; /* Para el pseudo-elemento del "punto" interior */
+  vertical-align: middle;
+  margin-right: 8px;
+}
+
+.operator-option.selected input[type="radio"]:checked::before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 8px; /* Tamaño del punto interior */
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--success-color); /* Color verde del punto */
 }
 
 /* Contenedores de variables */
@@ -274,7 +325,7 @@
 }
 
 .rule-input-card.active {
-  border-color: var(--primary-color);
+  border-color: var(--success-color);
   box-shadow: 0 2px 8px rgba(74, 107, 255, 0.15);
 }
 
@@ -310,7 +361,7 @@
 
 .conjunto-select:focus {
   outline: none;
-  border-color: var(--primary-color);
+  border-color: var(--success-color);
   box-shadow: 0 0 0 2px rgba(74, 107, 255, 0.2);
 }
 
@@ -327,7 +378,7 @@
   width: 40px;
   height: 20px;
   border-radius: 10px;
-  background-color: var(--medium-gray);
+  background-color: var(--success-color);
   position: relative;
   cursor: pointer;
   transition: var(--transition);
@@ -454,20 +505,20 @@
 }
 
 .primary-button {
-  background-color: var(--primary-color);
+  background-color: var(--success-color);
   color: white;
   border: none;
   border-radius: var(--radius);
   padding: 12px 24px;
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 700;
   cursor: pointer;
   transition: var(--transition);
   box-shadow: 0 2px 4px rgba(74, 107, 255, 0.25);
 }
 
 .primary-button:hover {
-  background-color: var(--primary-dark);
+  background-color: #2ecc71;
   transform: translateY(-1px);
   box-shadow: 0 4px 6px rgba(74, 107, 255, 0.3);
 }
@@ -504,6 +555,7 @@
 
 .panel-actions {
   display: flex;
+  justify-content: flex-end;
   gap: 12px;
 }
 
@@ -534,7 +586,7 @@
 /* Búsqueda */
 .search-container {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   margin-bottom: 20px;
 }
@@ -542,7 +594,10 @@
 .search-box {
   position: relative;
   flex: 1;
-  max-width: 400px;
+  max-width: 600px;
+  display: flex; /* Convertir en contenedor Flexbox */
+  justify-content: center; /* Centrar horizontalmente los hijos */
+  align-items: center;
 }
 
 .search-icon {
@@ -556,8 +611,8 @@
 .search-input {
   width: 100%;
   padding: 10px 40px 10px 36px;
-  border-radius: var(--radius);
-  border: 1px solid var(--medium-gray);
+  border-radius: 12px;
+  border: 2px solid rgb(151, 151, 151);
   font-size: 14px;
   transition: var(--transition);
 }
@@ -569,24 +624,24 @@
 }
 
 .clear-search {
+  display: flex;
   position: absolute;
-  right: 12px;
+  right: -70px;
   top: 50%;
   transform: translateY(-50%);
   background: none;
   border: none;
-  color: var(--secondary-color);
+  color: red;
   cursor: pointer;
   font-size: 16px;
-  display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
   padding: 4px;
 }
 
 .rules-count {
-  font-size: 14px;
-  color: var(--secondary-color);
+  font-size: 17px;
+  color: rgb(48, 46, 46);
 }
 
 /* Lista de reglas */
@@ -654,18 +709,18 @@
   justify-content: space-between;
   align-items: center;
   padding: 12px 16px;
-  background-color: var(--light-gray);
+  background-color: var(--success-color);
   border-bottom: 1px solid var(--medium-gray);
 }
 
 .rule-number {
-  font-weight: 600;
+  font-weight: 700;
   color: var(--dark-gray);
 }
 
 .rule-weight {
   font-size: 14px;
-  color: var(--secondary-color);
+  color: black;
 }
 
 .rule-card-content {
@@ -687,28 +742,28 @@
   flex: 1;
   padding: 10px;
   border: none;
-  background: none;
+  background: var(--success-color);
   cursor: pointer;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 700;
   transition: var(--transition);
 }
 
 .rule-card-button.edit {
-  color: var(--primary-color);
+  color: white;
   border-right: 1px solid var(--medium-gray);
 }
 
 .rule-card-button.edit:hover {
-  background-color: rgba(74, 107, 255, 0.1);
+  background-color: #68c77e;
 }
 
 .rule-card-button.delete {
-  color: var(--danger-color);
+  color: white;
 }
 
 .rule-card-button.delete:hover {
-  background-color: rgba(220, 53, 69, 0.1);
+  background-color: #68c77e;
 }
 
 /* Responsive design */

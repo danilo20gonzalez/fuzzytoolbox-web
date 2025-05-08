@@ -67,22 +67,11 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Layout principal */
-.simulador-layout {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-}
-
-@media (max-width: 768px) {
-  .simulador-layout {
-    grid-template-columns: 1fr;
-  }
-}
 
 /* Panel de entradas */
 .panel-entradas {
   background-color: white;
+  flex-direction: column;
   border-radius: 10px;
   padding: 1.5rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
@@ -94,6 +83,11 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
+.contenedor-entra {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+}
 /* Variable de entrada */
 .variable-entrada {
   margin-bottom: 2rem;
@@ -168,6 +162,81 @@
   box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
 }
 
+.boton-toggle {
+  background-color: #a64cc2;
+  color: rgb(255, 255, 255);
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  margin-right: 5px;
+  transition: all 0.3s ease;
+  margin-left: 10px;
+}
+
+.boton-toggle:hover {
+  background-color: #57166b;
+  transform: translateY(-2px);
+}
+
+.graficas-por-conjunto {
+  margin: 15px 0;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 10px;
+  background-color: #fafafa;
+}
+
+.grid-graficas {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.grafica-conjunto {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 10px;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.grafica-conjunto h5 {
+  margin-top: 0;
+  margin-bottom: 8px;
+  font-size: 14px;
+  text-align: center;
+  color: #333;
+}
+
+.barras-pertenencia {
+  margin-top: 10px;
+}
+
+/* Responsividad para pantallas medianas */
+@media (max-width: 1200px) {
+  .variables-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Responsividad para pantallas pequeñas */
+@media (max-width: 768px) {
+  .simulador-layout {
+    grid-template-columns: 1fr;
+  }
+  
+  .variables-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .grid-graficas {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* Gráfica de membresía */
 .grafica-membresia {
   margin: 1rem 0;
@@ -228,8 +297,9 @@
 /* Botón de evaluar */
 .boton-evaluar {
   display: block;
-  width: 100%;
+  width: 30%;
   padding: 0.75rem 1rem;
+  margin: 0 auto;
   margin-top: 1.5rem;
   background: linear-gradient(135deg, #3b82f6, #1d4ed8);
   border: none;
