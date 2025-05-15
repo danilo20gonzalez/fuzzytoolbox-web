@@ -62,7 +62,7 @@ function Simulador() {
     const funciones = {};
 
     Object.values(variables).forEach(variable => {
-      const { nombre, rango, conjuntos, tipo } = variable;
+      const { nombre, rango, conjuntos } = variable;
       const min = rango[0];
       const max = rango[1];
       const paso = (max - min) / 100;
@@ -75,9 +75,11 @@ function Simulador() {
 
         // Calcular valor de pertenencia para cada conjunto
         conjuntos.forEach(conjunto => {
-          const { nombre: nombreConjunto, puntos } = conjunto;
+          const { nombre: nombreConjunto, puntos, tipo: tipoConjunto } = conjunto;
+          const tipo = tipoConjunto || variable.tipo; // Usa el tipo del conjunto si existe, sino el de la variable
 
           let valor = 0;
+          
           if (tipo === "triangular") {
             // Función triangular: a, b, c
             if (x <= puntos[0] || x >= puntos[2]) {

@@ -72,12 +72,17 @@ class FuzzyEngine:
             pertinencia = {}
             for conjunto in variable.conjuntos:
                 puntos = conjunto['puntos']
-                if variable.tipo == 'triangular':
+                tipo = conjunto.get('tipo', variable.tipo)  # Usa el tipo del conjunto si existe, sino el de la variable
+                
+                if tipo == 'triangular':
                     pertinencia[conjunto['nombre']] = trimf(np.array([valor]), np.array(puntos))[0]
-                elif variable.tipo == 'trapezoidal':
+                elif tipo == 'trapezoidal':
                     pertinencia[conjunto['nombre']] = trapmf(np.array([valor]), np.array(puntos))[0]
-                elif variable.tipo == 'gaussiana':
+                elif tipo == 'gaussiana':
                     pertinencia[conjunto['nombre']] = gaussmf(np.array([valor]), *puntos)[0]
+                else:
+                    raise ValueError(f"Tipo de función de pertenencia no soportada: {tipo}")
+                    
             return pertinencia
         return None
 
