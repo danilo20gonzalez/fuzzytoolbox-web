@@ -1,0 +1,87 @@
+/* Estilo principal para el componente */
+.data-processor-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px;
+  background-color: #f7f7f7;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  margin: 50px auto;
+}
+
+/* Título */
+h2 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Área de carga de archivos */
+.upload-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+/* Input para archivos */
+.file-input {
+  padding: 15px;
+  font-size: 16px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  border: 2px dashed #007bff;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.file-input:hover {
+  border-color: #0056b3;
+  background-color: #f1f1f1;
+}
+
+/* Botón procesar datos */
+.process-btn {
+  padding: 15px 30px;
+  background-color: #007bff;
+  color: white;
+  font-size: 16px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.process-btn:hover {
+  background-color: #0056b3;
+}
+
+.process-btn:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+/* Mensajes de error */
+.error-message {
+  color: red;
+  font-size: 14px;
+  margin-top: 15px;
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Aplicar animación a todo el contenedor */
+.data-processor-container {
+  animation: fadeIn 0.5s ease-out;
+}
