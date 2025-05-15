@@ -7,6 +7,7 @@ import Inicio from './pages/Inicio'; // ✅
 import Variables from './pages/Variables';
 import Reglas from './pages/Reglas';
 import Simulador from './pages/Simulador';
+import DataProcessor from './pages/DataProcessor';
 import './App.css';
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
           <Route path="/variables" element={<Variables />} />
           <Route path="/reglas" element={<Reglas />} />
           <Route path="/simulador" element={<Simulador />} />
+          <Route path="/dataProcessor" element={<DataProcessor />} />
         </Routes>
       </div>
     </Router>
