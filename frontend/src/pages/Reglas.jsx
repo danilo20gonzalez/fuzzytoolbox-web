@@ -22,6 +22,8 @@ function Reglas() {
   const [selectedRuleIndex, setSelectedRuleIndex] = useState(null);
   const [filterText, setFilterText] = useState('');
   const [activeTab, setActiveTab] = useState('create'); // 'create' o 'list'
+  const [generatedRules, setGeneratedRules] = useState([]);
+  const [showGeneratedRulesEditor, setShowGeneratedRulesEditor] = useState(false);
 
   useEffect(() => {
     const fetchVariables = async () => {
@@ -338,8 +340,77 @@ function Reglas() {
       showMessage('No se pudieron guardar las reglas', 'error');
     }
   };
-  
 
+  // Generar reglas automáticas
+  // Esta función genera reglas automáticas basadas en las variables de entrada
+const generateAutomaticRules = () => {
+    const nuevasReglasGeneradas = [];
+    const variablesEntrada = variables.filter(v => v.tipoVariable !== 'salida');
+
+    // Si no hay variables de entrada, no generamos nada
+    if (variablesEntrada.length === 0) {
+      setShowGeneratedRulesEditor(true);
+      setGeneratedRules([]);
+      return;
+    }
+
+    // Obtenemos todos los conjuntos posibles para cada variable de entrada
+    const conjuntosPorVariable = variablesEntrada.map(v => getConjuntosForVariable(v.nombre));
+
+    // Función para generar todas las combinaciones recursivamente
+    const generarCombinaciones = (index, currentAntecedentes) => {
+      if (index === variablesEntrada.length) {
+        if (currentAntecedentes.length > 0) {
+          nuevasReglasGeneradas.push({
+            id: Date.now() + nuevasReglasGeneradas.length,
+            antecedentes: currentAntecedentes,
+            consecuentes: outputVariables.map(ov => ({ variable: ov.nombre, conjunto: '', negado: false })),
+            operador: 'AND' // Puedes ajustar el operador si lo deseas
+          });
+        }
+        return;
+      }
+
+      const variableActual = variablesEntrada[index];
+      const conjuntos = conjuntosPorVariable[index];
+
+      // Incluimos la opción de no seleccionar un conjunto para esta variable
+      generarCombinaciones(index + 1, [...currentAntecedentes]);
+
+      conjuntos.forEach(conjunto => {
+        generarCombinaciones(index + 1, [...currentAntecedentes, { variable: variableActual.nombre, conjunto: conjunto, negado: false }]);
+      });
+    };
+
+    generarCombinaciones(0, []);
+    setGeneratedRules(nuevasReglasGeneradas);
+    setShowGeneratedRulesEditor(true);
+  };
+
+  const handleCloseGeneratedRulesEditor = () => {
+    setShowGeneratedRulesEditor(false);
+    setGeneratedRules([]);
+  };
+  const handleGeneratedRuleConsecuentChange = (ruleIndex, outputIndex, value) => {
+    const updatedGeneratedRules = [...generatedRules];
+    updatedGeneratedRules[ruleIndex].consecuentes[outputIndex].conjunto = value;
+    setGeneratedRules(updatedGeneratedRules);
+  };
+
+  const handleGeneratedRuleConsecuentNegationChange = (ruleIndex, outputIndex, checked) => {
+    const updatedGeneratedRules = [...generatedRules];
+    updatedGeneratedRules[ruleIndex].consecuentes[outputIndex].negado = checked;
+    setGeneratedRules(updatedGeneratedRules);
+  };
+
+  const saveGeneratedRules = () => {
+    const rulesToSave = generatedRules.filter(rule => rule.consecuentes.some(cons => cons.conjunto !== ''));
+    setRules([...rules, ...rulesToSave]);
+    setShowGeneratedRulesEditor(false);
+    setGeneratedRules([]);
+    showMessage(`${rulesToSave.length} reglas automáticas guardadas.`, 'success');
+    sendRulesToBackend([...rules, ...rulesToSave]);
+  };
 
 ///////////////////////////////
 
@@ -519,14 +590,73 @@ function Reglas() {
           <div className="rule-preview-section consecuentes-panel">
             <div className="panel-header">
               <h3><span className="step-number">3</span> Vista Previa</h3>
-              <button className='primary-button'>
+              <button className='primary-button'  onClick={generateAutomaticRules}>
                 + Crear Reglas Automaticas
               </button>
             </div>
             <div className="panel-header">
               {generateRuleText(currentRule)}
             </div>
-            
+            {showGeneratedRulesEditor && (
+            <div className="generated-rules-editor">
+              <h3>Editar Reglas Generadas Automáticamente</h3>
+              <p>Selecciona los consecuentes para cada regla generada:</p>
+              <div className="generated-rules-list">
+                {generatedRules.map((rule, index) => (
+                    <div key={rule.id} className="generated-rule-item">
+                      <h4>Regla {index + 1}</h4>
+                      <div className="antecedente-preview">
+                        <h5>Si:</h5>
+                        {rule.antecedentes.map((ant, antIndex) => (
+                          <span key={`${ant.variable}-${ant.conjunto}-${antIndex}`} className="antecedente-label">
+                            {ant.variable} es {ant.negado ? 'NO ' : ''}{ant.conjunto}
+                            {antIndex < rule.antecedentes.length - 1 && ` ${rule.operador} `}
+                          </span>
+                        ))}
+                      </div>
+                      <div className="consecuentes-selector">
+                        <h5>Entonces:</h5>
+                        {outputVariables.map((outputVariable, outputIndex) => {
+                          const consIndex = rule.consecuentes.findIndex(cons => cons.variable === outputVariable.nombre);
+                          const consecuente = rule.consecuentes[consIndex];
+                          return (
+                            <div key={outputVariable.nombre} className="consecuente-input">
+                              <label>{outputVariable.nombre} es:</label>
+                              <select
+                                value={consecuente.conjunto}
+                                onChange={(e) => handleGeneratedRuleConsecuentChange(index, outputIndex, e.target.value)}
+                              >
+                                <option value="">-- Seleccionar --</option>
+                                {getConjuntosForVariable(outputVariable.nombre).map((conjunto, i) => (
+                                  <option key={i} value={conjunto}>{conjunto}</option>
+                                ))}
+                              </select>
+                              <label className="negation-toggle">
+                                <input
+                                  type="checkbox"
+                                  checked={consecuente.negado}
+                                  onChange={(e) => handleGeneratedRuleConsecuentNegationChange(index, outputIndex, e.target.checked)}
+                                  disabled={!consecuente.conjunto}
+                                />
+                                Negar
+                              </label>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  ))}
+              </div>
+              <div className="action-buttons">
+                <button className="primary-button" onClick={saveGeneratedRules}>
+                  Guardar Reglas Seleccionadas
+                </button>
+                <button className="secondary-button" onClick={handleCloseGeneratedRulesEditor}>
+                  Cancelar
+                </button>
+              </div>
+            </div>
+          )}
             {/* Botones de acción */}
             <div className="action-buttons">
               <button className="primary-button" onClick={handleSaveRule}>

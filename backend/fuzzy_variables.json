@@ -115,44 +115,5 @@
     ],
     "tipoVariable": "salida",
     "id": 3
-  },
-  {
-    "nombre": "COmida",
-    "rango": [
-      0.0,
-      100.0
-    ],
-    "tipo": "gaussiana",
-    "conjuntos": [
-      {
-        "nombre": "Conjunto1",
-        "puntos": [
-          0,
-          20,
-          30
-        ],
-        "tipo": "triangular"
-      },
-      {
-        "nombre": "Conjunto2",
-        "puntos": [
-          20,
-          25,
-          35,
-          45
-        ],
-        "tipo": "trapezoidal"
-      },
-      {
-        "nombre": "Conjunto3",
-        "puntos": [
-          50,
-          16.666666666666668
-        ],
-        "tipo": "gaussiana"
-      }
-    ],
-    "tipoVariable": "entrada",
-    "id": 4
   }
 ]
