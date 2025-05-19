@@ -1,6 +1,78 @@
 [
   {
-    "id": 1746713622059,
+    "id": 1747343040625,
+    "antecedentes": [
+      {
+        "variable": "Humedad ",
+        "conjunto": "Bajo",
+        "negado": false
+      }
+    ],
+    "consecuentes": [
+      {
+        "variable": "Nivel de confort",
+        "conjunto": "Bajo",
+        "negado": false
+      }
+    ],
+    "operador": "AND"
+  },
+  {
+    "id": 1747343040626,
+    "antecedentes": [
+      {
+        "variable": "Humedad ",
+        "conjunto": "Medio",
+        "negado": false
+      }
+    ],
+    "consecuentes": [
+      {
+        "variable": "Nivel de confort",
+        "conjunto": "Bajo",
+        "negado": false
+      }
+    ],
+    "operador": "AND"
+  },
+  {
+    "id": 1747343040627,
+    "antecedentes": [
+      {
+        "variable": "Humedad ",
+        "conjunto": "Alta",
+        "negado": false
+      }
+    ],
+    "consecuentes": [
+      {
+        "variable": "Nivel de confort",
+        "conjunto": "Bajo",
+        "negado": false
+      }
+    ],
+    "operador": "AND"
+  },
+  {
+    "id": 1747343040628,
+    "antecedentes": [
+      {
+        "variable": "Temperatura ",
+        "conjunto": "Baja",
+        "negado": false
+      }
+    ],
+    "consecuentes": [
+      {
+        "variable": "Nivel de confort",
+        "conjunto": "Bajo",
+        "negado": false
+      }
+    ],
+    "operador": "AND"
+  },
+  {
+    "id": 1747343040629,
     "antecedentes": [
       {
         "variable": "Temperatura ",
@@ -16,6 +88,29 @@
     "consecuentes": [
       {
         "variable": "Nivel de confort",
+        "conjunto": "Medio",
+        "negado": false
+      }
+    ],
+    "operador": "AND"
+  },
+  {
+    "id": 1747343040630,
+    "antecedentes": [
+      {
+        "variable": "Temperatura ",
+        "conjunto": "Baja",
+        "negado": false
+      },
+      {
+        "variable": "Humedad ",
+        "conjunto": "Medio",
+        "negado": false
+      }
+    ],
+    "consecuentes": [
+      {
+        "variable": "Nivel de confort",
         "conjunto": "Bajo",
         "negado": false
       }
@@ -23,7 +118,71 @@
     "operador": "AND"
   },
   {
-    "id": 1746713666792,
+    "id": 1747343040631,
+    "antecedentes": [
+      {
+        "variable": "Temperatura ",
+        "conjunto": "Baja",
+        "negado": false
+      },
+      {
+        "variable": "Humedad ",
+        "conjunto": "Alta",
+        "negado": false
+      }
+    ],
+    "consecuentes": [
+      {
+        "variable": "Nivel de confort",
+        "conjunto": "Medio",
+        "negado": false
+      }
+    ],
+    "operador": "AND"
+  },
+  {
+    "id": 1747343040632,
+    "antecedentes": [
+      {
+        "variable": "Temperatura ",
+        "conjunto": "Medio",
+        "negado": false
+      }
+    ],
+    "consecuentes": [
+      {
+        "variable": "Nivel de confort",
+        "conjunto": "Alta",
+        "negado": false
+      }
+    ],
+    "operador": "AND"
+  },
+  {
+    "id": 1747343040633,
+    "antecedentes": [
+      {
+        "variable": "Temperatura ",
+        "conjunto": "Medio",
+        "negado": false
+      },
+      {
+        "variable": "Humedad ",
+        "conjunto": "Bajo",
+        "negado": false
+      }
+    ],
+    "consecuentes": [
+      {
+        "variable": "Nivel de confort",
+        "conjunto": "Medio",
+        "negado": false
+      }
+    ],
+    "operador": "AND"
+  },
+  {
+    "id": 1747343040634,
     "antecedentes": [
       {
         "variable": "Temperatura ",
@@ -46,7 +205,94 @@
     "operador": "AND"
   },
   {
-    "id": 1746713705440,
+    "id": 1747343040635,
+    "antecedentes": [
+      {
+        "variable": "Temperatura ",
+        "conjunto": "Medio",
+        "negado": false
+      },
+      {
+        "variable": "Humedad ",
+        "conjunto": "Alta",
+        "negado": false
+      }
+    ],
+    "consecuentes": [
+      {
+        "variable": "Nivel de confort",
+        "conjunto": "Medio",
+        "negado": false
+      }
+    ],
+    "operador": "AND"
+  },
+  {
+    "id": 1747343040636,
+    "antecedentes": [
+      {
+        "variable": "Temperatura ",
+        "conjunto": "Alta",
+        "negado": false
+      }
+    ],
+    "consecuentes": [
+      {
+        "variable": "Nivel de confort",
+        "conjunto": "Bajo",
+        "negado": false
+      }
+    ],
+    "operador": "AND"
+  },
+  {
+    "id": 1747343040637,
+    "antecedentes": [
+      {
+        "variable": "Temperatura ",
+        "conjunto": "Alta",
+        "negado": false
+      },
+      {
+        "variable": "Humedad ",
+        "conjunto": "Bajo",
+        "negado": false
+      }
+    ],
+    "consecuentes": [
+      {
+        "variable": "Nivel de confort",
+        "conjunto": "Medio",
+        "negado": false
+      }
+    ],
+    "operador": "AND"
+  },
+  {
+    "id": 1747343040638,
+    "antecedentes": [
+      {
+        "variable": "Temperatura ",
+        "conjunto": "Alta",
+        "negado": false
+      },
+      {
+        "variable": "Humedad ",
+        "conjunto": "Medio",
+        "negado": false
+      }
+    ],
+    "consecuentes": [
+      {
+        "variable": "Nivel de confort",
+        "conjunto": "Medio",
+        "negado": false
+      }
+    ],
+    "operador": "AND"
+  },
+  {
+    "id": 1747343040639,
     "antecedentes": [
       {
         "variable": "Temperatura ",
@@ -62,7 +308,7 @@
     "consecuentes": [
       {
         "variable": "Nivel de confort",
-        "conjunto": "Bajo",
+        "conjunto": "Alta",
         "negado": false
       }
     ],
