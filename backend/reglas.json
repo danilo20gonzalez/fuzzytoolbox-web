@@ -1,190 +1,91 @@
 [
   {
-    "id": 1746471800718,
+    "id": 1746713890599,
     "antecedentes": [
       {
-        "variable": "Calidad del Servicio",
-        "conjunto": "Malo",
+        "variable": "tiempo de estudio",
+        "conjunto": "Bajo",
         "negado": false
       },
       {
-        "variable": "Calidad de la Comida",
-        "conjunto": "Mala",
+        "variable": "Concentracion",
+        "conjunto": "Baja",
         "negado": false
       }
     ],
     "consecuentes": [
       {
-        "variable": "Propina",
-        "conjunto": "Poca",
+        "variable": "Resultados",
+        "conjunto": "Bajo",
         "negado": false
       }
     ],
-    "peso": 1,
     "operador": "AND"
   },
   {
-    "id": 1746471820131,
+    "id": 1746713953476,
     "antecedentes": [
       {
-        "variable": "Calidad del Servicio",
-        "conjunto": "Regular",
-        "negado": false
-      },
-      {
-        "variable": "Calidad de la Comida",
-        "conjunto": "Buena",
-        "negado": false
-      }
-    ],
-    "consecuentes": [
-      {
-        "variable": "Propina",
-        "conjunto": "Media",
-        "negado": false
-      }
-    ],
-    "peso": 1,
-    "operador": "AND"
-  },
-  {
-    "id": 1746471840350,
-    "antecedentes": [
-      {
-        "variable": "Calidad del Servicio",
-        "conjunto": "Excelente",
-        "negado": false
-      },
-      {
-        "variable": "Calidad de la Comida",
-        "conjunto": "Deliciosa",
-        "negado": false
-      }
-    ],
-    "consecuentes": [
-      {
-        "variable": "Propina",
-        "conjunto": "Generosa",
-        "negado": false
-      }
-    ],
-    "peso": 1,
-    "operador": "AND"
-  },
-  {
-    "id": 1746471876820,
-    "antecedentes": [
-      {
-        "variable": "Calidad del Servicio",
-        "conjunto": "Regular",
-        "negado": false
-      },
-      {
-        "variable": "Calidad de la Comida",
-        "conjunto": "Buena",
-        "negado": false
-      }
-    ],
-    "consecuentes": [
-      {
-        "variable": "Propina",
-        "conjunto": "Media",
-        "negado": false
-      }
-    ],
-    "peso": 1,
-    "operador": "AND"
-  },
-  {
-    "id": 1746471893474,
-    "antecedentes": [
-      {
-        "variable": "Calidad del Servicio",
-        "conjunto": "Excelente",
-        "negado": false
-      },
-      {
-        "variable": "Calidad de la Comida",
-        "conjunto": "Buena",
-        "negado": false
-      }
-    ],
-    "consecuentes": [
-      {
-        "variable": "Propina",
-        "conjunto": "Generosa",
-        "negado": false
-      }
-    ],
-    "peso": 1,
-    "operador": "AND"
-  },
-  {
-    "id": 1746594180006,
-    "antecedentes": [
-      {
-        "variable": "Calidad del Servicio",
-        "conjunto": "Malo",
-        "negado": false
-      },
-      {
-        "variable": "Calidad de la Comida",
-        "conjunto": "Deliciosa",
-        "negado": false
-      }
-    ],
-    "consecuentes": [
-      {
-        "variable": "Propina",
-        "conjunto": "Poca",
-        "negado": false
-      }
-    ],
-    "peso": 1,
-    "operador": "AND"
-  },
-  {
-    "id": 1746595765725,
-    "antecedentes": [
-      {
-        "variable": "Calidad del Servicio",
-        "conjunto": "Regular",
-        "negado": false
-      },
-      {
-        "variable": "Calidad de la Comida",
-        "conjunto": "Deliciosa",
-        "negado": false
-      }
-    ],
-    "consecuentes": [
-      {
-        "variable": "Propina",
-        "conjunto": "Generosa",
-        "negado": false
-      }
-    ],
-    "peso": 1,
-    "operador": "AND"
-  },
-  {
-    "id": 1746683811587,
-    "antecedentes": [
-      {
-        "variable": "Calidad del Servicio",
-        "conjunto": "Excelente",
-        "negado": false
-      },
-      {
-        "variable": "Calidad de la Comida",
-        "conjunto": "Deliciosa",
-        "negado": false
-      }
-    ],
-    "consecuentes": [
-      {
-        "variable": "Propina",
+        "variable": "tiempo de estudio",
         "conjunto": "Alta",
+        "negado": false
+      },
+      {
+        "variable": "Concentracion",
+        "conjunto": "Alta",
+        "negado": false
+      }
+    ],
+    "consecuentes": [
+      {
+        "variable": "Resultados",
+        "conjunto": "Alto",
+        "negado": false
+      }
+    ],
+    "operador": "AND"
+  },
+  {
+    "id": 1746713961132,
+    "antecedentes": [
+      {
+        "variable": "tiempo de estudio",
+        "conjunto": "Alta",
+        "negado": false
+      },
+      {
+        "variable": "Concentracion",
+        "conjunto": "Baja",
+        "negado": false
+      }
+    ],
+    "consecuentes": [
+      {
+        "variable": "Resultados",
+        "conjunto": "Bajo",
+        "negado": false
+      }
+    ],
+    "operador": "AND"
+  },
+  {
+    "id": 1746713970356,
+    "antecedentes": [
+      {
+        "variable": "tiempo de estudio",
+        "conjunto": "Bajo",
+        "negado": false
+      },
+      {
+        "variable": "Concentracion",
+        "conjunto": "Alta",
+        "negado": false
+      }
+    ],
+    "consecuentes": [
+      {
+        "variable": "Resultados",
+        "conjunto": "Alto",
         "negado": false
       }
     ],

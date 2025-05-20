@@ -1,119 +1,86 @@
 [
   {
-    "nombre": "Calidad del Servicio",
+    "nombre": "tiempo de estudio",
     "rango": [
       0.0,
       10.0
     ],
-    "tipo": "triangular",
+    "tipo": "gaussiana",
     "conjuntos": [
       {
-        "nombre": "Malo",
+        "nombre": "Bajo",
         "puntos": [
           0,
-          0,
-          5
+          1.5
         ],
-        "tipo": "triangular"
+        "tipo": "gaussiana"
       },
       {
-        "nombre": "Regular",
+        "nombre": "Alta",
         "puntos": [
-          2,
-          5,
-          8
+          9.9,
+          3
         ],
-        "tipo": "triangular"
-      },
-      {
-        "nombre": "Excelente",
-        "puntos": [
-          5,
-          10,
-          10
-        ],
-        "tipo": "triangular"
+        "tipo": "gaussiana"
       }
     ],
     "tipoVariable": "entrada",
     "id": 1
   },
   {
-    "nombre": "Calidad de la Comida",
+    "nombre": "Resultados",
     "rango": [
       0.0,
       10.0
     ],
-    "tipo": "triangular",
+    "tipo": "gaussiana",
     "conjuntos": [
       {
-        "nombre": "Mala",
+        "nombre": "Bajo",
         "puntos": [
           0,
-          0,
-          6
+          1.6666666666666667
         ],
-        "tipo": "triangular"
+        "tipo": "gaussiana"
       },
       {
-        "nombre": "Buena",
+        "nombre": "Alto",
         "puntos": [
-          3,
-          6,
-          9
-        ],
-        "tipo": "triangular"
-      },
-      {
-        "nombre": "Deliciosa",
-        "puntos": [
-          6,
           10,
-          10
+          2
         ],
-        "tipo": "triangular"
+        "tipo": "gaussiana"
       }
     ],
-    "tipoVariable": "entrada",
+    "tipoVariable": "salida",
     "id": 2
   },
   {
-    "nombre": "Propina",
+    "nombre": "Concentracion",
     "rango": [
       0.0,
-      20.0
+      10.0
     ],
-    "tipo": "triangular",
+    "tipo": "gaussiana",
     "conjuntos": [
       {
         "nombre": "Baja",
         "puntos": [
-          null,
           0,
-          8
+          1.6666666666666667
         ],
-        "tipo": "triangular"
-      },
-      {
-        "nombre": "Media",
-        "puntos": [
-          5,
-          10,
-          15.1
-        ],
-        "tipo": "triangular"
+        "tipo": "gaussiana"
       },
       {
         "nombre": "Alta",
         "puntos": [
-          13,
-          20,
-          20
+          10,
+          3
         ],
-        "tipo": "triangular"
+        "tipo": "gaussiana"
       }
     ],
-    "tipoVariable": "salida",
+    "tipoVariable": "entrada",
     "id": 3
   }
 ]
