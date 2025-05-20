@@ -1,7 +1,7 @@
 // src/components/Navbar.jsx
 import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { FaProjectDiagram, FaCogs, FaPlay } from 'react-icons/fa';
+import { FaProjectDiagram, FaCogs, FaPlay, FaUpload } from 'react-icons/fa';
 import '../styles/Navbar.css';
 
 function Navbar() {
@@ -11,7 +11,8 @@ function Navbar() {
         '/': { background: 'linear-gradient(90deg, #3b82f6, #38bd6b,rgb(185, 60, 179))' },       // Degradado lineal azul, verde, rosa
         '/variables': { background: 'linear-gradient(90deg, #3b82f6, #38bd6b)' },  // Verde para Variables
         '/reglas': { background: 'linear-gradient(140deg,rgb(1, 207, 80),rgb(185, 60, 179))' },     // Rojo para Reglas
-        '/simulador': { background: 'linear-gradient(90deg,rgb(109, 3, 141), rgb(109, 3, 141),rgb(63, 131, 241))' }   // Amarillo para Simulador
+        '/simulador': { background: 'linear-gradient(90deg,rgb(109, 3, 141), rgb(109, 3, 141),rgb(63, 131, 241))' },
+        '/dataProcessor': { background: 'linear-gradient(90deg,rgb(109, 3, 141), rgb(109, 3, 141),rgb(63, 131, 241))' }   // Amarillo para Simulador
   };
 
   const navbarStyle = {
@@ -42,6 +43,9 @@ function Navbar() {
         </li>
         <li className={location.pathname === '/simulador' ? 'active' : ''}>
           <Link to="/simulador"><FaPlay /> <span>Resultados</span></Link>
+        </li>
+        <li className={location.pathname === '/dataProcessor' ? 'active' : ''}>
+          <Link to="/dataProcessor"><FaUpload /> <span>Cargar</span></Link>
         </li>
       </ul>
     </motion.nav>
