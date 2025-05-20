@@ -17,7 +17,7 @@
     "axios": "^1.8.4",
     "framer-motion": "^12.7.3",
     "lucide-react": "^0.488.0",
-    "papaparse": "^5.5.2",
+    "papaparse": "^5.5.3",
     "plotly.js": "^3.0.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
