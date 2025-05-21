@@ -2,6 +2,7 @@ import { useState, useRef } from 'react';
 import Papa from 'papaparse';
 import { useNavigate } from 'react-router-dom';
 import { FaUpload, FaCheck, FaTimes, FaTable, FaEdit } from 'react-icons/fa';
+import "../styles/DataProcessor.css"
 
 const CargaDatos = () => {
   const navigate = useNavigate();
