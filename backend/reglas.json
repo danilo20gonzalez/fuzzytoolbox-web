@@ -1,0 +1,25 @@
+[
+  {
+    "id": 1747920592390,
+    "antecedentes": [
+      {
+        "variable": "temperatura",
+        "conjunto": "Bajo",
+        "negado": false
+      },
+      {
+        "variable": "humedad",
+        "conjunto": "Alto",
+        "negado": false
+      }
+    ],
+    "consecuentes": [
+      {
+        "variable": "velocidad_ventilador",
+        "conjunto": "Medio",
+        "negado": false
+      }
+    ],
+    "operador": "AND"
+  }
+]
