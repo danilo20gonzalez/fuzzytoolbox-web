@@ -5,7 +5,41 @@
     background: linear-gradient(to bottom right, #f0f4ff, #e6eeff);
     padding: 2rem 1rem;
   }
-  
+
+.help-button-container {
+  position: absolute;
+  top: 85px; 
+  left: 10px;
+  z-index: 1000; 
+}
+
+/* Estilos para el botón de ayuda */
+.help-button {
+  width: 45px; 
+  height: 45px; 
+  border-radius: 50%; 
+  background-color: var(--primary-color, #3b82f6); 
+  color: white; 
+  border: none; 
+  display: flex;
+  align-items: center; 
+  justify-content: center; 
+  font-size: 1.2em; 
+  font-weight: bold; 
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); 
+  transition: background-color 0.2s ease, transform 0.2s ease; 
+}
+
+.help-button:hover {
+  background-color: var(--primary-dark, #2563eb); 
+  transform: scale(1.05); 
+}
+
+.help-button svg {
+  width: 2em; 
+  height: 1em;
+}
   .content-container {
     max-width: 1200px;
     margin: 0 auto;
