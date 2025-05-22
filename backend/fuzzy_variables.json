@@ -1,1 +1,119 @@
-[]
+[
+  {
+    "nombre": "temperatura",
+    "rango": [
+      18.0,
+      36.0
+    ],
+    "tipo": "triangular",
+    "conjuntos": [
+      {
+        "nombre": "Bajo",
+        "puntos": [
+          18,
+          18,
+          24
+        ],
+        "tipo": "triangular"
+      },
+      {
+        "nombre": "Medio",
+        "puntos": [
+          21,
+          27,
+          33
+        ],
+        "tipo": "triangular"
+      },
+      {
+        "nombre": "Alto",
+        "puntos": [
+          30,
+          36,
+          36
+        ],
+        "tipo": "triangular"
+      }
+    ],
+    "tipoVariable": "entrada",
+    "id": 1
+  },
+  {
+    "nombre": "humedad",
+    "rango": [
+      30.0,
+      98.0
+    ],
+    "tipo": "triangular",
+    "conjuntos": [
+      {
+        "nombre": "Bajo",
+        "puntos": [
+          30,
+          30,
+          52.66666666666667
+        ],
+        "tipo": "triangular"
+      },
+      {
+        "nombre": "Medio",
+        "puntos": [
+          41.333333333333336,
+          64,
+          86.66666666666666
+        ],
+        "tipo": "triangular"
+      },
+      {
+        "nombre": "Alto",
+        "puntos": [
+          75.33333333333334,
+          98,
+          98
+        ],
+        "tipo": "triangular"
+      }
+    ],
+    "tipoVariable": "entrada",
+    "id": 2
+  },
+  {
+    "nombre": "velocidad_ventilador",
+    "rango": [
+      20.0,
+      100.0
+    ],
+    "tipo": "triangular",
+    "conjuntos": [
+      {
+        "nombre": "Bajo",
+        "puntos": [
+          20,
+          20,
+          46.66666666666667
+        ],
+        "tipo": "triangular"
+      },
+      {
+        "nombre": "Medio",
+        "puntos": [
+          33.333333333333336,
+          60,
+          86.66666666666667
+        ],
+        "tipo": "triangular"
+      },
+      {
+        "nombre": "Alto",
+        "puntos": [
+          73.33333333333334,
+          100,
+          100
+        ],
+        "tipo": "triangular"
+      }
+    ],
+    "tipoVariable": "salida",
+    "id": 3
+  }
+]
