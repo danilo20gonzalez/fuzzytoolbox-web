@@ -1,0 +1,135 @@
+.manual-sidebar {
+  width: 280px;
+  height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #38bd6b 100%);
+  position: fixed;
+  left: 0;
+  top: 0;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  overflow-y: auto;
+  border-top-right-radius: 30px;
+  border-bottom-right-radius: 30px;
+}
+
+.home-button-container {
+  position: absolute;
+  top: 20px; 
+  left: 300px;
+  z-index: 1000; 
+}
+
+/* Estilos para el botón de ayuda */
+.home-button {
+  width: 65px; 
+  height: 65px; 
+  border-radius: 50%; 
+  background-color: var(--primary-color, #3b82f6); 
+  color: white; 
+  border: none; 
+  display: flex;
+  align-items: center; 
+  justify-content: center; 
+  font-size: 1.2em; 
+  font-weight: bold; 
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); 
+  transition: background-color 0.2s ease, transform 0.2s ease; 
+}
+
+.home-button:hover {
+  background-color: var(--primary-dark, #2563eb); 
+  transform: scale(1.05); 
+}
+
+.home-button svg {
+  width: 2em; 
+  height: 1em;
+}
+
+.sidebar-header {
+  padding: 2rem 1.5rem 1.5rem;
+  border-bottom: 3px solid rgba(255, 255, 255, 0.705);
+}
+
+.titulo2 {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1.75rem;
+    border-bottom: 3px solid #ffffff;
+    padding-bottom: 0.75rem;
+}
+
+.sidebar-header h2 {
+  color: white;
+  margin: 0;
+  font-size: 1.9rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.sidebar-nav {
+  padding: 1rem 0;
+}
+
+.nav-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-item {
+  margin: 0.25rem 0;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  color: rgba(255, 255, 255, 0.9);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  border-left-color: rgba(255, 255, 255, 0.5);
+}
+
+.nav-link.active {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+  border-left-color: #fff;
+  font-weight: 500;
+}
+
+.nav-icon {
+  font-size: 1.2rem;
+  margin-right: 0.75rem;
+  min-width: 24px;
+}
+
+.nav-label {
+  font-size: 0.95rem;
+  line-height: 1.2;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .manual-sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+  
+  .sidebar-header h2 {
+    font-size: 1.25rem;
+  }
+  
+  .nav-link {
+    padding: 0.75rem 1rem;
+  }
+}
