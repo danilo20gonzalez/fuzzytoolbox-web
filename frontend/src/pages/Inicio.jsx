@@ -1,7 +1,7 @@
 // src/pages/Inicio.jsx
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { FaChartLine, FaCode, FaCog } from 'react-icons/fa';
+import { FaChartLine, FaCode, FaCog, FaQuestion } from 'react-icons/fa';
 import '../styles/Inicio.css';  
 import { Link } from 'react-router-dom';
 
@@ -36,15 +36,19 @@ function Inicio() {
 
   return (
     <div className="inicio-container">
-      {/* Content */}
+      <div className="help-button-container">
+        <Link to="/manual/inicio" className="help-button">
+          <FaQuestion />
+        </Link>
+      </div>
       <div className="content-container">
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           className="header-section"
         >
-          <h1 className="main-title">🎯 Bienvenido a FuzzyToolbox</h1>
+          <h1 className="main-title">🎯 Bienvenido a FuzzyFlow</h1>
           <p className="subtitle">
             Explora, experimenta y aprende lógica difusa con herramientas visuales interactivas.
           </p>
