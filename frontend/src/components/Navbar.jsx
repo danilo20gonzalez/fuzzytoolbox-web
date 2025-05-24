@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FaProjectDiagram, FaCogs, FaPlay, FaUpload } from 'react-icons/fa';
 import '../styles/Navbar.css';
+import FuzzyLogo from '../assets/LogoSinFondo.png'
 
 function Navbar() {
   const location = useLocation();
@@ -29,8 +30,8 @@ function Navbar() {
     >
       <Link to="/" className="logo-link">
         <div className="logo">
-          <span className="logo-icon">🧠</span>
-          <span className="logo-text">FuzzyToolbox</span>
+          <img src={FuzzyLogo} alt="FuzzyFlow Logo" className="logo-image" />
+          <span className="logo-text">FuzzyFlow</span>
         </div>
       </Link>
       

@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import Plot from 'react-plotly.js';
 import "../styles/Variables.css"
 import { Link } from 'react-router-dom';
-import { FaProjectDiagram, FaCogs, FaPlay } from 'react-icons/fa';
+import { FaProjectDiagram, FaCogs, FaQuestion } from 'react-icons/fa';
 
 
 // Configuración de tipos de funciones difusas
@@ -456,6 +456,11 @@ function Variables() {
 
   return (
     <div className="variables-container">
+      <div className="help-button-container">
+        <Link to="/manual/variables" className="help-button">
+          <FaQuestion />
+        </Link>
+      </div>
       <h1>Editor de Variables Difusas</h1>
 
       {message && <div className="message">{message}</div>}
