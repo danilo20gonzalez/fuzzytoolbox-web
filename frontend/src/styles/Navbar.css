@@ -94,6 +94,13 @@
   box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
 }
 
+.logo-image {
+  height: 45px; /* O el tamaño que necesites para tu logo */
+  width: auto; /* Mantiene la proporción de la imagen */
+  /* Puedes añadir un margin-right si necesitas más espacio entre la imagen y el texto */
+}
+
+
 /* Estilo responsivo para móvil */
 @media (max-width: 768px) {
   .navbar {

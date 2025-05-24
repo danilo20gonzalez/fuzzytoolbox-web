@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import '../styles/Reglas.css';
 import { Link } from 'react-router-dom';
-import { FaProjectDiagram, FaCogs, FaPlay } from 'react-icons/fa';
+import { FaProjectDiagram, FaCogs, FaPlay, FaQuestion } from 'react-icons/fa';
 
 function Reglas() {
   // Estados principales
@@ -418,6 +418,11 @@ const generateAutomaticRules = () => {
 
   return (
     <div className="reglas-container">
+      <div className="help-button-container">
+        <Link to="/manual/reglas" className="help-button">
+          <FaQuestion />
+        </Link>
+      </div>
       <h1>Editor de Reglas Difusas</h1>
       <header className="reglas-header">
         

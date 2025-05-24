@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { FaHome } from 'react-icons/fa';
-import '../styles/ManualInicio.css'; // ¡Importa el nuevo archivo CSS!
+import '../styles/Manual.css'; // ¡Importa el nuevo archivo CSS!
 
 const ManualInicio = () => {
   return (
@@ -11,7 +11,13 @@ const ManualInicio = () => {
           <FaHome />
         </Link>
       </div>
-      <h1>Bienvenido al Sistema de Lógica Difusa</h1>
+      <h1>Visión General del Sistema y Navegación Principal</h1>
+      <p>
+        En esta sección, exploraremos la interfaz de inicio de FuzzyFlow, que te proporciona un acceso rápido 
+        y organizado a las funcionalidades clave de la aplicación.
+      </p>
+
+      <h2>Barra de Navegación Superior</h2>
 
       <div className="image-section">
         <img
@@ -21,12 +27,17 @@ const ManualInicio = () => {
         />
       </div>
 
-      <h2>¿Qué es la Lógica Difusa?</h2>
       <p>
-        La lógica difusa es una extensión de la lógica clásica que permite trabajar con
-        valores de verdad que van más allá del simple "verdadero" o "falso". En lugar
-        de usar únicamente 0 y 1, la lógica difusa utiliza valores entre 0 y 1, lo que
-        permite representar conceptos como "parcialmente verdadero" o "muy probable".
+        FuzzyFlow (Logo/Nombre de la aplicación): Haciendo clic en el logo o el nombre de la aplicación, siempre regresarás a la página de inicio principal.
+      </p>
+      <p>
+        Variables: Te dirige a la sección donde podrás definir y gestionar tus variables lingüísticas y sus funciones de membresía.
+      </p>
+      <p>
+        Reglas: Accede a la pantalla para crear, editar y organizar las reglas de inferencia difusa de tu sistema.
+      </p>
+      <p>
+        Resultados: Aquí podrás visualizar y analizar los resultados de tus simulaciones, mostrando cómo las reglas difusas procesan las entradas.
       </p>
 
       <h2>Características del Sistema</h2>
