@@ -1,46 +1,14 @@
 /* Estilos para cuando hay sidebar */
 .App.with-sidebar {
   margin-left: 280px; /* Mismo ancho que el sidebar */
-  min-height: 100vh;
-  padding: 2rem;
-  background-color: #f8f9fa;
-  width: calc(100% - 280px); /* Asegurar que el ancho sea correcto */
-  box-sizing: border-box;
+  width: calc(100% - 280px);
 }
 
 /* Responsive para el sidebar */
 @media (max-width: 768px) {
   .App.with-sidebar {
-    margin-left: 0;
-    padding: 1rem;
-  }
-}
-
-/* Estilos para el contenido del manual */
-.manual-content {
-  max-width: 1000px;
-  margin: 0 auto;
-  background: white;
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-.manual-content h1 {
-  color: #333;
-  margin-bottom: 1.5rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 2px solid #667eea;
-}
-
-.manual-content h2 {
-  color: #555;
-  margin-top: 2rem;
-  margin-bottom: 1rem;
-}
-
-.manual-content p {
-  line-height: 1.6;
-  color: #666;
-  margin-bottom: 1rem;
+        margin-top: 10px; /* Espacio reducido para pantallas pequeñas */
+        margin-left: 0px; /* Espacio reducido para pantallas pequeñas */
+        width: 100%;
+    }
 }

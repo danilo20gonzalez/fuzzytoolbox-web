@@ -18,7 +18,7 @@ const ManualSidebar = () => {
       icon: <FaHome />
     },
     {
-      path: '/manual/variables-difusas',
+      path: '/manual/variables',
       label: 'Variables Difusas',
       icon: <FaProjectDiagram />
     },
@@ -33,7 +33,7 @@ const ManualSidebar = () => {
       icon: <FaPlay />
     },
     {
-      path: '/manual/cargar-datos',
+      path: '/manual/cargarDatos',
       label: 'Cargar Datos Externos',
       icon: <FaUpload />
     }
