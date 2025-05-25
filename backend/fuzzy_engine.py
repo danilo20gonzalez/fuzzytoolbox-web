@@ -4,7 +4,7 @@ from pydantic import BaseModel
 import numpy as np
 import skfuzzy as fuzz
 from skfuzzy import trimf, trapmf, gaussmf, defuzz
-from skfuzzy.defuzzify.exceptions import EmptyMembershipError
+from skfuzzy.defuzzify.exceptions import EmptyMembershipErrorr
 import json
 import os
 
