@@ -32,11 +32,11 @@ function Reglas() {
         if (!response.ok) throw new Error('Error al cargar variables');
         const data = await response.json();
         setVariables(data);
-  
+
         // Separar variables de entrada y salida
         const salidas = data.filter(v => v.tipoVariable === 'salida');
         setOutputVariables(salidas);
-  
+
         // Inicializar la regla actual con todas las variables
         initializeCurrentRule(data, salidas);
       } catch (error) {
@@ -44,7 +44,7 @@ function Reglas() {
         showMessage('Error al cargar las variables', 'error');
       }
     };
-  
+
     const fetchReglas = async () => {
       try {
         const response = await fetch('http://localhost:8000/reglas/');
@@ -58,11 +58,11 @@ function Reglas() {
         showMessage('Error al cargar las reglas', 'error');
       }
     };
-  
+
     fetchVariables();
     fetchReglas();
   }, []);
-  
+
 
   // Inicializar la regla actual
   const initializeCurrentRule = (inputVars, outputVars) => {
@@ -245,21 +245,91 @@ function Reglas() {
     showMessage('Regla cargada para edición', 'info');
   };
 
-  // Eliminar regla
-  const handleDeleteRule = (index) => {
+  const handleDeleteRule = async (index) => {
     if (!window.confirm('¿Estás seguro de eliminar esta regla?')) return;
 
-    const updatedRules = [...rules];
-    updatedRules.splice(index, 1);
-    setRules(updatedRules);
+    // Obtener la regla a eliminar por su ID antes de modificar el estado local
+    // Necesitas acceder a la regla específica por su índice para obtener su ID
+    const ruleToDelete = rules[index];
 
-    if (selectedRuleIndex === index) {
-      resetCurrentRule();
+    if (!ruleToDelete || ruleToDelete.id === undefined) {
+      showMessage('Error: No se pudo encontrar el ID de la regla a eliminar.', 'error');
+      return;
     }
 
-    showMessage('Regla eliminada', 'success');
-  };
+    try {
+      // Llama al endpoint DELETE de tu API
+      const response = await fetch(`http://localhost:8000/reglas/${ruleToDelete.id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        // En este caso no se necesita body para un DELETE por ID
+      });
 
+      if (!response.ok) {
+        // Si la respuesta no es OK (ej. 404 Not Found, 500 Internal Server Error)
+        const errorData = await response.json();
+        throw new Error(errorData.detail || 'Error al eliminar la regla en el servidor.');
+      }
+
+      // Si la eliminación en el backend fue exitosa, actualiza el estado local
+      const updatedRules = [...rules];
+      updatedRules.splice(index, 1);
+      setRules(updatedRules);
+
+      if (selectedRuleIndex === index) {
+        resetCurrentRule();
+      }
+
+      showMessage('Regla eliminada correctamente', 'success');
+
+    } catch (error) {
+      console.error('Error al eliminar la regla:', error);
+      showMessage(`Error al eliminar la regla: ${error.message}`, 'error');
+    }
+  };
+const handleDeleteAllRules = async () => {
+    if (!window.confirm('¿Estás seguro de eliminar TODAS las reglas? Esta acción no se puede deshacer.')) {
+        return;
+    }
+
+    try {
+        const url = `http://localhost:8000/reglas/todas`;
+        const options = {
+            method: 'DELETE',
+            // <<== ¡CONFIRMA QUE NO HAY HEADERS AQUÍ! ==>>
+        };
+
+        console.log("DEBUG: Enviando solicitud DELETE:", url, options); // <<== AÑADE ESTA LÍNEA
+
+        const response = await fetch(url, options);
+
+        if (!response.ok) {
+            // ... (tu lógica de manejo de errores mejorada) ...
+            let errorMessage = 'Error al eliminar todas las reglas en el servidor.';
+            try {
+                const errorData = await response.json();
+                if (errorData && errorData.detail) {
+                    errorMessage = errorData.detail;
+                } else {
+                    errorMessage = JSON.stringify(errorData);
+                }
+            } catch (jsonError) {
+                errorMessage = `Error ${response.status}: ${response.statusText}`;
+            }
+            throw new Error(errorMessage);
+        }
+
+        setRules([]);
+        resetCurrentRule();
+        showMessage('Todas las reglas han sido eliminadas correctamente', 'success');
+
+    } catch (error) {
+        console.error('Error al eliminar todas las reglas:', error);
+        showMessage(`Error al eliminar todas las reglas: ${error.message}`, 'error');
+    }
+};
   // Cancelar edición
   const handleCancelEdit = () => {
     resetCurrentRule();
@@ -332,7 +402,7 @@ function Reglas() {
         },
         body: JSON.stringify(reglasParaGuardar)
       });
-  
+
       if (!response.ok) throw new Error('Error al guardar las reglas');
       showMessage('Reglas guardadas en el backend', 'success');
     } catch (error) {
@@ -343,7 +413,7 @@ function Reglas() {
 
   // Generar reglas automáticas
   // Esta función genera reglas automáticas basadas en las variables de entrada
-const generateAutomaticRules = () => {
+  const generateAutomaticRules = () => {
     const nuevasReglasGeneradas = [];
     const variablesEntrada = variables.filter(v => v.tipoVariable !== 'salida');
 
@@ -412,7 +482,7 @@ const generateAutomaticRules = () => {
     sendRulesToBackend([...rules, ...rulesToSave]);
   };
 
-///////////////////////////////
+  ///////////////////////////////
 
 
 
@@ -425,7 +495,7 @@ const generateAutomaticRules = () => {
       </div>
       <h1>Editor de Reglas Difusas</h1>
       <header className="reglas-header">
-        
+
         <div className="tabs-navigation">
           <button
             className={`tab-button ${activeTab === 'create' ? 'active' : ''}`}
@@ -441,6 +511,7 @@ const generateAutomaticRules = () => {
             <span className="tab-icon">2.</span>
             Lista de Reglas
           </button>
+
         </div>
       </header>
 
@@ -595,7 +666,7 @@ const generateAutomaticRules = () => {
           <div className="rule-preview-section consecuentes-panel">
             <div className="panel-header">
               <h3><span className="step-number">3</span> Vista Previa</h3>
-              <button className='primary-button'  onClick={generateAutomaticRules}>
+              <button className='primary-button' onClick={generateAutomaticRules}>
                 + Crear Reglas Automaticas
               </button>
             </div>
@@ -603,11 +674,11 @@ const generateAutomaticRules = () => {
               {generateRuleText(currentRule)}
             </div>
             {showGeneratedRulesEditor && (
-            <div className="generated-rules-editor">
-              <h3>Editar Reglas Generadas Automáticamente</h3>
-              <p>Selecciona los consecuentes para cada regla generada:</p>
-              <div className="generated-rules-list">
-                {generatedRules.map((rule, index) => (
+              <div className="generated-rules-editor">
+                <h3>Editar Reglas Generadas Automáticamente</h3>
+                <p>Selecciona los consecuentes para cada regla generada:</p>
+                <div className="generated-rules-list">
+                  {generatedRules.map((rule, index) => (
                     <div key={rule.id} className="generated-rule-item">
                       <h4>Regla {index + 1}</h4>
                       <div className="antecedente-preview">
@@ -651,17 +722,17 @@ const generateAutomaticRules = () => {
                       </div>
                     </div>
                   ))}
+                </div>
+                <div className="action-buttons">
+                  <button className="primary-button" onClick={saveGeneratedRules}>
+                    Guardar Reglas Seleccionadas
+                  </button>
+                  <button className="secondary-button" onClick={handleCloseGeneratedRulesEditor}>
+                    Cancelar
+                  </button>
+                </div>
               </div>
-              <div className="action-buttons">
-                <button className="primary-button" onClick={saveGeneratedRules}>
-                  Guardar Reglas Seleccionadas
-                </button>
-                <button className="secondary-button" onClick={handleCloseGeneratedRulesEditor}>
-                  Cancelar
-                </button>
-              </div>
-            </div>
-          )}
+            )}
             {/* Botones de acción */}
             <div className="action-buttons">
               <button className="primary-button" onClick={handleSaveRule}>
@@ -675,14 +746,14 @@ const generateAutomaticRules = () => {
             </div>
           </div>
         </div>
-        
+
 
 
       )}
 
       {activeTab === 'list' && (
         <div className="rules-list-panel">
-            <h2 className="panel-title">Lista de Reglas</h2>
+          <h2 className="panel-title">Lista de Reglas</h2>
           <div className="search-container">
             <div className="search-box">
               <span className="search-icon">🔍</span>
@@ -705,11 +776,12 @@ const generateAutomaticRules = () => {
           </div>
 
           <div className="rules-count">
-              {rules.length} {rules.length === 1 ? 'regla' : 'reglas'}
-              {filterText && ` (mostrando ${filteredRules.length})`}
+            {rules.length} {rules.length === 1 ? 'regla' : 'reglas'}
+            {filterText && ` (mostrando ${filteredRules.length})`}
           </div>
-          <br/>
+          <br />
           <div className="rules-list">
+
             {filteredRules.length === 0 ? (
               <div className="empty-state">
                 {rules.length === 0
@@ -776,6 +848,12 @@ const generateAutomaticRules = () => {
             <Link to="/simulador"><FaPlay />  Ir a los resultados →</Link>
           </li>
         </ul>
+        <button
+          onClick={handleDeleteAllRules}
+          style={{ backgroundColor: 'red', color: 'white', padding: '10px 15px', borderRadius: '5px', border: 'none', cursor: 'pointer', marginLeft: '10px' }}
+        >
+          Eliminar Todas las Reglas
+        </button>
       </div>
     </div>
   );
