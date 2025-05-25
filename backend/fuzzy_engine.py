@@ -7,6 +7,7 @@ from skfuzzy import trimf, trapmf, gaussmf, defuzz
 from skfuzzy.defuzzify.exceptions import EmptyMembershipErrorr
 import json
 import os
+from typing import List, Dict, Any
 
 app = FastAPI()
 
@@ -27,6 +28,11 @@ app.add_middleware(
 DATA_FILE = "fuzzy_variables.json"
 REGLAS_FILE = "reglas.json"
 
+class Condicion(BaseModel):
+    variable: str
+    conjunto: str
+    negado: bool = False
+
 class Variable(BaseModel):
     nombre: str
     rango: list[float]
@@ -34,6 +40,13 @@ class Variable(BaseModel):
     conjuntos: list[dict]
     tipoVariable: str
     id: int = None
+
+class Regla(BaseModel):
+    id: int = None
+    antecedentes: List[Condicion] # Usa List de typing
+    consecuentes: List[Condicion] # Usa List de typing
+    operador: str
+    peso: float = 1.0
 
 class FuzzyEngine:
     def __init__(self):
@@ -85,6 +98,43 @@ class FuzzyEngine:
                     
             return pertinencia
         return None
+    
+    def cargar_reglas(self) -> List['Regla']: # <<== ¡Verifica esto!
+        try:
+            if not os.path.exists(REGLAS_FILE):
+                return []
+            with open(REGLAS_FILE, "r", encoding="utf-8") as f:
+                data = json.load(f)
+                return [Regla(**item) for item in data]
+        except Exception as e:
+            print(f"Error cargando reglas: {e}")
+            return []
+    def guardar_reglas(self, reglas: List[Regla]): # <<== Aquí también se usa List y Regla
+        reglas_data = [regla.dict() for regla in reglas]
+        with open(REGLAS_FILE, "w", encoding="utf-8") as f:
+            json.dump(reglas_data, f, ensure_ascii=False, indent=2)
+    
+    def eliminar_regla(self, regla_id: int) -> bool: # El nuevo método de eliminación
+        reglas_existentes = self.cargar_reglas()
+        reglas_actualizadas = []
+        regla_encontrada = False
+
+        for regla in reglas_existentes:
+            if regla.id == regla_id:
+                regla_encontrada = True
+            else:
+                reglas_actualizadas.append(regla)
+            
+        if regla_encontrada:
+            self.guardar_reglas(reglas_actualizadas)
+            return True
+        return False
+    
+    def eliminar_todas_las_reglas(self): # Nuevo método para eliminar todas las reglas
+        if os.path.exists(REGLAS_FILE):
+            os.remove(REGLAS_FILE)
+            return True
+        return False
 
 engine = FuzzyEngine()
 
@@ -130,6 +180,8 @@ async def calcular_pertinencia(nombre_variable: str, valor: float):
 
 # ---------- REGLAS JSON ----------
 
+
+
 @app.post("/reglas/")
 async def guardar_reglas(request: Request):
     reglas = await request.json()
@@ -143,17 +195,27 @@ async def obtener_reglas():
         return []
     with open(REGLAS_FILE, "r", encoding="utf-8") as f:
         return json.load(f)
+@app.delete("/reglas/todas")
+async def eliminar_todas_las_reglas_api():
+    print("¡DEBUG: Solicitud DELETE /reglas/todas recibida!")
+    if engine.eliminar_todas_las_reglas():
+        return {"mensaje": "Todas las reglas han sido eliminadas correctamente"}
+    else:
+        raise HTTPException(status_code=404, detail="El archivo de reglas no existe para ser eliminado")
 
-def cargar_reglas_desde_json():
-    try:
-        with open(REGLAS_FILE, "r", encoding="utf-8") as f:
-            return json.load(f)
-    except Exception:
-        return []
+@app.delete("/reglas/{regla_id}")
+async def eliminar_regla_api(regla_id: int): # Renombré para evitar conflicto con el método de clase
+    if engine.eliminar_regla(regla_id):
+        return {"mensaje": f"Regla con ID {regla_id} eliminada correctamente"}
+    else:
+        raise HTTPException(status_code=404, detail=f"Regla con ID {regla_id} no encontrada.")
+
+
+
 
 @app.post("/evaluar/")
 async def evaluar_sistema_difuso(entradas: dict):
-    reglas = cargar_reglas_desde_json()
+    reglas = engine.cargar_reglas()
     if not reglas:
         raise HTTPException(status_code=400, detail="No hay reglas definidas")
 

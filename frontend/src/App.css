@@ -1,0 +1,14 @@
+/* Estilos para cuando hay sidebar */
+.App.with-sidebar {
+  margin-left: 280px; /* Mismo ancho que el sidebar */
+  width: calc(100% - 280px);
+}
+
+/* Responsive para el sidebar */
+@media (max-width: 768px) {
+  .App.with-sidebar {
+        margin-top: 10px; /* Espacio reducido para pantallas pequeñas */
+        margin-left: 0px; /* Espacio reducido para pantallas pequeñas */
+        width: 100%;
+    }
+}

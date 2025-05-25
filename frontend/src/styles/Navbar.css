@@ -3,13 +3,12 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-
   color: white;
   padding: 0.75rem 2rem;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   position: sticky;
   top: 0;
-  z-index: 1000;
+  z-index: 2000;
 }
 
 .logo-link {
@@ -94,6 +93,13 @@
   border-radius: 3px;
   box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
 }
+
+.logo-image {
+  height: 45px; /* O el tamaño que necesites para tu logo */
+  width: auto; /* Mantiene la proporción de la imagen */
+  /* Puedes añadir un margin-right si necesitas más espacio entre la imagen y el texto */
+}
+
 
 /* Estilo responsivo para móvil */
 @media (max-width: 768px) {
