@@ -43,8 +43,8 @@ class Variable(BaseModel):
 
 class Regla(BaseModel):
     id: int = None
-    antecedentes: List[Condicion] # Usa List de typing
-    consecuentes: List[Condicion] # Usa List de typing
+    antecedentes: List[Condicion] 
+    consecuentes: List[Condicion] 
     operador: str
     peso: float = 1.0
 
@@ -85,7 +85,7 @@ class FuzzyEngine:
             pertinencia = {}
             for conjunto in variable.conjuntos:
                 puntos = conjunto['puntos']
-                tipo = conjunto.get('tipo', variable.tipo)  # Usa el tipo del conjunto si existe, sino el de la variable
+                tipo = conjunto.get('tipo', variable.tipo)  
                 
                 if tipo == 'triangular':
                     pertinencia[conjunto['nombre']] = trimf(np.array([valor]), np.array(puntos))[0]
@@ -99,7 +99,7 @@ class FuzzyEngine:
             return pertinencia
         return None
     
-    def cargar_reglas(self) -> List['Regla']: # <<== ¡Verifica esto!
+    def cargar_reglas(self) -> List[Regla]: 
         try:
             if not os.path.exists(REGLAS_FILE):
                 return []
@@ -109,12 +109,12 @@ class FuzzyEngine:
         except Exception as e:
             print(f"Error cargando reglas: {e}")
             return []
-    def guardar_reglas(self, reglas: List[Regla]): # <<== Aquí también se usa List y Regla
+    def guardar_reglas(self, reglas: List[Regla]): 
         reglas_data = [regla.dict() for regla in reglas]
         with open(REGLAS_FILE, "w", encoding="utf-8") as f:
             json.dump(reglas_data, f, ensure_ascii=False, indent=2)
     
-    def eliminar_regla(self, regla_id: int) -> bool: # El nuevo método de eliminación
+    def eliminar_regla(self, regla_id: int) -> bool: 
         reglas_existentes = self.cargar_reglas()
         reglas_actualizadas = []
         regla_encontrada = False
@@ -130,7 +130,7 @@ class FuzzyEngine:
             return True
         return False
     
-    def eliminar_todas_las_reglas(self): # Nuevo método para eliminar todas las reglas
+    def eliminar_todas_las_reglas(self): 
         if os.path.exists(REGLAS_FILE):
             os.remove(REGLAS_FILE)
             return True
@@ -204,7 +204,7 @@ async def eliminar_todas_las_reglas_api():
         raise HTTPException(status_code=404, detail="El archivo de reglas no existe para ser eliminado")
 
 @app.delete("/reglas/{regla_id}")
-async def eliminar_regla_api(regla_id: int): # Renombré para evitar conflicto con el método de clase
+async def eliminar_regla_api(regla_id: int): 
     if engine.eliminar_regla(regla_id):
         return {"mensaje": f"Regla con ID {regla_id} eliminada correctamente"}
     else:
@@ -241,19 +241,19 @@ async def evaluar_sistema_difuso(entradas: dict):
     salidas_agregadas = {}
     for regla in reglas:
         activaciones = []
-        for ant in regla["antecedentes"]:
-            variable = ant["variable"]
-            conjunto = ant["conjunto"]
-            negado = ant["negado"]
+        for ant in regla.antecedentes:
+            variable = ant.variable
+            conjunto = ant.conjunto
+            negado = ant.negado
             grado = fuzzificados.get(variable, {}).get(conjunto, 0)
             grado = 1 - grado if negado else grado
             activaciones.append(grado)
-        activacion_regla = min(activaciones) if regla["operador"] == "AND" else max(activaciones)
-        activacion_regla *= regla.get("peso", 1.0)
-        for cons in regla["consecuentes"]:
-            variable = cons["variable"]
-            conjunto = cons["conjunto"]
-            negado = cons["negado"]
+        activacion_regla = min(activaciones) if regla.operador == "AND" else max(activaciones)
+        activacion_regla *= regla.peso
+        for cons in regla.consecuentes:
+            variable = cons.variable
+            conjunto = cons.conjunto
+            negado = cons.negado
             key = (variable, conjunto)
             grado_actual = salidas_agregadas.get(key, 0)
             nuevo_grado = 1 - activacion_regla if negado else activacion_regla
