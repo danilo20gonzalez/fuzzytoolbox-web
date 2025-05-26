@@ -6,12 +6,14 @@ import '../styles/Manual.css'; // ¡Importa el nuevo archivo CSS!
 const ManualInicio = () => {
   return (
     <div className="manual-content">
-      <div className="home-button-container">
-        <Link to="/" className="home-button">
-          <FaHome />
-        </Link>
+      <div className="manual-header-container">
+        <div className="home-button-container">
+          <Link to="/" className="home-button">
+            <FaHome />
+          </Link>
+        </div>
+        <h1>Manual Para Ingresar Variables</h1>
       </div>
-      <h1>Variables Difusas</h1>
 
       <div className="image-section">
         <img
