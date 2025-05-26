@@ -36,7 +36,7 @@
       }
     ],
     "tipoVariable": "entrada",
-    "id": 1
+    "id": 4
   },
   {
     "nombre": "humedad",
@@ -75,7 +75,7 @@
       }
     ],
     "tipoVariable": "entrada",
-    "id": 2
+    "id": 5
   },
   {
     "nombre": "velocidad_ventilador",
@@ -114,6 +114,6 @@
       }
     ],
     "tipoVariable": "salida",
-    "id": 3
+    "id": 6
   }
 ]
