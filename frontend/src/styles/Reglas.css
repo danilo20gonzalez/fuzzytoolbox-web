@@ -113,6 +113,30 @@
   transform: translateY(-3px);
 }
 
+
+.all_rules_delete { 
+  height: 40px;
+  align-items: center;
+  background-color: rgb(248, 54, 54);
+  display: flex; /* Convierte el enlace en un contenedor Flexbox */
+  align-items: center; /* Centra verticalmente el icono y el texto */
+  justify-content: center; /* Centra horizontalmente el icono y el texto */
+  color: rgb(255, 255, 255);
+  text-decoration: none;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  border: none;
+  margin: auto;  
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+}
+
+.all_rules_delete:hover {
+  background-color: red;
+  transform: translateY(-3px);
+}
+
 /* Mensajes de alerta */
 .message {
   padding: 12px 16px;
@@ -518,25 +542,26 @@
 }
 
 .primary-button:hover {
-  background-color: #2ecc71;
+  background-color: #2aa75e;
   transform: translateY(-1px);
   box-shadow: 0 4px 6px rgba(74, 107, 255, 0.3);
 }
 
 .secondary-button {
-  background-color: var(--light-gray);
+  background-color: rgb(173, 173, 173);
   color: var(--secondary-color);
   border: 1px solid var(--medium-gray);
   border-radius: var(--radius);
   padding: 12px 24px;
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
   transition: var(--transition);
 }
 
 .secondary-button:hover {
-  background-color: var(--medium-gray);
+  background-color: gray;
+  transform: translateY(-1px);
 }
 
 /* Panel de lista de reglas */

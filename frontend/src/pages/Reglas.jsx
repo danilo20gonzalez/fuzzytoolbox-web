@@ -289,47 +289,47 @@ function Reglas() {
       showMessage(`Error al eliminar la regla: ${error.message}`, 'error');
     }
   };
-const handleDeleteAllRules = async () => {
+  const handleDeleteAllRules = async () => {
     if (!window.confirm('¿Estás seguro de eliminar TODAS las reglas? Esta acción no se puede deshacer.')) {
-        return;
+      return;
     }
 
     try {
-        const url = `http://localhost:8000/reglas/todas`;
-        const options = {
-            method: 'DELETE',
-            // <<== ¡CONFIRMA QUE NO HAY HEADERS AQUÍ! ==>>
-        };
+      const url = `http://localhost:8000/reglas/todas`;
+      const options = {
+        method: 'DELETE',
+        // <<== ¡CONFIRMA QUE NO HAY HEADERS AQUÍ! ==>>
+      };
 
-        console.log("DEBUG: Enviando solicitud DELETE:", url, options); // <<== AÑADE ESTA LÍNEA
+      console.log("DEBUG: Enviando solicitud DELETE:", url, options); // <<== AÑADE ESTA LÍNEA
 
-        const response = await fetch(url, options);
+      const response = await fetch(url, options);
 
-        if (!response.ok) {
-            // ... (tu lógica de manejo de errores mejorada) ...
-            let errorMessage = 'Error al eliminar todas las reglas en el servidor.';
-            try {
-                const errorData = await response.json();
-                if (errorData && errorData.detail) {
-                    errorMessage = errorData.detail;
-                } else {
-                    errorMessage = JSON.stringify(errorData);
-                }
-            } catch (jsonError) {
-                errorMessage = `Error ${response.status}: ${response.statusText}`;
-            }
-            throw new Error(errorMessage);
+      if (!response.ok) {
+        // ... (tu lógica de manejo de errores mejorada) ...
+        let errorMessage = 'Error al eliminar todas las reglas en el servidor.';
+        try {
+          const errorData = await response.json();
+          if (errorData && errorData.detail) {
+            errorMessage = errorData.detail;
+          } else {
+            errorMessage = JSON.stringify(errorData);
+          }
+        } catch (jsonError) {
+          errorMessage = `Error ${response.status}: ${response.statusText}`;
         }
+        throw new Error(errorMessage);
+      }
 
-        setRules([]);
-        resetCurrentRule();
-        showMessage('Todas las reglas han sido eliminadas correctamente', 'success');
+      setRules([]);
+      resetCurrentRule();
+      showMessage('Todas las reglas han sido eliminadas correctamente', 'success');
 
     } catch (error) {
-        console.error('Error al eliminar todas las reglas:', error);
-        showMessage(`Error al eliminar todas las reglas: ${error.message}`, 'error');
+      console.error('Error al eliminar todas las reglas:', error);
+      showMessage(`Error al eliminar todas las reglas: ${error.message}`, 'error');
     }
-};
+  };
   // Cancelar edición
   const handleCancelEdit = () => {
     resetCurrentRule();
@@ -839,7 +839,14 @@ const handleDeleteAllRules = async () => {
               </div>
             )}
           </div>
+          <br />
+          {rules.length >= 2 && ( // El botón solo se renderiza si hay 2 o más reglas
+            <button onClick={handleDeleteAllRules} className="all_rules_delete">
+              Eliminar Todas las Reglas
+            </button>
+          )}
         </div>
+
       )}
 
       <div className="panel-actions">
@@ -848,12 +855,6 @@ const handleDeleteAllRules = async () => {
             <Link to="/simulador"><FaPlay />  Ir a los resultados →</Link>
           </li>
         </ul>
-        <button
-          onClick={handleDeleteAllRules}
-          style={{ backgroundColor: 'red', color: 'white', padding: '10px 15px', borderRadius: '5px', border: 'none', cursor: 'pointer', marginLeft: '10px' }}
-        >
-          Eliminar Todas las Reglas
-        </button>
       </div>
     </div>
   );

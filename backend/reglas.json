@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1748288602252,
+    "antecedentes": [
+      {
+        "variable": "humedad",
+        "conjunto": "Medio",
+        "negado": false
+      }
+    ],
+    "consecuentes": [
+      {
+        "variable": "velocidad_ventilador",
+        "conjunto": "Bajo",
+        "negado": false
+      }
+    ],
+    "operador": "AND"
+  }
+]
