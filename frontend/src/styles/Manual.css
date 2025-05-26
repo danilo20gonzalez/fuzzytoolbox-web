@@ -48,11 +48,17 @@
     }
 }
 
+.manual-header-container {
+  display: flex; /* Habilitar Flexbox */
+  align-items: center; /* Centrar verticalmente los ítems (botón y h1) */
+  margin-bottom: 1.5rem; /* Margen debajo del bloque de encabezado */
+  justify-content: center;
+  /* Puedes añadir justify-content si quieres que se separen */
+}
+
 .home-button-container {
-  position: absolute;
-  top: 4vh; 
-  left: 51vh;
-  z-index: 1000; 
+  z-index: 1000; /* Puedes mantenerlo si hay otros elementos */
+  margin-right: 15px;
 }
 
 /* Estilos para el botón de ayuda */
@@ -83,43 +89,27 @@
   height: 1em;
 }
 
-
-
 /* --- Estilos para los encabezados --- */
 .manual-content h1 {
+  font-family: 'Arial', sans-serif;
   color: var(--heading-color);
-  font-size: 1.8rem;
+  font-size: 2rem;
   margin-bottom: 1rem;
   text-align: center;
   border-bottom: 3px solid #3f14ff; /* Usa un color más consistente si es posible */
   padding-bottom: 0.5rem;
 }
 
-/* Ajuste de H1 para pantallas más grandes */
-@media (min-width: 768px) {
-    .manual-content h1 {
-        font-size: 2.5rem; /* Tamaño más grande para escritorio */
-        margin-bottom: 1.5rem;
-    }
-}
-
 .manual-content h2 {
+  font-family: 'Arial', sans-serif;
   color: var(--heading-color);
-  font-size: 1.75rem; /* Tamaño de fuente inicial para móviles */
+  font-size: 1.5rem; /* Tamaño de fuente inicial para móviles */
   margin-top: 2rem; /* Espaciado inicial para móviles */
   margin-bottom: 0.8rem;
   border-bottom: 2px solid var(--secondary-color);
   padding-bottom: 0.5rem;
 }
 
-/* Ajuste de H2 para pantallas más grandes */
-@media (min-width: 768px) {
-    .manual-content h2 {
-        font-size: 2rem; /* Tamaño más grande para escritorio */
-        margin-top: 2.5rem;
-        margin-bottom: 1rem;
-    }
-}
 
 .manual-content h3 {
   font-size: 1.25rem; /* Tamaño de fuente inicial para móviles */
@@ -127,31 +117,45 @@
   margin-bottom: 0.8rem;
 }
 
-/* Ajuste de H3 para pantallas más grandes */
-@media (min-width: 768px) {
-    .manual-content h3 {
-        font-size: 1.5rem; /* Tamaño más grande para escritorio */
-    }
-}
 
 /* Estilos para párrafos */
 .manual-content p {
   margin-bottom: 1rem;
-  font-size: 1rem; /* Tamaño de fuente base */
+  font-size: 1.1rem; /* Tamaño de fuente base */
 }
 
 /* Estilos para la sección de imagen */
 .image-section {
   margin-bottom: 1.5rem; /* Un poco menos de margen en móvil */
+  padding: 2px;
+  background-color: rgb(19, 14, 32);
+  border-radius: 8px;
 }
 
 .main-image {
   width: 100%;
   border-radius: 8px;
-  margin-bottom: 1rem;
   height: auto;
   display: block;
   object-fit: cover;
+}
+
+.image-section-pequenia {
+  padding: 2px;
+  background-color: rgb(19, 14, 32); 
+  border-radius: 8px;
+  display: block;
+  margin: auto; 
+  justify-content: center; 
+  align-items: center;
+  width: fit-content;  /* Agregar esta línea */ 
+}
+
+.main-image-pequenia {
+  width: auto;  
+  max-width: 100%;  
+  border-radius: 8px;
+  height: auto;   
 }
 
 /* Estilos para la lista de características */
