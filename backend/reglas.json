@@ -1,1 +1,317 @@
-[]
+[
+  {
+    "id": 1748318406375,
+    "antecedentes": [
+      {
+        "variable": "humedad",
+        "conjunto": "Bajo",
+        "negado": false
+      }
+    ],
+    "consecuentes": [
+      {
+        "variable": "velocidad_ventilador",
+        "conjunto": "Bajo",
+        "negado": false
+      }
+    ],
+    "operador": "AND"
+  },
+  {
+    "id": 1748318406376,
+    "antecedentes": [
+      {
+        "variable": "humedad",
+        "conjunto": "Medio",
+        "negado": false
+      }
+    ],
+    "consecuentes": [
+      {
+        "variable": "velocidad_ventilador",
+        "conjunto": "Medio",
+        "negado": false
+      }
+    ],
+    "operador": "AND"
+  },
+  {
+    "id": 1748318406377,
+    "antecedentes": [
+      {
+        "variable": "humedad",
+        "conjunto": "Alto",
+        "negado": false
+      }
+    ],
+    "consecuentes": [
+      {
+        "variable": "velocidad_ventilador",
+        "conjunto": "Alto",
+        "negado": false
+      }
+    ],
+    "operador": "AND"
+  },
+  {
+    "id": 1748318406378,
+    "antecedentes": [
+      {
+        "variable": "temperatura",
+        "conjunto": "Bajo",
+        "negado": false
+      }
+    ],
+    "consecuentes": [
+      {
+        "variable": "velocidad_ventilador",
+        "conjunto": "Bajo",
+        "negado": false
+      }
+    ],
+    "operador": "AND"
+  },
+  {
+    "id": 1748318406379,
+    "antecedentes": [
+      {
+        "variable": "temperatura",
+        "conjunto": "Bajo",
+        "negado": false
+      },
+      {
+        "variable": "humedad",
+        "conjunto": "Bajo",
+        "negado": false
+      }
+    ],
+    "consecuentes": [
+      {
+        "variable": "velocidad_ventilador",
+        "conjunto": "Bajo",
+        "negado": false
+      }
+    ],
+    "operador": "AND"
+  },
+  {
+    "id": 1748318406380,
+    "antecedentes": [
+      {
+        "variable": "temperatura",
+        "conjunto": "Bajo",
+        "negado": false
+      },
+      {
+        "variable": "humedad",
+        "conjunto": "Medio",
+        "negado": false
+      }
+    ],
+    "consecuentes": [
+      {
+        "variable": "velocidad_ventilador",
+        "conjunto": "Bajo",
+        "negado": false
+      }
+    ],
+    "operador": "AND"
+  },
+  {
+    "id": 1748318406381,
+    "antecedentes": [
+      {
+        "variable": "temperatura",
+        "conjunto": "Bajo",
+        "negado": false
+      },
+      {
+        "variable": "humedad",
+        "conjunto": "Alto",
+        "negado": false
+      }
+    ],
+    "consecuentes": [
+      {
+        "variable": "velocidad_ventilador",
+        "conjunto": "Medio",
+        "negado": false
+      }
+    ],
+    "operador": "AND"
+  },
+  {
+    "id": 1748318406382,
+    "antecedentes": [
+      {
+        "variable": "temperatura",
+        "conjunto": "Medio",
+        "negado": false
+      }
+    ],
+    "consecuentes": [
+      {
+        "variable": "velocidad_ventilador",
+        "conjunto": "Medio",
+        "negado": false
+      }
+    ],
+    "operador": "AND"
+  },
+  {
+    "id": 1748318406383,
+    "antecedentes": [
+      {
+        "variable": "temperatura",
+        "conjunto": "Medio",
+        "negado": false
+      },
+      {
+        "variable": "humedad",
+        "conjunto": "Bajo",
+        "negado": false
+      }
+    ],
+    "consecuentes": [
+      {
+        "variable": "velocidad_ventilador",
+        "conjunto": "Medio",
+        "negado": false
+      }
+    ],
+    "operador": "AND"
+  },
+  {
+    "id": 1748318406384,
+    "antecedentes": [
+      {
+        "variable": "temperatura",
+        "conjunto": "Medio",
+        "negado": false
+      },
+      {
+        "variable": "humedad",
+        "conjunto": "Medio",
+        "negado": false
+      }
+    ],
+    "consecuentes": [
+      {
+        "variable": "velocidad_ventilador",
+        "conjunto": "Medio",
+        "negado": false
+      }
+    ],
+    "operador": "AND"
+  },
+  {
+    "id": 1748318406385,
+    "antecedentes": [
+      {
+        "variable": "temperatura",
+        "conjunto": "Medio",
+        "negado": false
+      },
+      {
+        "variable": "humedad",
+        "conjunto": "Alto",
+        "negado": false
+      }
+    ],
+    "consecuentes": [
+      {
+        "variable": "velocidad_ventilador",
+        "conjunto": "Medio",
+        "negado": false
+      }
+    ],
+    "operador": "AND"
+  },
+  {
+    "id": 1748318406386,
+    "antecedentes": [
+      {
+        "variable": "temperatura",
+        "conjunto": "Alto",
+        "negado": false
+      }
+    ],
+    "consecuentes": [
+      {
+        "variable": "velocidad_ventilador",
+        "conjunto": "Alto",
+        "negado": false
+      }
+    ],
+    "operador": "AND"
+  },
+  {
+    "id": 1748318406387,
+    "antecedentes": [
+      {
+        "variable": "temperatura",
+        "conjunto": "Alto",
+        "negado": false
+      },
+      {
+        "variable": "humedad",
+        "conjunto": "Bajo",
+        "negado": false
+      }
+    ],
+    "consecuentes": [
+      {
+        "variable": "velocidad_ventilador",
+        "conjunto": "Alto",
+        "negado": false
+      }
+    ],
+    "operador": "AND"
+  },
+  {
+    "id": 1748318406388,
+    "antecedentes": [
+      {
+        "variable": "temperatura",
+        "conjunto": "Alto",
+        "negado": false
+      },
+      {
+        "variable": "humedad",
+        "conjunto": "Medio",
+        "negado": false
+      }
+    ],
+    "consecuentes": [
+      {
+        "variable": "velocidad_ventilador",
+        "conjunto": "Alto",
+        "negado": false
+      }
+    ],
+    "operador": "AND"
+  },
+  {
+    "id": 1748318406389,
+    "antecedentes": [
+      {
+        "variable": "temperatura",
+        "conjunto": "Alto",
+        "negado": false
+      },
+      {
+        "variable": "humedad",
+        "conjunto": "Alto",
+        "negado": false
+      }
+    ],
+    "consecuentes": [
+      {
+        "variable": "velocidad_ventilador",
+        "conjunto": "Alto",
+        "negado": false
+      }
+    ],
+    "operador": "AND"
+  }
+]

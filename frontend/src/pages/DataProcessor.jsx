@@ -2,6 +2,8 @@ import { useState, useRef } from 'react';
 import Papa from 'papaparse';
 import '../styles/DataProcessor.css';
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { FaQuestion } from 'react-icons/fa';
 import { FaUpload, FaCheck, FaTimes, FaTable, FaEdit } from 'react-icons/fa';
 import "../styles/DataProcessor.css"
 
@@ -291,14 +293,19 @@ const CargaDatos = () => {
 
   return (
     <div className="carga-datos-container">
-      <h2><FaUpload /> Carga de Datos para Lógica Difusa</h2>
+      <div className="help-button-container">
+        <Link to="/manual/cargardatos" className="help-button">
+          <FaQuestion />
+        </Link>
+      </div>
+      <h1><FaUpload /> Carga de Datos para Lógica Difusa</h1>
       
       {error && <div className="error-message"><FaTimes /> {error}</div>}
       {success && <div className="success-message"><FaCheck /> {success}</div>}
       
       {/* Paso 1: Carga de archivo */}
       <div className="section">
-        <h3>1. Selecciona un archivo CSV con tus datos</h3>
+        <h2>1. Selecciona un archivo CSV con tus datos</h2>
         <div className="file-upload">
           <input 
             type="file" 

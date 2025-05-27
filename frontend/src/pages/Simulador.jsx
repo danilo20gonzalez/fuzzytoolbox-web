@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ReferenceLine, ResponsiveContainer } from "recharts";
 import '../styles/Resultados.css'
+import { FaQuestion } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 function Simulador() {
   const [inputVars, setInputVars] = useState([]);
@@ -223,6 +225,11 @@ function Simulador() {
 
   return (
     <div className="evaluador-container">
+      <div className="help-button-container-resultados">
+        <Link to="/manual/resultados" className="help-button-resultados">
+          <FaQuestion />
+        </Link>
+      </div>
       <h1>Simulador de Sistema Difuso</h1>
 
       {mensaje && <div className="mensaje">{mensaje}</div>}
@@ -392,7 +399,7 @@ function Simulador() {
           {cargando ? "Evaluando..." : "Evaluar Sistema Difuso"}
         </button>
       </div>
-
+      <br />
       {resultados && (
         <div className="panel-resultados">
           <h3>Resultados de la Evaluación</h3>
