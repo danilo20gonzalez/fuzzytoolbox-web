@@ -8,13 +8,14 @@ import Pestanias from '../assets/Pestanias.png'
 import Crear_regla from '../assets/Crear_regla.png'
 import Vista_previa from '../assets/Vista_Previa.png'
 import reglas_auto from '../assets/reglas_automaticas.png'
+import bton_resul from '../assets/btn_resultados.png'
 
 const ManualInicio = () => {
   return (
     <div className="manual-content">
       <div className="manual-header-container">
         <div className="home-button-container">
-          <Link to="/" className="home-button">
+          <Link to="/reglas" className="home-button">
             <FaHome />
           </Link>
         </div>
@@ -133,22 +134,18 @@ const ManualInicio = () => {
               <li>Para cada variable elegida, selecciona el conjunto difuso deseado (ej., "Bajo", "Medio", "Alto").</li>
               <li>Si usas múltiples variables de entrada, elige el Operador lógico (Y (AND) u O (OR)) que las conectará.</li>
             </ul>
-            <br />
             <li><strong>2. Crea los Conjuntos Difusos:</strong> </li>
             <ul>
               <li>En el panel "Variables de Salida (ENTONCES)", selecciona la variable de salida y su conjunto difuso correspondiente.</li>
             </ul>
-            <br />
             <li><strong>3. Revisar la Vista Previa:</strong> </li>
             <ul>
               <li>Observa el panel "Vista Previa" para verificar que la regla se ha formado correctamente según tus selecciones (ej., "Si temperatura es Medio AND humedad es Medio ENTONCES velocidad_ventilador es Medio").</li>
             </ul>
-            <br />
             <li><strong>4. Guardar la Regla:</strong> </li>
             <ul>
               <li>Haz clic en el botón Guardar Regla. La regla se añadirá a tu sistema y podrás verla en la pestaña "Lista de Reglas".</li>
             </ul>
-            <br />
           </ul>
 
             <p><strong>Método 2: Creación de Reglas Automáticas</strong> 
@@ -171,6 +168,48 @@ const ManualInicio = () => {
             </p>
         </p>
       </div>
+
+    <h2>Vista 2: Lista de Reglas</h2>
+      <div className="image-section">
+        <img
+          src={Pag_Reglas2} // Asegúrate de reemplazar esto con la ruta real de tu imagen
+          alt="Pagiana de reglas2"
+          className="main-image"
+        />
+      </div>
+      
+      <p>Esta pestaña te permite visualizar, buscar y administrar todas las reglas que has creado.</p>
+      <ul>
+        <li><strong>Campo de Búsqueda:</strong></li>
+        <ul>
+          <li>Usa este campo para filtrar rápidamente tus reglas. A medida que escribes, la lista se actualizará para mostrar solo las reglas que coincidan con tu texto de búsqueda.</li>
+        </ul>
+        <li><strong>Contador de Reglas:</strong></li>
+        <ul>
+          <li>Indica el número total de reglas definidas en tu sistema. Si estás filtrando, también mostrará cuántas reglas cumplen con el criterio de búsqueda.</li>
+        </ul>
+        <li><strong>Lista de Reglas (Grid de Reglas):</strong></li>
+        <ul>
+          <li>Cada regla se presenta en una tarjeta individual que muestra su número, la lógica "SI... ENTONCES" y botones de acción.</li>
+          <li>Botón Editar: Haz clic para volver a la vista "Crear Regla" con los detalles de esta regla precargados, permitiéndote modificarla.</li>
+          <li>Botón Eliminar: Elimina la regla seleccionada de tu sistema. Se recomienda precaución al usar esta opción.</li>
+        </ul>
+        <li><strong>Botón "Eliminar Todas las Reglas":</strong></li>
+        <ul>
+          <li>Este botón aparece cuando tienes dos o más reglas y te permite borrar todas las reglas definidas en tu sistema de una sola vez. Úsalo con extrema precaución.</li>
+        </ul>
+        <li><strong>Botón "Ir a los resultados →"</strong></li>
+        <div className="image-section-pequenia">
+          <img
+            src={bton_resul} // Asegúrate de reemplazar esto con la ruta real de tu imagen
+            alt="Boton para ir a Resultados-pequenia"
+            className="main-image"
+          />
+        </div>
+        <ul>
+          <li>Una vez que hayas definido tus reglas, haz clic aquí para proceder a la sección de "Resultados" y ver cómo tu sistema procesa las entradas.</li>
+        </ul>
+      </ul>
     </div>
   );
 };

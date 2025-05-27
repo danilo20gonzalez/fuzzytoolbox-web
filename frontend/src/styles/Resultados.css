@@ -2,8 +2,7 @@
 
 /* Estilos generales */
 .evaluador-container {
-  max-width: 1200px;
-  margin: 0 auto;
+  max-width: 100%;
   padding: 2rem;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
   color: #334155;
@@ -11,6 +10,41 @@
   border-radius: 12px;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   transition: all 0.3s ease;
+}
+
+.help-button-container-resultados {
+  position: absolute;
+  top: 85px; 
+  left: 10px;
+  z-index: 1000; 
+}
+
+/* Estilos para el botón de ayuda */
+.help-button-resultados {
+  width: 45px; 
+  height: 45px; 
+  border-radius: 50%; 
+  background-color: rgb(109, 3, 141); 
+  color: white; 
+  border: none; 
+  display: flex;
+  align-items: center; 
+  justify-content: center; 
+  font-size: 1.2em; 
+  font-weight: bold; 
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); 
+  transition: background-color 0.2s ease, transform 0.2s ease; 
+}
+
+.help-button-resultados:hover {
+  background-color: rgb(88, 5, 114); 
+  transform: scale(1.05); 
+}
+
+.help-button-resultados svg {
+  width: 2em; 
+  height: 1em;
 }
 
 .evaluador-container h2 {
@@ -190,7 +224,7 @@
 
 .grid-graficas {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 15px;
   margin-top: 10px;
 }
@@ -198,6 +232,7 @@
 .grafica-conjunto {
   border: 1px solid #ddd;
   border-radius: 6px;
+  
   padding: 10px;
   background-color: white;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
