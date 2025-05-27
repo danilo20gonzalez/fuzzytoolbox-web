@@ -13,7 +13,7 @@ function Navbar() {
         '/variables': { background: 'linear-gradient(90deg, #3b82f6, #38bd6b)' },  // Verde para Variables
         '/reglas': { background: 'linear-gradient(140deg,rgb(1, 207, 80),rgb(185, 60, 179))' },     // Rojo para Reglas
         '/simulador': { background: 'linear-gradient(90deg,rgb(109, 3, 141), rgb(109, 3, 141),rgb(63, 131, 241))' },
-        '/dataProcessor': { background: 'linear-gradient(90deg,rgb(109, 3, 141), rgb(109, 3, 141),rgb(63, 131, 241))' }   // Amarillo para Simulador
+        '/dataProcessor': { background: 'linear-gradient(90deg, #3b82f6, #38bd6b)' }   // Amarillo para Simulador
   };
 
   const navbarStyle = {
