@@ -1,36 +1,36 @@
 [
   {
-    "nombre": "temperatura",
+    "nombre": "Temperatura",
     "rango": [
-      18.0,
-      36.0
+      0.0,
+      40.0
     ],
     "tipo": "triangular",
     "conjuntos": [
       {
-        "nombre": "Bajo",
+        "nombre": "Frio",
         "puntos": [
-          18,
-          18,
-          24
+          0,
+          0,
+          12
         ],
         "tipo": "triangular"
       },
       {
-        "nombre": "Medio",
+        "nombre": "Templado",
         "puntos": [
-          21,
-          27,
-          33
+          10,
+          15,
+          20
         ],
         "tipo": "triangular"
       },
       {
-        "nombre": "Alto",
+        "nombre": "Caliente",
         "puntos": [
+          18,
           30,
-          36,
-          36
+          40
         ],
         "tipo": "triangular"
       }
@@ -39,37 +39,37 @@
     "id": 1
   },
   {
-    "nombre": "humedad",
+    "nombre": "Humedad",
     "rango": [
-      30.0,
-      98.0
+      0.0,
+      100.0
     ],
     "tipo": "triangular",
     "conjuntos": [
       {
         "nombre": "Bajo",
         "puntos": [
-          30,
-          30,
-          52.66666666666667
+          0,
+          25,
+          50
         ],
         "tipo": "triangular"
       },
       {
         "nombre": "Medio",
         "puntos": [
-          41.333333333333336,
-          64,
-          86.66666666666666
+          25,
+          50,
+          75
         ],
         "tipo": "triangular"
       },
       {
         "nombre": "Alto",
         "puntos": [
-          75.33333333333334,
-          98,
-          98
+          50,
+          75,
+          100
         ],
         "tipo": "triangular"
       }
@@ -78,9 +78,9 @@
     "id": 2
   },
   {
-    "nombre": "velocidad_ventilador",
+    "nombre": "Ventilador",
     "rango": [
-      20.0,
+      0.0,
       100.0
     ],
     "tipo": "triangular",
@@ -88,25 +88,25 @@
       {
         "nombre": "Bajo",
         "puntos": [
-          20,
-          20,
-          46.66666666666667
+          0,
+          0,
+          50
         ],
         "tipo": "triangular"
       },
       {
         "nombre": "Medio",
         "puntos": [
-          33.333333333333336,
-          60,
-          86.66666666666667
+          25,
+          50,
+          75
         ],
         "tipo": "triangular"
       },
       {
         "nombre": "Alto",
         "puntos": [
-          73.33333333333334,
+          50,
           100,
           100
         ],
