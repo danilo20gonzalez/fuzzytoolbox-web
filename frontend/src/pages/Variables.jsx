@@ -37,7 +37,8 @@ function Variables() {
     tipoVariable: 'entrada', // 'entrada' o 'salida'
     rango: [0, 100],
     tipo: 'triangular',
-    conjuntos: []
+    conjuntos: [],
+    originalName: null
   });
 
   const [currentSet, setCurrentSet] = useState({
@@ -332,31 +333,45 @@ function Variables() {
     };
 
     try {
-      // Si estás actualizando
+      // Si estás actualizando (incluyendo renombrado)
       if (currentVariable.id) {
-        await fetch(`http://localhost:8000/variables/${currentVariable.nombre}`, {
+        // Usa currentVariable.originalName para la URL si existe, de lo contrario usa currentVariable.nombre
+        // Esto es crucial para el renombrado
+        const urlNombre = currentVariable.originalName && currentVariable.originalName !== currentVariable.nombre
+          ? currentVariable.originalName
+          : currentVariable.nombre;
+
+        await fetch(`http://localhost:8000/variables/${urlNombre}`, { // <-- CAMBIO AQUÍ
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(currentVariable)
+          body: JSON.stringify(currentVariable) // El body ya tiene el nuevo nombre
         });
 
         // Actualizar en el estado local después de éxito en el backend
+        // Necesitas actualizar la variable con el posible nuevo nombre si hubo renombrado
         setVariables(prev => prev.map(v => v.id === currentVariable.id ? currentVariable : v));
         setMessage('Variable actualizada');
 
       } else {
+        // Si es una nueva variable (POST)
         const newVariable = {
           ...currentVariable,
-          id: Date.now()
+          id: Date.now() // Asignar un ID temporal para el frontend si el backend no lo asigna en el POST
+          // (Aunque tu backend ya asigna ID, esto es por si acaso)
         };
-        // Si es una nueva variable
-        await fetch('http://localhost:8000/variables/', {
+        const response = await fetch('http://localhost:8000/variables/', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(currentVariable)
         });
-        setVariables(prev => [...prev, newVariable]);
-        setMessage('Variable creada');
+        if (response.ok) {
+          const data = await response.json(); // Si el backend devuelve la variable creada con ID
+          setVariables(prev => [...prev, data.variable]); // Añade la variable con el ID real del backend
+          setMessage('Variable creada');
+        } else {
+          const errorData = await response.json();
+          throw new Error(errorData.detail || 'Error al crear variable');
+        }
       }
 
       // Resetear estado
@@ -365,7 +380,8 @@ function Variables() {
         rango: [0, 100],
         tipo: 'triangular',
         conjuntos: [],
-        tipoVariable: 'entrada'
+        tipoVariable: 'entrada',
+        originalName: null
       });
 
       setCurrentSet({ nombre: '', puntos: [], originalName: null });
@@ -380,10 +396,11 @@ function Variables() {
 
   // Editar variable existente
   const handleEditVariable = (variable) => {
-    setCurrentVariable({ ...variable });
+    setCurrentVariable({ ...variable, originalName: variable.nombre });
     setCurrentSet({ nombre: '', puntos: [], originalName: null });
     setSelectedSet(null);
     setMessage('Variable cargada para edición');
+     setIsSaveVariableButtonVisible(true);
   };
 
   // Eliminar variable
@@ -634,11 +651,11 @@ function Variables() {
             </div>
           )}
           {isSaveVariableButtonVisible && (
-          <div className="variable-section-footer">
-            <button className="boton-actu-guardar" onClick={handleSaveVariable}>
-              {currentVariable.id ? 'Actualizar Variable' : 'Guardar Variable ✓'}
-            </button>
-          </div>
+            <div className="variable-section-footer">
+              <button className="boton-actu-guardar" onClick={handleSaveVariable}>
+                {currentVariable.id ? 'Actualizar Variable' : 'Guardar Variable ✓'}
+              </button>
+            </div>
           )}
         </div>
       </div>
