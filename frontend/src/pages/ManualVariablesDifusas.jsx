@@ -17,7 +17,7 @@ const ManualInicio = () => {
     <div className="manual-content">
       <div className="manual-header-container">
         <div className="home-button-container">
-          <Link to="/" className="home-button">
+          <Link to="/variables" className="home-button">
             <FaHome />
           </Link>
         </div>
