@@ -59,6 +59,29 @@ function Simulador() {
       .finally(() => setCargando(false));
   }, []);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      fetch("http://localhost:8000/entrada_pendiente/")
+        .then(res => res.json())
+        .then(data => {
+          if (data.entradas) {
+            setInputValues(prev => {
+              const nuevos = {};
+              for (const [clave, valor] of Object.entries(data.entradas)) {
+                nuevos[clave] = parseFloat(valor);
+              }
+              return { ...prev, ...nuevos };
+            });
+          }
+        })
+        .catch((err) => {
+          console.error("Error obteniendo entrada pendiente:", err);
+        });
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   // Generar datos para las funciones de membresía
   const generarFuncionesMembresia = (variables) => {
     const funciones = {};
@@ -81,7 +104,7 @@ function Simulador() {
           const tipo = tipoConjunto || variable.tipo; // Usa el tipo del conjunto si existe, sino el de la variable
 
           let valor = 0;
-          
+
           if (tipo === "triangular") {
             // Función triangular: a, b, c
             if (x <= puntos[0] || x >= puntos[2]) {
@@ -408,10 +431,10 @@ function Simulador() {
             {/* Modificado: Mostrar todas las variables de salida */}
             {outputVars.map((variable) => {
               const valor = resultados[variable.nombre];
-              
+
               // Solo mostrar si tenemos un resultado para esta variable
               if (valor === undefined) return null;
-              
+
               return (
                 <div key={variable.nombre} className="resultado-variable">
                   <h4>{variable.nombre}</h4>
