@@ -289,47 +289,47 @@ function Reglas() {
       showMessage(`Error al eliminar la regla: ${error.message}`, 'error');
     }
   };
-const handleDeleteAllRules = async () => {
+  const handleDeleteAllRules = async () => {
     if (!window.confirm('¿Estás seguro de eliminar TODAS las reglas? Esta acción no se puede deshacer.')) {
-        return;
+      return;
     }
 
     try {
-        const url = `http://localhost:8000/reglas/todas`;
-        const options = {
-            method: 'DELETE',
-            // <<== ¡CONFIRMA QUE NO HAY HEADERS AQUÍ! ==>>
-        };
+      const url = `http://localhost:8000/reglas/todas`;
+      const options = {
+        method: 'DELETE',
+        // <<== ¡CONFIRMA QUE NO HAY HEADERS AQUÍ! ==>>
+      };
 
-        console.log("DEBUG: Enviando solicitud DELETE:", url, options); // <<== AÑADE ESTA LÍNEA
+      console.log("DEBUG: Enviando solicitud DELETE:", url, options); // <<== AÑADE ESTA LÍNEA
 
-        const response = await fetch(url, options);
+      const response = await fetch(url, options);
 
-        if (!response.ok) {
-            // ... (tu lógica de manejo de errores mejorada) ...
-            let errorMessage = 'Error al eliminar todas las reglas en el servidor.';
-            try {
-                const errorData = await response.json();
-                if (errorData && errorData.detail) {
-                    errorMessage = errorData.detail;
-                } else {
-                    errorMessage = JSON.stringify(errorData);
-                }
-            } catch (jsonError) {
-                errorMessage = `Error ${response.status}: ${response.statusText}`;
-            }
-            throw new Error(errorMessage);
+      if (!response.ok) {
+        // ... (tu lógica de manejo de errores mejorada) ...
+        let errorMessage = 'Error al eliminar todas las reglas en el servidor.';
+        try {
+          const errorData = await response.json();
+          if (errorData && errorData.detail) {
+            errorMessage = errorData.detail;
+          } else {
+            errorMessage = JSON.stringify(errorData);
+          }
+        } catch (jsonError) {
+          errorMessage = `Error ${response.status}: ${response.statusText}`;
         }
+        throw new Error(errorMessage);
+      }
 
-        setRules([]);
-        resetCurrentRule();
-        showMessage('Todas las reglas han sido eliminadas correctamente', 'success');
+      setRules([]);
+      resetCurrentRule();
+      showMessage('Todas las reglas han sido eliminadas correctamente', 'success');
 
     } catch (error) {
-        console.error('Error al eliminar todas las reglas:', error);
-        showMessage(`Error al eliminar todas las reglas: ${error.message}`, 'error');
+      console.error('Error al eliminar todas las reglas:', error);
+      showMessage(`Error al eliminar todas las reglas: ${error.message}`, 'error');
     }
-};
+  };
   // Cancelar edición
   const handleCancelEdit = () => {
     resetCurrentRule();
@@ -404,7 +404,7 @@ const handleDeleteAllRules = async () => {
       });
 
       if (!response.ok) throw new Error('Error al guardar las reglas');
-      showMessage('Reglas guardadas en el backend', 'success');
+      showMessage('Reglas guardadas en la pestaña "lista de reglas"', 'success');
     } catch (error) {
       console.error(error);
       showMessage('No se pudieron guardar las reglas', 'error');
@@ -488,8 +488,8 @@ const handleDeleteAllRules = async () => {
 
   return (
     <div className="reglas-container">
-      <div className="help-button-container">
-        <Link to="/manual/reglas" className="help-button">
+      <div className="help-button-container-rules">
+        <Link to="/manual/reglas" className="help-button-rules">
           <FaQuestion />
         </Link>
       </div>
@@ -677,48 +677,82 @@ const handleDeleteAllRules = async () => {
               <div className="generated-rules-editor">
                 <h3>Editar Reglas Generadas Automáticamente</h3>
                 <p>Selecciona los consecuentes para cada regla generada:</p>
-                <div className="generated-rules-list">
+                <div className="rules-grid">
                   {generatedRules.map((rule, index) => (
-                    <div key={rule.id} className="generated-rule-item">
-                      <h4>Regla {index + 1}</h4>
-                      <div className="antecedente-preview">
-                        <h5>Si:</h5>
-                        {rule.antecedentes.map((ant, antIndex) => (
-                          <span key={`${ant.variable}-${ant.conjunto}-${antIndex}`} className="antecedente-label">
-                            {ant.variable} es {ant.negado ? 'NO ' : ''}{ant.conjunto}
-                            {antIndex < rule.antecedentes.length - 1 && ` ${rule.operador} `}
-                          </span>
-                        ))}
+                    <div key={rule.id} className="rule-card">
+                      {/* Header de la regla */}
+                      <div className="rule-card-header">
+                        <div className="rule-number">Regla {index + 1}</div>
                       </div>
-                      <div className="consecuentes-selector">
-                        <h5>Entonces:</h5>
-                        {outputVariables.map((outputVariable, outputIndex) => {
-                          const consIndex = rule.consecuentes.findIndex(cons => cons.variable === outputVariable.nombre);
-                          const consecuente = rule.consecuentes[consIndex];
-                          return (
-                            <div key={outputVariable.nombre} className="consecuente-input">
-                              <label>{outputVariable.nombre} es:</label>
-                              <select
-                                value={consecuente.conjunto}
-                                onChange={(e) => handleGeneratedRuleConsecuentChange(index, outputIndex, e.target.value)}
-                              >
-                                <option value="">-- Seleccionar --</option>
-                                {getConjuntosForVariable(outputVariable.nombre).map((conjunto, i) => (
-                                  <option key={i} value={conjunto}>{conjunto}</option>
-                                ))}
-                              </select>
-                              <label className="negation-toggle">
-                                <input
-                                  type="checkbox"
-                                  checked={consecuente.negado}
-                                  onChange={(e) => handleGeneratedRuleConsecuentNegationChange(index, outputIndex, e.target.checked)}
-                                  disabled={!consecuente.conjunto}
-                                />
-                                Negar
-                              </label>
-                            </div>
-                          );
-                        })}
+
+                      {/* Contenido principal de la regla */}
+                      <div className="rule-card-body">
+                        {/* Sección de antecedentes */}
+                        <div className="antecedentes-section">
+                          <div className="rule-text">
+                            {rule.antecedentes.map((ant, antIndex) => (
+                              <span key={`${ant.variable}-${ant.conjunto}-${antIndex}`}>
+                                <strong>Si </strong>
+                                <span className="variable-name">{ant.variable}</span> es{' '}
+                                {ant.negado && <span className="negation">NO </span>}
+                                <span className="conjunto-name">{ant.conjunto}</span>
+                                {antIndex < rule.antecedentes.length - 1 && (
+                                  <span className="operator"> {rule.operador} </span>
+                                )}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* Separador visual */}
+                        <div className="rule-separator">
+                          <strong>ENTONCES</strong>
+                        </div>
+
+                        {/* Sección de consecuentes */}
+                        <div className="consecuentes-section">
+                          {outputVariables.map((outputVariable, outputIndex) => {
+                            const consIndex = rule.consecuentes.findIndex(
+                              cons => cons.variable === outputVariable.nombre
+                            );
+                            const consecuente = rule.consecuentes[consIndex];
+
+                            return (
+                              <div key={outputVariable.nombre} className="consecuente-group">
+                                <div className="consecuente-label">
+                                  <span className="variable-name">{outputVariable.nombre}</span> es:
+                                </div>
+
+                                <div className="consecuente-controls">
+                                  <select
+                                    className="consecuente-select"
+                                    value={consecuente.conjunto}
+                                    onChange={(e) =>
+                                      handleGeneratedRuleConsecuentChange(index, outputIndex, e.target.value)
+                                    }
+                                  >
+                                    <option value="">-- Seleccionar --</option>
+                                    {getConjuntosForVariable(outputVariable.nombre).map((conjunto, i) => (
+                                      <option key={i} value={conjunto}>{conjunto}</option>
+                                    ))}
+                                  </select>
+
+                                  <label className="negation-toggle">
+                                    <input
+                                      type="checkbox"
+                                      checked={consecuente.negado}
+                                      onChange={(e) =>
+                                        handleGeneratedRuleConsecuentNegationChange(index, outputIndex, e.target.checked)
+                                      }
+                                      disabled={!consecuente.conjunto}
+                                    />
+                                    <span className="checkbox-label">Negar</span>
+                                  </label>
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
                       </div>
                     </div>
                   ))}
@@ -839,7 +873,14 @@ const handleDeleteAllRules = async () => {
               </div>
             )}
           </div>
+          <br />
+          {rules.length >= 2 && ( // El botón solo se renderiza si hay 2 o más reglas
+            <button onClick={handleDeleteAllRules} className="all_rules_delete">
+              Eliminar Todas las Reglas
+            </button>
+          )}
         </div>
+
       )}
 
       <div className="panel-actions">
@@ -848,12 +889,6 @@ const handleDeleteAllRules = async () => {
             <Link to="/simulador"><FaPlay />  Ir a los resultados →</Link>
           </li>
         </ul>
-        <button
-          onClick={handleDeleteAllRules}
-          style={{ backgroundColor: 'red', color: 'white', padding: '10px 15px', borderRadius: '5px', border: 'none', cursor: 'pointer', marginLeft: '10px' }}
-        >
-          Eliminar Todas las Reglas
-        </button>
       </div>
     </div>
   );
