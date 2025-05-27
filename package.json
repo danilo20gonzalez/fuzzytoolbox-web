@@ -8,7 +8,7 @@
     "dev": "concurrently \"npm run start\" \"cd frontend && npm run dev\"",
     "build": "cd frontend && npm run build",
     "electron": "electron .",
-    "electron-build": "electron-builder build --win --linux"
+    "electron-build": "electron-builder build --win "
   },
   "author": "Jaider SAenz PErnia",
   "license": "ISC",
@@ -42,7 +42,6 @@
       "backend/**",
       "frontend/dist/**"
     ],
-
     "win": {
       "target": [
         "nsis"

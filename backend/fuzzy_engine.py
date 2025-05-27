@@ -213,8 +213,33 @@ async def eliminar_regla_api(regla_id: int):
 
 
 
+# Variables de estado global
+entrada_pendiente = None
+ultimo_resultado = {}
+
+@app.post("/enviar_entrada/")
+async def recibir_entrada(entradas: dict):
+    global entrada_pendiente
+    if entrada_pendiente is None:
+        entrada_pendiente = entradas
+        return {"status": "Entrada recibida"}
+    else:
+        return {"status": "Ocupado", "mensaje": "Espere a que se evalúe la entrada actual"}
+
+@app.get("/entrada_pendiente/")
+async def obtener_entrada_pendiente():
+    return {"entradas": entrada_pendiente}
+
+@app.get("/ultimo_resultado/")
+async def obtener_ultimo_resultado():
+    return ultimo_resultado
+
+# ✅ Aquí usamos engine, no motor
 @app.post("/evaluar/")
 async def evaluar_sistema_difuso(entradas: dict):
+    global entrada_pendiente, ultimo_resultado
+
+    # --- Mismo contenido que ya tienes para evaluar ---
     reglas = engine.cargar_reglas()
     if not reglas:
         raise HTTPException(status_code=400, detail="No hay reglas definidas")
@@ -292,5 +317,12 @@ async def evaluar_sistema_difuso(entradas: dict):
                 salida_final[var_nombre] = defuzz(x, mf_total, 'centroid')
         except EmptyMembershipError:
             salida_final[var_nombre] = 0
+
+    # ✅ Guardamos el resultado y liberamos la entrada pendiente
+    ultimo_resultado = {
+        "entradas": entradas,
+        "resultado": salida_final
+    }
+    entrada_pendiente = None
 
     return salida_final

@@ -1,9 +1,9 @@
 [
   {
-    "id": 1748221532003,
+    "id": 1748315308514,
     "antecedentes": [
       {
-        "variable": "humedad",
+        "variable": "Humedad",
         "conjunto": "Bajo",
         "negado": false
       }
@@ -18,10 +18,10 @@
     "operador": "AND"
   },
   {
-    "id": 1748221532004,
+    "id": 1748315308515,
     "antecedentes": [
       {
-        "variable": "humedad",
+        "variable": "Humedad",
         "conjunto": "Medio",
         "negado": false
       }
@@ -29,17 +29,17 @@
     "consecuentes": [
       {
         "variable": "velocidad_ventilador",
-        "conjunto": "Bajo",
+        "conjunto": "Medio",
         "negado": false
       }
     ],
     "operador": "AND"
   },
   {
-    "id": 1748221532005,
+    "id": 1748315308516,
     "antecedentes": [
       {
-        "variable": "humedad",
+        "variable": "Humedad",
         "conjunto": "Alto",
         "negado": false
       }
@@ -47,24 +47,6 @@
     "consecuentes": [
       {
         "variable": "velocidad_ventilador",
-        "conjunto": "Alto",
-        "negado": false
-      }
-    ],
-    "operador": "AND"
-  },
-  {
-    "id": 1748221532006,
-    "antecedentes": [
-      {
-        "variable": "temperatura",
-        "conjunto": "Bajo",
-        "negado": false
-      }
-    ],
-    "consecuentes": [
-      {
-        "variable": "velocidad_ventilador",
         "conjunto": "Bajo",
         "negado": false
       }
@@ -72,15 +54,10 @@
     "operador": "AND"
   },
   {
-    "id": 1748221532007,
+    "id": 1748315308517,
     "antecedentes": [
       {
-        "variable": "temperatura",
-        "conjunto": "Bajo",
-        "negado": false
-      },
-      {
-        "variable": "humedad",
+        "variable": "Temperatura",
         "conjunto": "Bajo",
         "negado": false
       }
@@ -95,79 +72,15 @@
     "operador": "AND"
   },
   {
-    "id": 1748221532008,
+    "id": 1748315308518,
     "antecedentes": [
       {
-        "variable": "temperatura",
+        "variable": "Temperatura",
         "conjunto": "Bajo",
         "negado": false
       },
       {
-        "variable": "humedad",
-        "conjunto": "Medio",
-        "negado": false
-      }
-    ],
-    "consecuentes": [
-      {
-        "variable": "velocidad_ventilador",
-        "conjunto": "Medio",
-        "negado": false
-      }
-    ],
-    "operador": "AND"
-  },
-  {
-    "id": 1748221532009,
-    "antecedentes": [
-      {
-        "variable": "temperatura",
-        "conjunto": "Bajo",
-        "negado": false
-      },
-      {
-        "variable": "humedad",
-        "conjunto": "Alto",
-        "negado": false
-      }
-    ],
-    "consecuentes": [
-      {
-        "variable": "velocidad_ventilador",
-        "conjunto": "Alto",
-        "negado": false
-      }
-    ],
-    "operador": "AND"
-  },
-  {
-    "id": 1748221532010,
-    "antecedentes": [
-      {
-        "variable": "temperatura",
-        "conjunto": "Medio",
-        "negado": false
-      }
-    ],
-    "consecuentes": [
-      {
-        "variable": "velocidad_ventilador",
-        "conjunto": "Medio",
-        "negado": false
-      }
-    ],
-    "operador": "AND"
-  },
-  {
-    "id": 1748221532011,
-    "antecedentes": [
-      {
-        "variable": "temperatura",
-        "conjunto": "Medio",
-        "negado": false
-      },
-      {
-        "variable": "humedad",
+        "variable": "Humedad",
         "conjunto": "Bajo",
         "negado": false
       }
@@ -182,16 +95,39 @@
     "operador": "AND"
   },
   {
-    "id": 1748221532012,
+    "id": 1748315308519,
     "antecedentes": [
       {
-        "variable": "temperatura",
-        "conjunto": "Medio",
+        "variable": "Temperatura",
+        "conjunto": "Bajo",
         "negado": false
       },
       {
-        "variable": "humedad",
+        "variable": "Humedad",
         "conjunto": "Medio",
+        "negado": false
+      }
+    ],
+    "consecuentes": [
+      {
+        "variable": "velocidad_ventilador",
+        "conjunto": "Alto",
+        "negado": false
+      }
+    ],
+    "operador": "AND"
+  },
+  {
+    "id": 1748315308520,
+    "antecedentes": [
+      {
+        "variable": "Temperatura",
+        "conjunto": "Bajo",
+        "negado": false
+      },
+      {
+        "variable": "Humedad",
+        "conjunto": "Alto",
         "negado": false
       }
     ],
@@ -205,34 +141,11 @@
     "operador": "AND"
   },
   {
-    "id": 1748221532013,
+    "id": 1748315308521,
     "antecedentes": [
       {
-        "variable": "temperatura",
+        "variable": "Temperatura",
         "conjunto": "Medio",
-        "negado": false
-      },
-      {
-        "variable": "humedad",
-        "conjunto": "Alto",
-        "negado": false
-      }
-    ],
-    "consecuentes": [
-      {
-        "variable": "velocidad_ventilador",
-        "conjunto": "Alto",
-        "negado": false
-      }
-    ],
-    "operador": "AND"
-  },
-  {
-    "id": 1748221532014,
-    "antecedentes": [
-      {
-        "variable": "temperatura",
-        "conjunto": "Alto",
         "negado": false
       }
     ],
@@ -246,15 +159,15 @@
     "operador": "AND"
   },
   {
-    "id": 1748221532015,
+    "id": 1748315308522,
     "antecedentes": [
       {
-        "variable": "temperatura",
-        "conjunto": "Alto",
+        "variable": "Temperatura",
+        "conjunto": "Medio",
         "negado": false
       },
       {
-        "variable": "humedad",
+        "variable": "Humedad",
         "conjunto": "Bajo",
         "negado": false
       }
@@ -269,15 +182,15 @@
     "operador": "AND"
   },
   {
-    "id": 1748221532016,
+    "id": 1748315308523,
     "antecedentes": [
       {
-        "variable": "temperatura",
-        "conjunto": "Alto",
+        "variable": "Temperatura",
+        "conjunto": "Medio",
         "negado": false
       },
       {
-        "variable": "humedad",
+        "variable": "Humedad",
         "conjunto": "Medio",
         "negado": false
       }
@@ -285,22 +198,22 @@
     "consecuentes": [
       {
         "variable": "velocidad_ventilador",
-        "conjunto": "Alto",
+        "conjunto": "Medio",
         "negado": false
       }
     ],
     "operador": "AND"
   },
   {
-    "id": 1748221532017,
+    "id": 1748315308524,
     "antecedentes": [
       {
-        "variable": "temperatura",
-        "conjunto": "Alto",
+        "variable": "Temperatura",
+        "conjunto": "Medio",
         "negado": false
       },
       {
-        "variable": "humedad",
+        "variable": "Humedad",
         "conjunto": "Alto",
         "negado": false
       }
@@ -308,7 +221,94 @@
     "consecuentes": [
       {
         "variable": "velocidad_ventilador",
+        "conjunto": "Bajo",
+        "negado": false
+      }
+    ],
+    "operador": "AND"
+  },
+  {
+    "id": 1748315308525,
+    "antecedentes": [
+      {
+        "variable": "Temperatura",
         "conjunto": "Alto",
+        "negado": false
+      }
+    ],
+    "consecuentes": [
+      {
+        "variable": "velocidad_ventilador",
+        "conjunto": "Medio",
+        "negado": false
+      }
+    ],
+    "operador": "AND"
+  },
+  {
+    "id": 1748315308526,
+    "antecedentes": [
+      {
+        "variable": "Temperatura",
+        "conjunto": "Alto",
+        "negado": false
+      },
+      {
+        "variable": "Humedad",
+        "conjunto": "Bajo",
+        "negado": false
+      }
+    ],
+    "consecuentes": [
+      {
+        "variable": "velocidad_ventilador",
+        "conjunto": "Medio",
+        "negado": false
+      }
+    ],
+    "operador": "AND"
+  },
+  {
+    "id": 1748315308527,
+    "antecedentes": [
+      {
+        "variable": "Temperatura",
+        "conjunto": "Alto",
+        "negado": false
+      },
+      {
+        "variable": "Humedad",
+        "conjunto": "Medio",
+        "negado": false
+      }
+    ],
+    "consecuentes": [
+      {
+        "variable": "velocidad_ventilador",
+        "conjunto": "Medio",
+        "negado": false
+      }
+    ],
+    "operador": "AND"
+  },
+  {
+    "id": 1748315308528,
+    "antecedentes": [
+      {
+        "variable": "Temperatura",
+        "conjunto": "Alto",
+        "negado": false
+      },
+      {
+        "variable": "Humedad",
+        "conjunto": "Alto",
+        "negado": false
+      }
+    ],
+    "consecuentes": [
+      {
+        "variable": "velocidad_ventilador",
+        "conjunto": "Medio",
         "negado": false
       }
     ],
