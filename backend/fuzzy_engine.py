@@ -71,6 +71,65 @@ class FuzzyEngine:
     def agregar_variable(self, variable):
         self.variables[variable.nombre] = variable
         self.save_to_file()
+    def actualizar_variable_o_renombrar(self, nombre_actual_url: str, nuevos_datos: Variable):
+        print(f"\n--- [DEBUG] Método actualizar_variable_o_renombrar ---")
+        print(f"  Nombre en URL: '{nombre_actual_url}', Datos recibidos: {nuevos_datos.model_dump()}")
+
+        # 1. Caso: La variable con el nombre_actual_url NO EXISTE
+        if nombre_actual_url not in self.variables:
+            print(f"  La variable '{nombre_actual_url}' NO existe. Se intentará CREARla (UPSERT).")
+            # Para crear, el nombre en el payload debe coincidir con el de la URL
+            if nuevos_datos.nombre != nombre_actual_url:
+                raise ValueError(f"Para crear una nueva variable con PUT (upsert), el nombre en el cuerpo ('{nuevos_datos.nombre}') debe coincidir con el nombre de la URL ('{nombre_actual_url}').")
+            
+            # Si el nombre es consistente, la agregamos (el método agregar_variable gestionará el ID)
+            self.agregar_variable(nuevos_datos) # Reutilizamos agregar_variable para la creación
+            print(f"  Variable '{nuevos_datos.nombre}' creada con éxito (upsert).")
+            return nuevos_datos
+
+        # 2. Caso: La variable con el nombre_actual_url SÍ EXISTE
+        else:
+            variable_existente = self.variables[nombre_actual_url]
+            print(f"  La variable '{nombre_actual_url}' EXISTE. Datos existentes: {variable_existente.model_dump()}")
+
+            # Sub-caso 2a: El nombre en el payload es DIFERENTE al nombre_actual_url (RENOMBRAR)
+            if nuevos_datos.nombre != nombre_actual_url:
+                print(f"  Detectado intento de RENOMBRAR de '{nombre_actual_url}' a '{nuevos_datos.nombre}'.")
+                
+                # Validar que el nuevo nombre no esté ya en uso
+                if nuevos_datos.nombre in self.variables:
+                    raise ValueError(f"El nuevo nombre '{nuevos_datos.nombre}' ya está en uso por otra variable.")
+                
+                # Manejar el ID para el renombrado: mantener el original si el payload no envía uno
+                if nuevos_datos.id is None:
+                    nuevos_datos.id = variable_existente.id
+                    print(f"  Manteniendo ID original ({nuevos_datos.id}) para el renombrado.")
+                elif nuevos_datos.id != variable_existente.id:
+                    print(f"  ADVERTENCIA: ID en payload ({nuevos_datos.id}) difiere del existente ({variable_existente.id}) durante renombrado. Usando ID del payload.")
+
+                # Realizar el renombrado: eliminar la antigua entrada y añadir la nueva
+                del self.variables[nombre_actual_url] # Elimina la entrada con el nombre antiguo
+                self.variables[nuevos_datos.nombre] = nuevos_datos # Agrega con el nuevo nombre como clave
+                self.save_to_file()
+                print(f"  Variable renombrada de '{nombre_actual_url}' a '{nuevos_datos.nombre}' y actualizada.")
+                return nuevos_datos
+
+            # Sub-caso 2b: El nombre en el payload es el MISMO que el nombre_actual_url (ACTUALIZAR DATOS)
+            else:
+                print(f"  Detectado intento de ACTUALIZAR DATOS para '{nombre_actual_url}'.")
+                
+                # Mantener el ID existente si el payload no proporciona uno
+                if nuevos_datos.id is None:
+                    nuevos_datos.id = variable_existente.id
+                    print(f"  Payload no trajo ID. Manteniendo ID existente: {nuevos_datos.id}")
+                elif nuevos_datos.id != variable_existente.id:
+                    print(f"  ADVERTENCIA: ID en payload ({nuevos_datos.id}) difiere del existente ({variable_existente.id}) durante actualización. Usando ID del payload.")
+                
+                # Simplemente sobrescribir la variable existente con los nuevos datos
+                self.variables[nombre_actual_url] = nuevos_datos
+                self.save_to_file()
+                print(f"  Variable '{nombre_actual_url}' actualizada correctamente.")
+                return nuevos_datos
 
     def eliminar_variable(self, nombre_variable):
         if nombre_variable in self.variables:
@@ -156,12 +215,35 @@ async def obtener_variable(nombre_variable: str):
         return engine.variables[nombre_variable]
     raise HTTPException(status_code=404, detail="Variable no encontrada")
 
-@app.put("/variables/{nombre_variable}")
-async def actualizar_variable(nombre_variable: str, variable: Variable):
-    if nombre_variable in engine.variables and not variable.id:
-        variable.id = engine.variables[nombre_variable].id
-    engine.agregar_variable(variable)
-    return {"mensaje": "Variable actualizada correctamente", "variable": variable}
+@app.put("/variables/{nombre_variable_url}")
+async def actualizar_o_renombrar_variable_api(nombre_variable_url: str, variable_payload: Variable):
+    """
+    Actualiza una variable existente por su nombre o la renombra.
+    Si la variable no existe, la crea (comportamiento UPSERT).
+    """
+    try:
+        # Llama al nuevo método centralizado en FuzzyEngine
+        resultado_variable = engine.actualizar_variable_o_renombrar(nombre_variable_url, variable_payload)
+        
+        # Determinar el mensaje de retorno basado en la operación realizada
+        if nombre_variable_url not in engine.variables and resultado_variable.nombre == nombre_variable_url:
+            mensaje = "Variable creada correctamente (upsert)"
+        elif resultado_variable.nombre != nombre_variable_url:
+            mensaje = "Variable renombrada y actualizada correctamente"
+        else:
+            mensaje = "Variable actualizada correctamente"
+            
+        return {"mensaje": mensaje, "variable": resultado_variable}
+    except ValueError as e:
+        # Los ValueErrors se manejan aquí como HTTPExceptions
+        detail = str(e)
+        status_code = 400 # Default a Bad Request para la mayoría de ValueErrors
+        if "no existe para actualizar" in detail:
+            status_code = 404 # Not Found si se esperaba una actualización de existente pero no se encontró
+        elif "ya está en uso" in detail or "ya existe" in detail:
+            status_code = 409 # Conflict si el nombre o ID ya existen
+        
+        raise HTTPException(status_code=status_code, detail=detail)
 
 @app.delete("/variables/{variable_id}")
 async def eliminar_variable(variable_id: int):
@@ -212,7 +294,7 @@ async def eliminar_regla_api(regla_id: int):
 
 
 
-
+#Resultados de evaluación y entradas pendientes
 # Variables de estado global
 entrada_pendiente = None
 ultimo_resultado = {}
