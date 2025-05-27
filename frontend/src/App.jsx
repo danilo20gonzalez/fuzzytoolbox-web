@@ -11,7 +11,6 @@ import Reglas from './pages/Reglas';
 import Simulador from './pages/Simulador';
 import DataProcessor from './pages/DataProcessor';
 import ManualInicio from './pages/ManualInicio';
-import ManualInstalacion from './pages/ManualInstalacion';
 import ManualVariablesDifusas from './pages/ManualVariablesDifusas';
 import ManualReglas from './pages/ManualReglas';
 import ManualResultados from './pages/ManualResultados';
@@ -52,7 +51,6 @@ function AppContent() {
           <Route path="/dataProcessor" element={<DataProcessor />} />
           
           {/* Rutas del manual */}
-          <Route path="/manual/instalacion" element={<ManualInstalacion />} />
           <Route path="/manual/inicio" element={<ManualInicio />} />
           <Route path="/manual/variables" element={<ManualVariablesDifusas />} />
           <Route path="/manual/reglas" element={<ManualReglas />} />

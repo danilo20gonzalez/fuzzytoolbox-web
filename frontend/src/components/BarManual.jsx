@@ -8,11 +8,6 @@ const ManualSidebar = () => {
 
   const menuItems = [
     {
-      path: '/manual/instalacion',
-      label: 'Instalación',
-      icon: <FaDownload />
-    },
-    {
       path: '/manual/inicio',
       label: 'Inicio',
       icon: <FaHome />
