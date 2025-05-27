@@ -404,7 +404,7 @@ function Reglas() {
       });
 
       if (!response.ok) throw new Error('Error al guardar las reglas');
-      showMessage('Reglas guardadas en el backend', 'success');
+      showMessage('Reglas guardadas en la pestaña "lista de reglas"', 'success');
     } catch (error) {
       console.error(error);
       showMessage('No se pudieron guardar las reglas', 'error');
@@ -488,8 +488,8 @@ function Reglas() {
 
   return (
     <div className="reglas-container">
-      <div className="help-button-container">
-        <Link to="/manual/reglas" className="help-button">
+      <div className="help-button-container-rules">
+        <Link to="/manual/reglas" className="help-button-rules">
           <FaQuestion />
         </Link>
       </div>
@@ -677,48 +677,82 @@ function Reglas() {
               <div className="generated-rules-editor">
                 <h3>Editar Reglas Generadas Automáticamente</h3>
                 <p>Selecciona los consecuentes para cada regla generada:</p>
-                <div className="generated-rules-list">
+                <div className="rules-grid">
                   {generatedRules.map((rule, index) => (
-                    <div key={rule.id} className="generated-rule-item">
-                      <h4>Regla {index + 1}</h4>
-                      <div className="antecedente-preview">
-                        <h5>Si:</h5>
-                        {rule.antecedentes.map((ant, antIndex) => (
-                          <span key={`${ant.variable}-${ant.conjunto}-${antIndex}`} className="antecedente-label">
-                            {ant.variable} es {ant.negado ? 'NO ' : ''}{ant.conjunto}
-                            {antIndex < rule.antecedentes.length - 1 && ` ${rule.operador} `}
-                          </span>
-                        ))}
+                    <div key={rule.id} className="rule-card">
+                      {/* Header de la regla */}
+                      <div className="rule-card-header">
+                        <div className="rule-number">Regla {index + 1}</div>
                       </div>
-                      <div className="consecuentes-selector">
-                        <h5>Entonces:</h5>
-                        {outputVariables.map((outputVariable, outputIndex) => {
-                          const consIndex = rule.consecuentes.findIndex(cons => cons.variable === outputVariable.nombre);
-                          const consecuente = rule.consecuentes[consIndex];
-                          return (
-                            <div key={outputVariable.nombre} className="consecuente-input">
-                              <label>{outputVariable.nombre} es:</label>
-                              <select
-                                value={consecuente.conjunto}
-                                onChange={(e) => handleGeneratedRuleConsecuentChange(index, outputIndex, e.target.value)}
-                              >
-                                <option value="">-- Seleccionar --</option>
-                                {getConjuntosForVariable(outputVariable.nombre).map((conjunto, i) => (
-                                  <option key={i} value={conjunto}>{conjunto}</option>
-                                ))}
-                              </select>
-                              <label className="negation-toggle">
-                                <input
-                                  type="checkbox"
-                                  checked={consecuente.negado}
-                                  onChange={(e) => handleGeneratedRuleConsecuentNegationChange(index, outputIndex, e.target.checked)}
-                                  disabled={!consecuente.conjunto}
-                                />
-                                Negar
-                              </label>
-                            </div>
-                          );
-                        })}
+
+                      {/* Contenido principal de la regla */}
+                      <div className="rule-card-body">
+                        {/* Sección de antecedentes */}
+                        <div className="antecedentes-section">
+                          <div className="rule-text">
+                            {rule.antecedentes.map((ant, antIndex) => (
+                              <span key={`${ant.variable}-${ant.conjunto}-${antIndex}`}>
+                                <strong>Si </strong>
+                                <span className="variable-name">{ant.variable}</span> es{' '}
+                                {ant.negado && <span className="negation">NO </span>}
+                                <span className="conjunto-name">{ant.conjunto}</span>
+                                {antIndex < rule.antecedentes.length - 1 && (
+                                  <span className="operator"> {rule.operador} </span>
+                                )}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* Separador visual */}
+                        <div className="rule-separator">
+                          <strong>ENTONCES</strong>
+                        </div>
+
+                        {/* Sección de consecuentes */}
+                        <div className="consecuentes-section">
+                          {outputVariables.map((outputVariable, outputIndex) => {
+                            const consIndex = rule.consecuentes.findIndex(
+                              cons => cons.variable === outputVariable.nombre
+                            );
+                            const consecuente = rule.consecuentes[consIndex];
+
+                            return (
+                              <div key={outputVariable.nombre} className="consecuente-group">
+                                <div className="consecuente-label">
+                                  <span className="variable-name">{outputVariable.nombre}</span> es:
+                                </div>
+
+                                <div className="consecuente-controls">
+                                  <select
+                                    className="consecuente-select"
+                                    value={consecuente.conjunto}
+                                    onChange={(e) =>
+                                      handleGeneratedRuleConsecuentChange(index, outputIndex, e.target.value)
+                                    }
+                                  >
+                                    <option value="">-- Seleccionar --</option>
+                                    {getConjuntosForVariable(outputVariable.nombre).map((conjunto, i) => (
+                                      <option key={i} value={conjunto}>{conjunto}</option>
+                                    ))}
+                                  </select>
+
+                                  <label className="negation-toggle">
+                                    <input
+                                      type="checkbox"
+                                      checked={consecuente.negado}
+                                      onChange={(e) =>
+                                        handleGeneratedRuleConsecuentNegationChange(index, outputIndex, e.target.checked)
+                                      }
+                                      disabled={!consecuente.conjunto}
+                                    />
+                                    <span className="checkbox-label">Negar</span>
+                                  </label>
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
                       </div>
                     </div>
                   ))}

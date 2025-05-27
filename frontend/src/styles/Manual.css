@@ -122,6 +122,7 @@
 .manual-content p {
   margin-bottom: 1rem;
   font-size: 1.1rem; /* Tamaño de fuente base */
+  line-height: 1.6;
 }
 
 /* Estilos para la sección de imagen */
