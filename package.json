@@ -1,7 +1,7 @@
 {
-  "name": "fuzzytoolbox",
+  "name": "fuzzyflow",
   "version": "1.0.0",
-  "description": "Tu descripción de la aplicación",
+  "description": "FuzzyFlow es una aplicación de escritorio multiplataforma, desarrollada con Electron, que facilita la gestión y visualización de variables y conjuntos difusos para sistemas de lógica difusa.",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
@@ -10,7 +10,7 @@
     "electron": "electron .",
     "electron-build": "electron-builder build --win "
   },
-  "author": "Jaider SAenz PErnia",
+  "author": "UniAmazonia DJNJ",
   "license": "ISC",
   "repository": {
     "type": "git",
@@ -29,8 +29,8 @@
     "axios": "^1.9.0"
   },
   "build": {
-    "appId": "com.tuorganizacion.fuzzytoolbox",
-    "productName": "FuzzyToolbox",
+    "appId": "jes.pinto@udla.edu.co",
+    "productName": "FuzzyFlow",
     "copyright": "Copyright © 2025 UniAmazonia",
     "asar": false,
     "directories": {
@@ -46,7 +46,7 @@
       "target": [
         "nsis"
       ],
-       "icon": "resources/icon.ico"
+       "icon": "resources/icon.png"
     },
     "mac": {
       "target": "dmg"
