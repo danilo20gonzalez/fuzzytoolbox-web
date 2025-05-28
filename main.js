@@ -14,6 +14,7 @@ function createWindow() {
             nodeIntegration: false,
             contextIsolation: true,
         },
+        icon: path.join(__dirname, 'resources/icon.png') 
     });
     mainWindow.loadFile(path.join(__dirname, 'frontend', 'dist', 'index.html'));
     // mainWindow.webContents.openDevTools();
@@ -25,6 +26,7 @@ function createWindow() {
         }
     });
 }
+
 
 app.whenReady().then(() => {
     // Iniciar el servidor FastAPI
