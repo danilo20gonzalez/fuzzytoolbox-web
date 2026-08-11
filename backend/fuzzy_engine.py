@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
+from pydantic import BaseModel, model_validator
 import numpy as np
 import skfuzzy as fuzz
 from skfuzzy import trimf, trapmf, gaussmf, defuzz
@@ -28,6 +28,29 @@ app.add_middleware(
 DATA_FILE = "fuzzy_variables.json"
 REGLAS_FILE = "reglas.json"
 
+# Cantidad de puntos que requiere cada tipo de función de pertenencia
+PUNTOS_REQUERIDOS = {
+    "triangular": 3,   # [a, b, c]
+    "trapezoidal": 4,  # [a, b, c, d]
+    "gaussiana": 2,    # [media, sigma]
+}
+
+def validar_puntos(tipo: str, puntos) -> None:
+    requeridos = PUNTOS_REQUERIDOS.get(tipo)
+    if requeridos is None:
+        raise ValueError(f"Tipo de función de pertenencia no soportado: '{tipo}'")
+    if not isinstance(puntos, list) or len(puntos) != requeridos:
+        cantidad = len(puntos) if isinstance(puntos, list) else 0
+        raise ValueError(
+            f"El tipo '{tipo}' requiere exactamente {requeridos} puntos, se recibieron {cantidad}"
+        )
+    if tipo == "gaussiana":
+        _, sigma = puntos
+        if sigma <= 0:
+            raise ValueError("La desviación estándar (sigma) de una función gaussiana debe ser mayor que 0")
+    elif list(puntos) != sorted(puntos):
+        raise ValueError(f"Los puntos de una función '{tipo}' deben estar en orden no decreciente: {puntos}")
+
 class Condicion(BaseModel):
     variable: str
     conjunto: str
@@ -40,6 +63,20 @@ class Variable(BaseModel):
     conjuntos: list[dict]
     tipoVariable: str
     id: int = None
+
+    @model_validator(mode="after")
+    def validar_conjuntos(self):
+        for conjunto in self.conjuntos:
+            nombre_conjunto = conjunto.get("nombre", "?")
+            tipo = conjunto.get("tipo", self.tipo)
+            puntos = conjunto.get("puntos")
+            if puntos is None:
+                raise ValueError(f"Conjunto '{nombre_conjunto}': no define 'puntos'")
+            try:
+                validar_puntos(tipo, puntos)
+            except ValueError as e:
+                raise ValueError(f"Conjunto '{nombre_conjunto}': {e}")
+        return self
 
 class Regla(BaseModel):
     id: int = None
@@ -334,11 +371,12 @@ async def evaluar_sistema_difuso(entradas: dict):
         pertinencias = {}
         for conjunto in variable.conjuntos:
             puntos = conjunto["puntos"]
-            if variable.tipo == "triangular":
+            tipo = conjunto.get("tipo", variable.tipo)
+            if tipo == "triangular":
                 pertenencia = trimf(np.array([valor]), np.array(puntos))[0]
-            elif variable.tipo == "trapezoidal":
+            elif tipo == "trapezoidal":
                 pertenencia = trapmf(np.array([valor]), np.array(puntos))[0]
-            elif variable.tipo == "gaussiana":
+            elif tipo == "gaussiana":
                 pertenencia = gaussmf(np.array([valor]), *puntos)[0]
             else:
                 pertenencia = 0
@@ -373,12 +411,13 @@ async def evaluar_sistema_difuso(entradas: dict):
         if not conjunto:
             continue
         puntos = conjunto["puntos"]
+        tipo = conjunto.get("tipo", variable.tipo)
         x = np.linspace(variable.rango[0], variable.rango[1], 1000)
-        if variable.tipo == "triangular":
+        if tipo == "triangular":
             mf = trimf(x, np.array(puntos))
-        elif variable.tipo == "trapezoidal":
+        elif tipo == "trapezoidal":
             mf = trapmf(x, np.array(puntos))
-        elif variable.tipo == "gaussiana":
+        elif tipo == "gaussiana":
             mf = gaussmf(x, *puntos)
         else:
             continue
