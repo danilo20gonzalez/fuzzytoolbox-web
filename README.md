@@ -1,4 +1,4 @@
-# FuzzyToolbox Web (FuzzyFlow)
+# FuzzyFlow
 
 Aplicación de escritorio multiplataforma (Electron) para crear, simular y visualizar sistemas de lógica difusa (fuzzy logic): variables lingüísticas, conjuntos borrosos, reglas y evaluación/defuzzificación, con un manual de usuario integrado.
 
